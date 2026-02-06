@@ -1,0 +1,39 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# ML artifacts (large)
+checkpoints/
+mlruns/
+*.pkl
+*.h5
+*.pt
+*.pth
+
+# Data
+data/
+*.csv
+*.parquet
+
+# Logs
+logs/
+*.log
+
+# Results (generated)
+results/
+experiments/
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

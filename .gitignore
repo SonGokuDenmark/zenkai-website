@@ -1,0 +1,48 @@
+# Environment files — NEVER COMMIT
+.env
+*.env
+.env.*
+!.env.example
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Node (for website if needed later)
+node_modules/
+
+# ML artifacts (large files)
+*.pkl
+*.h5
+*.pt
+*.pth
+checkpoints/
+mlruns/
+
+# Data files
+*.csv
+*.parquet
+data/binance_*
