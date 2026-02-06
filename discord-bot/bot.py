@@ -87,6 +87,7 @@ class BulmaBot(commands.Bot):
             "cogs.moderation",
             "cogs.leveling",
             "cogs.signals_pipeline",
+            "cogs.zenkai_arena",
         ]
         for cog in cogs:
             try:

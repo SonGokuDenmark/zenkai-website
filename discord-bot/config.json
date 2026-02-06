@@ -14,28 +14,57 @@
 
     "channels": {
         "welcome": "welcome",
-        "announcements": "updates",
-        "active_signals": "active-signals",
-        "selective_signals": "selective-signals",
-        "signal_history": "signal-history",
-        "daily_summary": "daily-summary",
-        "monthly_review": "monthly-review",
-        "general": "general",
-        "feedback": "feedback",
-        "suggestions": "suggestions",
-        "how_to_use": "how-to-use",
-        "faq": "faq",
-        "beta_chat": "beta-chat",
-        "bug_reports": "bug-reports",
-        "bot_status": "bot-status-admin-only",
         "roles": "roles",
-        "mod_log": "bot-status-admin-only",
+        "announcements": "announcements",
+        "general": "general",
+        "memes": "memes",
+        "tech_talk": "tech-talk",
+        "arena_lobby": "arena-lobby",
+        "battles": "battles",
+        "training_grounds": "training-grounds",
+        "tournament_hall": "tournament-hall",
+        "signals": "signals",
+        "trading_chat": "trading-chat",
+        "bot_status": "bot-status",
+        "team_chat": "team-chat",
+        "mod_log": "bot-status",
         "levels": "general"
+    },
+
+    "channel_categories": {
+        "📋 INFO": ["welcome", "roles", "announcements"],
+        "💬 HANGOUT": ["general", "memes", "tech-talk"],
+        "🐉 ZENKAI ARENA": ["arena-lobby", "battles", "training-grounds", "tournament-hall"],
+        "📈 TRADING": ["signals", "trading-chat"],
+        "🔧 ADMIN": ["bot-status", "team-chat"]
+    },
+
+    "arena_channel_locks": {
+        "hatch": ["arena-lobby"],
+        "status": ["arena-lobby", "general"],
+        "fight": ["battles"],
+        "accept": ["battles"],
+        "decline": ["battles"],
+        "train": ["training-grounds"],
+        "feed": ["training-grounds"],
+        "leaderboard": ["arena-lobby", "general"],
+        "tournament": ["tournament-hall"],
+        "testbattle": ["battles"],
+        "inventory": ["arena-lobby", "training-grounds"],
+        "use": ["arena-lobby", "training-grounds", "battles"],
+        "shop": ["arena-lobby"],
+        "buy": ["arena-lobby"],
+        "profile": ["arena-lobby", "general"],
+        "history": ["arena-lobby"]
     },
 
     "roles": {
         "member": "Member",
         "reaction_roles": {
+            "🐉": {
+                "name": "Arena Fighter",
+                "description": "Get notified about tournaments & arena events"
+            },
             "📈": {
                 "name": "Trader",
                 "description": "Get signal notifications & trading updates"
@@ -46,12 +75,18 @@
             },
             "🧪": {
                 "name": "Beta Tester",
-                "description": "Help test new signals & features before launch"
+                "description": "Help test new features before launch"
             }
         }
     },
 
     "projects": [
+        {
+            "name": "Zenkai Arena",
+            "status": "🔄 In Development",
+            "description": "AI battle pets — hatch your Saiyan, train it, fight other players",
+            "link": ""
+        },
         {
             "name": "Zenkai Edge",
             "status": "✅ Live",
@@ -74,8 +109,8 @@
 
     "welcome_message": {
         "title": "⚡ Welcome to Zenkai Corporation!",
-        "description": "Hey {member}! Welcome to Zenkai.\n\nAI-powered trading signals, smart money analysis, and tools built by traders for traders.\n\n**Every Setback, Stronger** 🔥",
-        "dm_description": "Welcome to **Zenkai Corporation**!\n\n**🚀 What We Do**\n• AI-powered trading signals via AlphaTrader\n• Zenkai Edge — TradingView indicator for smart money concepts\n• Automated analysis across crypto pairs\n\n**📌 Quick Start**\n• Head to #roles and react to pick your interests\n• Check #how-to-use for signal guides\n• Browse #faq for common questions\n• Chat with the community in #general\n\n**🔗 Links**\n• Website: {website}\n• TradingView: zenkaicorp.com",
+        "description": "Hey {member}! Welcome to Zenkai.\n\nAI-powered projects, community battles, and good vibes.\n\n**Every Setback, Stronger** 🔥",
+        "dm_description": "Welcome to **Zenkai Corporation**!\n\n**🚀 What We Do**\n• 🐉 Zenkai Arena — AI battle pets with real neural networks\n• 📈 AI-powered trading signals via AlphaTrader\n• ⚡ Zenkai Edge — TradingView indicator\n\n**📌 Quick Start**\n• Head to #roles and pick your interests\n• Hatch your Saiyan in #arena-lobby with `!hatch`\n• Chat with the crew in #general\n\n**🔗 Links**\n• Website: {website}",
         "footer": "Zenkai Corporation — Founded by Son Goku 🇩🇰"
     },
 
