@@ -2,11 +2,11 @@
 // © Zenkai Corporation 2026
 
 //@version=6
-indicator("Zenkai ICT Toolkit", shorttitle="ZICT", overlay=true, max_boxes_count=500, max_lines_count=500, max_labels_count=500)
+indicator("Zenkai Edge", shorttitle="ZEDGE", overlay=true, max_boxes_count=500, max_lines_count=500, max_labels_count=500)
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-// ░░░                        ZENKAI ICT TOOLKIT v1.0                        ░░░
+// ░░░                          ZENKAI EDGE v1.0                            ░░░
 // ░░░                      © Zenkai Corporation 2026                        ░░░
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 // ══════════════════════════════════════════════════════════════════════════════
@@ -349,7 +349,7 @@ var table dashboard = table.new(position.top_right, 2, 4,
 // Update dashboard on last bar
 if barstate.islast and i_showDashboard
     // Header
-    table.cell(dashboard, 0, 0, "ZENKAI ICT",
+    table.cell(dashboard, 0, 0, "ZENKAI EDGE",
          text_color=color.white,
          text_size=size.small,
          bgcolor=color.new(#16213e, 10))
@@ -399,5 +399,5 @@ manageFVGZones()
 processMarketStructure()
 
 // ══════════════════════════════════════════════════════════════════════════════
-// END OF ZENKAI ICT TOOLKIT
+// END OF ZENKAI EDGE
 // ══════════════════════════════════════════════════════════════════════════════

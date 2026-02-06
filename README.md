@@ -10,7 +10,7 @@ Master repository for all Zenkai Corporation projects.
 | **telegram-bot** | Zenkai Signal Hub - trading signals via Telegram | Active |
 | **discord-bot** | Community Discord bot | Active |
 | **website** | zenkaicorp.com landing page | Active |
-| **indicators** | TradingView ICT indicators (free + premium) | v1 Live |
+| **indicators** | Zenkai Edge - TradingView indicators (free + premium) | v1 Live |
 | **ogame-tools** | OGame automation tools | Planned |
 | **youtube** | YouTube channel content & branding | Planned |
 | **products** | Digital products (LemonSqueezy) | Planned |

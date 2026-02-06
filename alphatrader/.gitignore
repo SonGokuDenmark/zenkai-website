@@ -4,6 +4,7 @@
 # Credentials
 *credentials*
 *secret*
+server/fips_credentials.txt
 
 # Python
 __pycache__/
