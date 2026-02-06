@@ -1,6 +1,10 @@
 # Environment
 .env
 
+# Credentials
+*credentials*
+*secret*
+
 # Python
 __pycache__/
 *.pyc
