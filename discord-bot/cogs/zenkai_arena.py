@@ -1,15 +1,15 @@
 """
-Zenkai Arena — AI Battle Pets Discord Cog (Phase 1: Text Battles)
+Zenkai Arena — AI Battle Pets Discord Cog (Phase 2: Battle GIFs + Status Cards)
 
 Commands:
   !hatch [name]    — Hatch a Saiyan with random stats
-  !status          — View your Saiyan's stats
-  !fight @user     — Challenge someone to battle
+  !status          — View your Saiyan's stats (renders status card image)
+  !fight @user     — Challenge someone to battle (renders animated GIF)
   !accept          — Accept a battle challenge
   !train [type]    — Training session (gravity/ki_control/sparring)
   !feed            — Restore energy, improve mood
   !leaderboard     — Top 10 by power level
-  !testbattle      — Test fight between two random-policy Saiyans
+  !testbattle      — Test fight between two random-policy Saiyans (renders GIF)
 """
 
 import sys
@@ -37,6 +37,8 @@ from src.battle.engine import BattleEngine
 from src.commentary.commentator import Commentator
 from src.models.policy_network import SaiyanPolicy, save_model, load_model, get_model_path
 from src.models.trainer import train_from_battle
+from src.rendering.battle_renderer import BattleRenderer
+from src.rendering.status_card import render_status_card
 
 
 class ZenkaiArena(commands.Cog):
@@ -47,10 +49,31 @@ class ZenkaiArena(commands.Cog):
         self.db = ArenaDB(os.path.join(ARENA_ROOT, 'data', 'arena.db'))
         self.engine = BattleEngine()
         self.commentator = Commentator()
+        self.renderer = BattleRenderer()
         self.pending_challenges = {}  # {defender_id: {"challenger_id": ..., "timestamp": ...}}
 
     async def cog_load(self):
         await self.db.init()
+
+    async def cog_check(self, ctx):
+        """Check if command is used in the correct channel per arena_channel_locks."""
+        channel_locks = getattr(self.bot, 'config', {}).get('arena_channel_locks', {})
+        if not channel_locks:
+            return True  # No locks configured, allow everywhere
+
+        cmd_name = ctx.command.name
+        allowed_channels = channel_locks.get(cmd_name)
+        if allowed_channels is None:
+            return True  # Command not in lock config, allow everywhere
+
+        channel_name = ctx.channel.name if hasattr(ctx.channel, 'name') else ''
+        if channel_name in allowed_channels:
+            return True
+
+        # Wrong channel — tell user where to go
+        primary = allowed_channels[0]
+        await ctx.send(f"⚡ Head over to #{primary} for that!")
+        return False
 
     # ─────────────────────────────────────────────────────────────
     # Helpers
@@ -69,6 +92,26 @@ class ZenkaiArena(commands.Cog):
 
     async def _save_saiyan(self, saiyan):
         await self.db.update_saiyan(saiyan.id, **saiyan.to_update_dict())
+
+    async def _render_and_send_gif(self, ctx, battle_log, saiyan1, saiyan2, state):
+        """Render battle GIF in executor and upload to Discord."""
+        loop = asyncio.get_event_loop()
+        try:
+            gif_path = await loop.run_in_executor(
+                None, functools.partial(
+                    self.renderer.render_battle, battle_log, saiyan1, saiyan2, state
+                )
+            )
+            if gif_path and os.path.exists(gif_path):
+                file = discord.File(gif_path, filename="battle.gif")
+                await ctx.send(file=file)
+                # Clean up temp file
+                try:
+                    os.remove(gif_path)
+                except OSError:
+                    pass
+        except Exception as e:
+            print(f"Warning: GIF rendering failed: {e}")
 
     # ─────────────────────────────────────────────────────────────
     # !hatch [name]
@@ -130,7 +173,7 @@ class ZenkaiArena(commands.Cog):
 
     @commands.command(name="status")
     async def status(self, ctx, member: discord.Member = None):
-        """View Saiyan stats, power level, form, mood, W/L."""
+        """View Saiyan stats as a rendered status card image."""
         target = member or ctx.author
         saiyan = await self._get_saiyan(target.id)
 
@@ -149,6 +192,29 @@ class ZenkaiArena(commands.Cog):
                 ))
             return
 
+        # Render status card image
+        loop = asyncio.get_event_loop()
+        try:
+            card_path = await loop.run_in_executor(
+                None, functools.partial(render_status_card, saiyan)
+            )
+            if card_path and os.path.exists(card_path):
+                file = discord.File(card_path, filename="status.png")
+                embed = self._make_embed(
+                    f"{saiyan.name} — Status Card",
+                    f"Owner: {target.display_name}",
+                )
+                embed.set_image(url="attachment://status.png")
+                await ctx.send(file=file, embed=embed)
+                try:
+                    os.remove(card_path)
+                except OSError:
+                    pass
+                return
+        except Exception as e:
+            print(f"Warning: Status card rendering failed: {e}")
+
+        # Fallback to text embed if rendering fails
         power = calculate_power_level(saiyan)
         level = xp_to_level(saiyan.experience)
 
@@ -163,17 +229,8 @@ class ZenkaiArena(commands.Cog):
         embed.add_field(name="DEF", value=f"{saiyan.defense:.1f}", inline=True)
         embed.add_field(name="SPD", value=f"{saiyan.speed:.1f}", inline=True)
         embed.add_field(name="KI Power", value=f"{saiyan.ki_power:.1f}", inline=True)
-        embed.add_field(name="Max HP", value=f"{saiyan.max_hp:.1f}", inline=True)
-        embed.add_field(name="Max KI", value=f"{saiyan.max_ki:.1f}", inline=True)
         embed.add_field(name="Record", value=f"{saiyan.wins}W / {saiyan.losses}L", inline=True)
-        embed.add_field(name="Streak", value=f"{saiyan.win_streak} (best: {saiyan.best_streak})", inline=True)
-        embed.add_field(name="Mood", value=f"{mood_emoji.get(saiyan.mood, '😐')} {saiyan.mood}", inline=True)
-        embed.add_field(name="Energy", value=f"{saiyan.energy:.0f}/100", inline=True)
-        embed.add_field(name="XP", value=f"{saiyan.experience:,}", inline=True)
-        embed.add_field(name="Zenkai Boosts", value=f"{saiyan.total_zenkais} total ({saiyan.zenkai_stacks} active)", inline=True)
-        embed.add_field(name="Forms", value=", ".join(f.upper() for f in saiyan.unlocked_forms), inline=False)
         embed.add_field(name="Tokens", value=f"{saiyan.battle_tokens:,}", inline=True)
-        embed.add_field(name="Training Steps", value=f"{saiyan.training_steps:,}", inline=True)
 
         await ctx.send(embed=embed)
 
@@ -373,7 +430,7 @@ class ZenkaiArena(commands.Cog):
 
     @commands.command(name="testbattle")
     async def testbattle(self, ctx):
-        """Fight two random-policy Saiyans for testing."""
+        """Fight two random-policy Saiyans for testing. Renders animated GIF."""
         stats1 = roll_stats()
         stats2 = roll_stats()
 
@@ -388,7 +445,7 @@ class ZenkaiArena(commands.Cog):
 
         await ctx.send(embed=self._make_embed(
             "TEST BATTLE INITIATED",
-            f"**{s1.name}** vs **{s2.name}** — both using random AI policies!",
+            f"**{s1.name}** vs **{s2.name}** — both using random AI policies!\nRendering battle GIF...",
             color=0xffaa00,
         ))
 
@@ -399,12 +456,12 @@ class ZenkaiArena(commands.Cog):
         )
 
         winner = s1 if winner_num == 1 else s2
-        loser = s2 if winner_num == 1 else s1
 
-        # Generate commentary
+        # Render and send battle GIF
+        await self._render_and_send_gif(ctx, battle_log, s1, s2, state)
+
+        # Generate and post commentary
         commentary = self.commentator.narrate_battle(s1, s2, battle_log, state)
-
-        # Split commentary into chunks for Discord (max 4096 chars per embed)
         chunks = [commentary[i:i+4000] for i in range(0, len(commentary), 4000)]
 
         for i, chunk in enumerate(chunks):
@@ -437,7 +494,7 @@ class ZenkaiArena(commands.Cog):
 
         await ctx.send(embed=self._make_embed(
             "BATTLE BEGINS!",
-            f"**{saiyan1.name}** vs **{saiyan2.name}** — neural networks engaged!",
+            f"**{saiyan1.name}** vs **{saiyan2.name}** — neural networks engaged!\nRendering battle GIF...",
             color=0xffaa00,
         ))
 
@@ -451,6 +508,9 @@ class ZenkaiArena(commands.Cog):
         loser = saiyan2 if winner_num == 1 else saiyan1
         winner_user_id = user1_id if winner_num == 1 else user2_id
         loser_user_id = user2_id if winner_num == 1 else user1_id
+
+        # Render and send battle GIF
+        await self._render_and_send_gif(ctx, battle_log, saiyan1, saiyan2, state)
 
         # Generate commentary
         commentary = self.commentator.narrate_battle(saiyan1, saiyan2, battle_log, state)
