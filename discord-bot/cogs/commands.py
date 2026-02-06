@@ -59,7 +59,7 @@ class CommandsCog(commands.Cog, name="Commands"):
             )
 
         embed.set_footer(
-            text="⚡ Zenkai Corporation — Evolve or Die",
+            text="⚡ Zenkai Corporation — Every Setback, Stronger",
             icon_url=ctx.guild.icon.url if ctx.guild and ctx.guild.icon else None
         )
 
@@ -133,7 +133,7 @@ class CommandsCog(commands.Cog, name="Commands"):
             embed.set_thumbnail(url=guild.icon.url)
 
         embed.set_footer(
-            text="⚡ Zenkai Corporation — Evolve or Die",
+            text="⚡ Zenkai Corporation — Every Setback, Stronger",
             icon_url=guild.icon.url if guild.icon else None
         )
 
@@ -154,9 +154,9 @@ class CommandsCog(commands.Cog, name="Commands"):
                 "Get real-time alerts with entry, stop loss, and take profit levels.\n\n"
                 "━━━━━━━━━━━━━━━━━━━━━━\n\n"
                 "🔔 **Join the waitlist:**\n"
-                "React with 🤖 in <#roles> to get the **Trader** role and be notified when signals go live!\n\n"
-                "💬 **Follow development:**\n"
-                "Check <#dev-log> for updates on AlphaTrader progress."
+                "Check #how-to-use for guides on reading our signals!\n\n"
+                "💬 **Stay updated:**\n"
+                "Follow #updates for the latest AlphaTrader progress."
             ),
             color=self.bot.colors["secondary"],
             timestamp=datetime.utcnow()
@@ -175,7 +175,7 @@ class CommandsCog(commands.Cog, name="Commands"):
         )
 
         embed.set_footer(
-            text="⚡ Zenkai Corporation — Evolve or Die",
+            text="⚡ Zenkai Corporation — Every Setback, Stronger",
             icon_url=ctx.guild.icon.url if ctx.guild and ctx.guild.icon else None
         )
 
@@ -224,14 +224,14 @@ class CommandsCog(commands.Cog, name="Commands"):
             name="💡 Tips",
             value=(
                 "• Commands work with both `!` prefix and `/` slash\n"
-                "• Get roles in <#roles> by reacting to the message\n"
-                "• Check <#announcements> for updates"
+                "• Check #how-to-use for signal guides\n"
+                "• Follow #updates for announcements"
             ),
             inline=False
         )
 
         embed.set_footer(
-            text="⚡ Zenkai Corporation — Evolve or Die",
+            text="⚡ Zenkai Corporation — Every Setback, Stronger",
             icon_url=ctx.guild.icon.url if ctx.guild and ctx.guild.icon else None
         )
 

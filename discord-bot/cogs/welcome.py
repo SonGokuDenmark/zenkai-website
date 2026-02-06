@@ -64,8 +64,7 @@ class WelcomeCog(commands.Cog, name="Welcome"):
 
         # Build DM description
         dm_text = config["dm_description"].format(
-            roles_channel=roles_channel.id if roles_channel else "roles",
-            website=self.bot.config.get("website_url", "https://zenkai.corp")
+            website=self.bot.config.get("website_url", "https://zenkaicorp.com")
         )
 
         embed = discord.Embed(
@@ -135,7 +134,7 @@ class WelcomeCog(commands.Cog, name="Welcome"):
         embed.set_thumbnail(url=member.display_avatar.url)
 
         embed.set_footer(
-            text="⚡ Zenkai Corporation — Evolve or Die",
+            text="⚡ Zenkai Corporation — Every Setback, Stronger",
             icon_url=member.guild.icon.url if member.guild.icon else None
         )
 

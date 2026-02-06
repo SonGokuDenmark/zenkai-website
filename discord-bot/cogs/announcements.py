@@ -26,17 +26,12 @@ class AnnouncementsCog(commands.Cog, name="Announcements"):
 
         # Channel to role mapping for auto-pings
         self.channel_role_map = {
-            "signals-preview": "Trader",
-            "trading-discussion": "Trader",
-            "ict-concepts": "Trader",
-            "gaming-chat": "Gamer",
-            "ogame": "Gamer",
-            "minecraft-hytale": "Gamer",
-            "smart-home": "Smart Home",
-            "dev-log": "Developer",
-            "code-help": "Developer",
-            "youtube-uploads": "Content",
-            "content-ideas": "Content",
+            "active-signals": "Trader",
+            "selective-signals": "Trader",
+            "signal-history": "Trader",
+            "daily-summary": "Trader",
+            "monthly-review": "Trader",
+            "updates": None,
         }
 
     def get_role_for_channel(self, channel: discord.TextChannel) -> discord.Role | None:
@@ -127,7 +122,7 @@ class AnnouncementsCog(commands.Cog, name="Announcements"):
         Usage: !devlog Your dev update here
         """
         # Find dev-log channel
-        channel_name = self.bot.config["channels"].get("dev_log", "dev-log")
+        channel_name = self.bot.config["channels"].get("announcements", "updates")
         channel = discord.utils.get(ctx.guild.text_channels, name=channel_name)
 
         if not channel:
@@ -173,9 +168,9 @@ class AnnouncementsCog(commands.Cog, name="Announcements"):
         except discord.Forbidden:
             await ctx.send(f"❌ Cannot post in {channel.mention}", delete_after=10)
 
-    @commands.command(name="signal")
+    @commands.command(name="manualsignal")
     @commands.has_permissions(administrator=True)
-    async def signal(
+    async def manual_signal(
         self,
         ctx: commands.Context,
         pair: str,
@@ -192,7 +187,7 @@ class AnnouncementsCog(commands.Cog, name="Announcements"):
         Usage: !signal BTCUSD LONG 42000 41500 44000 Optional notes here
         """
         # Find signals channel
-        channel_name = self.bot.config["channels"].get("signals_preview", "signals-preview")
+        channel_name = self.bot.config["channels"].get("active_signals", "active-signals")
         channel = discord.utils.get(ctx.guild.text_channels, name=channel_name)
 
         if not channel:

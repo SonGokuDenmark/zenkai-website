@@ -1,11 +1,11 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════
-⚡ ZENKAI DISCORD BOT v1.0
+⚡ BULMA — Zenkai Corporation Discord Bot v2.0
 © 2026 Zenkai Corporation
 ═══════════════════════════════════════════════════════════════════════════════
 
-A Discord bot for the Zenkai Corporation community server.
-Features: Welcome system, reaction roles, announcements, project status, and more.
+The AI-powered heart of the Zenkai Discord server.
+Features: Welcome, roles, announcements, moderation, leveling, signal pipeline.
 """
 
 import os
@@ -42,7 +42,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
-logger = logging.getLogger("zenkai-bot")
+logger = logging.getLogger("bulma")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Bot Setup
@@ -54,8 +54,8 @@ intents.members = True
 intents.reactions = True
 intents.guilds = True
 
-class ZenkaiBot(commands.Bot):
-    """Custom bot class for Zenkai Discord Bot."""
+class BulmaBot(commands.Bot):
+    """Bulma — Zenkai Corporation's AI-powered Discord bot."""
 
     def __init__(self):
         super().__init__(
@@ -64,7 +64,7 @@ class ZenkaiBot(commands.Bot):
             help_command=None,
             activity=discord.Activity(
                 type=discord.ActivityType.watching,
-                name="⚡ Evolve or Die"
+                name="🔥 Every Setback, Stronger"
             )
         )
         self.config = CONFIG
@@ -84,6 +84,9 @@ class ZenkaiBot(commands.Bot):
             "cogs.roles",
             "cogs.commands",
             "cogs.announcements",
+            "cogs.moderation",
+            "cogs.leveling",
+            "cogs.signals_pipeline",
         ]
         for cog in cogs:
             try:
@@ -105,11 +108,20 @@ class ZenkaiBot(commands.Bot):
     async def on_ready(self):
         """Called when the bot is fully ready."""
         logger.info("=" * 50)
-        logger.info(f"⚡ ZENKAI BOT ONLINE")
+        logger.info("⚡ BULMA ONLINE")
         logger.info(f"Logged in as: {self.user} (ID: {self.user.id})")
         logger.info(f"Guilds: {len(self.guilds)}")
         logger.info(f"discord.py version: {discord.__version__}")
         logger.info("=" * 50)
+
+        # Auto-set nickname to "Bulma" in all guilds
+        for guild in self.guilds:
+            try:
+                if guild.me.nick != "Bulma":
+                    await guild.me.edit(nick="Bulma")
+                    logger.info(f"Set nickname to 'Bulma' in {guild.name}")
+            except discord.Forbidden:
+                logger.warning(f"Cannot set nickname in {guild.name} - missing permissions")
 
     async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
         """Global error handler for commands."""
@@ -154,7 +166,7 @@ class ZenkaiBot(commands.Bot):
         if thumbnail and self.config.get("bot_avatar_url"):
             embed.set_thumbnail(url=self.config["bot_avatar_url"])
         embed.set_footer(
-            text="⚡ Zenkai Corporation — Evolve or Die",
+            text="⚡ Zenkai Corporation — Every Setback, Stronger",
             icon_url=self.config.get("bot_avatar_url")
         )
         return embed
@@ -165,7 +177,7 @@ class ZenkaiBot(commands.Bot):
 # ─────────────────────────────────────────────────────────────────────────────
 
 def main():
-    bot = ZenkaiBot()
+    bot = BulmaBot()
     bot.run(TOKEN, log_handler=None)
 
 
