@@ -1,0 +1,12 @@
+# Zenkai Signal Hub - Dependencies
+# Install with: pip install -r requirements.txt
+
+python-telegram-bot>=20.7
+python-dotenv>=1.0.0
+
+# Optional: For REST webhook endpoint
+# fastapi>=0.109.0
+# uvicorn>=0.27.0
+
+# Optional: For file watching
+# watchdog>=3.0.0

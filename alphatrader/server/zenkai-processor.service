@@ -1,0 +1,29 @@
+[Unit]
+Description=Zenkai Signal Processor
+After=network.target postgresql.service zenkai-collector.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=goku
+Group=goku
+WorkingDirectory=/home/goku/zenkai-collector
+ExecStart=/home/goku/zenkai-collector/venv/bin/python processor_continuous.py --interval 30
+Restart=always
+RestartSec=30
+
+# Environment variables
+EnvironmentFile=/home/goku/zenkai-collector/.env
+
+# Logging
+StandardOutput=append:/home/goku/zenkai-collector/processor.log
+StandardError=append:/home/goku/zenkai-collector/processor.log
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/goku/zenkai-collector
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,103 @@
+{
+    "bot_name": "Zenkai Bot",
+    "bot_avatar_url": "",
+    "website_url": "https://zenkai.corp",
+    "discord_invite": "",
+
+    "colors": {
+        "primary": "#00ff88",
+        "secondary": "#00d2ff",
+        "purple": "#b366ff",
+        "red": "#ff4466",
+        "amber": "#ffaa00"
+    },
+
+    "channels": {
+        "welcome": "welcome",
+        "rules": "rules",
+        "roles": "roles",
+        "announcements": "announcements",
+        "dev_log": "dev-log",
+        "signals_preview": "signals-preview"
+    },
+
+    "roles": {
+        "member": "Member",
+        "reaction_roles": {
+            "🤖": {
+                "name": "Trader",
+                "description": "Interested in trading/signals"
+            },
+            "🎮": {
+                "name": "Gamer",
+                "description": "Interested in gaming tools"
+            },
+            "🏠": {
+                "name": "Smart Home",
+                "description": "Interested in home automation"
+            },
+            "💻": {
+                "name": "Developer",
+                "description": "Interested in code/tech"
+            },
+            "📺": {
+                "name": "Content",
+                "description": "Interested in YouTube/content updates"
+            }
+        }
+    },
+
+    "projects": [
+        {
+            "name": "Zenkai ICT Toolkit",
+            "status": "✅ Live",
+            "description": "TradingView indicator for ICT concepts",
+            "link": "https://tradingview.com/script/zenkai-ict"
+        },
+        {
+            "name": "AlphaTrader",
+            "status": "🔄 In Development",
+            "description": "AI-powered trading system with LSTM",
+            "link": ""
+        },
+        {
+            "name": "Zenkai Signal Hub",
+            "status": "🔜 Coming Soon",
+            "description": "Telegram trading signals powered by AI",
+            "link": ""
+        },
+        {
+            "name": "OGame Strategy Tools",
+            "status": "🔜 Coming Soon",
+            "description": "Battle simulator & resource planner",
+            "link": ""
+        },
+        {
+            "name": "Bulma AI",
+            "status": "🔄 In Development",
+            "description": "Smart home AI voice assistant",
+            "link": ""
+        },
+        {
+            "name": "Chaotic Respawn Bros",
+            "status": "✅ Active",
+            "description": "YouTube channel — gaming & tech",
+            "link": "https://youtube.com/@chaoticrespawnbros"
+        }
+    ],
+
+    "welcome_message": {
+        "title": "⚡ Welcome to Zenkai Corporation!",
+        "description": "Hey {member}! Welcome to the Zenkai community.\n\nWe're building the future of **trading**, **gaming**, and **automation** — all powered by AI.\n\n**Evolve or Die** ⚡",
+        "dm_description": "Welcome to **Zenkai Corporation**! Here's what you need to know:\n\n**📜 Server Rules**\n• Be respectful to all members\n• No spam or self-promotion without permission\n• Keep discussions in the right channels\n• No NSFW content\n• Have fun and help each other evolve!\n\n**🎭 Get Your Roles**\nHead to <#{roles_channel}> and react to get roles based on your interests.\n\n**🔗 Quick Links**\n• Website: {website}\n• TradingView: Zenkai Trading\n• YouTube: Chaotic Respawn Bros",
+        "footer": "Zenkai Corporation — Founded by Son Goku 🇩🇰"
+    },
+
+    "socials": {
+        "discord": "",
+        "youtube": "https://youtube.com/@chaoticrespawnbros",
+        "tradingview": "https://tradingview.com/u/ZenkaiTrading",
+        "github": "https://github.com/zenkai-corp",
+        "telegram": ""
+    }
+}

@@ -1,0 +1,152 @@
+# AlphaTrader Configuration
+# Phase 0: Neural Network Imitation Learning System
+
+project:
+  name: alphatrader
+  version: "0.1.0"
+
+data:
+  symbols:
+    - BTCUSDT
+    - ETHUSDT
+    - BNBUSDT
+    - SOLUSDT
+  timeframe: "15m"
+  days: 730
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  database_path: "data/alphatrader.db"
+
+features:
+  rsi_periods: [2, 7, 14]
+  ema_periods: [9, 21, 50, 200]
+  sma_periods: [20, 50]
+  atr_period: 14
+  bb_period: 20
+  bb_std: 2.0
+  stoch_period: 14
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  adx_period: 14
+  cci_period: 20
+  mfi_period: 14
+  lookback_window: 100
+
+labels:
+  future_bars: [10, 25, 50]
+  flat_threshold: 0.005  # +/- 0.5% = FLAT
+  target_threshold: 0.02  # 2% move for MFE/MAE
+
+strategies:
+  enabled:
+    - rsi_divergence
+    - macd
+    - turtle
+    - sr_bounce
+    - candlestick
+    - ma_crossover
+    - stochastic
+
+  # Strategy-specific parameters
+  rsi_divergence:
+    rsi_period: 14
+    pivot_lookback: 5
+    min_divergence_bars: 3
+    max_divergence_bars: 50
+
+  macd:
+    fast_period: 12
+    slow_period: 26
+    signal_period: 9
+
+  turtle:
+    entry_period: 20
+    exit_period: 10
+
+  ma_crossover:
+    fast_period: 9
+    slow_period: 21
+
+  stochastic:
+    k_period: 14
+    d_period: 3
+    overbought: 80
+    oversold: 20
+
+  sr_bounce:
+    pivot_lookback: 5
+    min_touches: 2
+    zone_atr_mult: 0.5
+
+  candlestick:
+    patterns:
+      - engulfing
+      - morning_star
+      - evening_star
+      - hammer
+      - shooting_star
+
+regime:
+  type: "hmm"
+  n_states: 4
+  features: ["returns", "volatility", "volume_ratio"]
+  lookback: 50
+
+model:
+  type: "lstm"
+  hidden_size: 128
+  num_layers: 2
+  dropout: 0.3
+  sequence_length: 50
+  num_classes: 3  # UP, DOWN, FLAT
+  bidirectional: false
+
+training:
+  epochs: 100
+  batch_size: 64
+  learning_rate: 0.001
+  lr_scheduler: "cosine"
+  lr_min: 0.00001
+  weight_decay: 0.0001
+  early_stopping_patience: 15
+  gradient_clip: 1.0
+  class_weights: "balanced"  # or list like [1.0, 1.0, 1.0]
+
+gpu:
+  limit_percent: 75
+  max_temp: 80
+  throttle_temp: 75
+  check_interval_seconds: 30
+
+checkpointing:
+  interval_minutes: 5
+  keep_last_n: 5
+  save_on_interrupt: true
+  checkpoint_dir: "checkpoints"
+
+monitoring:
+  discord_webhook: ""  # Set via DISCORD_WEBHOOK environment variable
+  tensorboard: true
+  tensorboard_dir: "logs"
+  csv_logging: true
+  csv_dir: "outputs"
+  log_interval: 100  # batches
+  notify_on_start: true
+  notify_on_complete: true
+  notify_on_error: true
+  progress_interval_percent: 10  # notify every 10% progress
+
+validation:
+  wfo_train_months: 6
+  wfo_test_months: 2
+  wfo_step_months: 2
+  monte_carlo_sims: 10000
+  min_trades: 30
+  validate_every_epochs: 5
+
+logging:
+  level: "INFO"
+  file: "logs/alphatrader.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

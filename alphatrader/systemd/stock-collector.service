@@ -1,0 +1,24 @@
+[Unit]
+Description=AlphaTrader Stock Data Collector (Yahoo Finance)
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=goku
+Group=alphatrader
+WorkingDirectory=/home/shared/alphatrader/scripts
+ExecStart=/usr/bin/python3 stock_collector.py --daemon --sp500
+Restart=always
+RestartSec=30
+StandardOutput=append:/var/log/alphatrader/stock-collector.log
+StandardError=append:/var/log/alphatrader/stock-collector.log
+
+# Environment
+Environment="ZENKAI_DB_HOST=localhost"
+Environment="ZENKAI_DB_NAME=zenkai_data"
+Environment="ZENKAI_DB_USER=zenkai"
+Environment="ZENKAI_DB_PASSWORD=zenkai_secure_2024"
+
+[Install]
+WantedBy=multi-user.target

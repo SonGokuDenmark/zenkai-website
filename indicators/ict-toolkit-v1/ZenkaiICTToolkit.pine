@@ -1,0 +1,403 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Zenkai Corporation 2026
+
+//@version=6
+indicator("Zenkai ICT Toolkit", shorttitle="ZICT", overlay=true, max_boxes_count=500, max_lines_count=500, max_labels_count=500)
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+// ░░░                        ZENKAI ICT TOOLKIT v1.0                        ░░░
+// ░░░                      © Zenkai Corporation 2026                        ░░░
+// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ┌──────────────────────────────────────────────────────────────────────────────┐
+// │                              INPUT SETTINGS                                  │
+// └──────────────────────────────────────────────────────────────────────────────┘
+
+// === FAIR VALUE GAPS ===
+string GRP_FVG = "═══ Fair Value Gaps ═══"
+bool i_fvgEnable         = input.bool(true, "Enable FVGs", group=GRP_FVG)
+bool i_fvgShowBullish    = input.bool(true, "Show Bullish FVGs", group=GRP_FVG)
+bool i_fvgShowBearish    = input.bool(true, "Show Bearish FVGs", group=GRP_FVG)
+color i_fvgBullishColor  = input.color(color.new(#00ff88, 85), "Bullish FVG Color", group=GRP_FVG)
+color i_fvgBearishColor  = input.color(color.new(#ff4466, 85), "Bearish FVG Color", group=GRP_FVG)
+string i_fvgMitigation   = input.string("Grey Out", "FVG Mitigation", options=["Remove", "Grey Out", "Keep"], group=GRP_FVG)
+int i_fvgMaxExtension    = input.int(50, "Max Extension Bars", minval=10, maxval=200, group=GRP_FVG)
+float i_fvgMinSize       = input.float(0, "Min FVG Size (ticks)", minval=0, tooltip="Filter out tiny FVGs. 0 = show all", group=GRP_FVG)
+bool i_fvgShowLabels     = input.bool(false, "Show FVG Labels", group=GRP_FVG)
+
+// === MARKET STRUCTURE ===
+string GRP_MS = "═══ Market Structure ═══"
+bool i_msEnable          = input.bool(true, "Enable Market Structure", group=GRP_MS)
+int i_swingLength        = input.int(5, "Swing Length", minval=1, maxval=50, tooltip="Number of bars on each side to confirm a swing point", group=GRP_MS)
+bool i_showSwingPoints   = input.bool(true, "Show Swing Points", group=GRP_MS)
+bool i_showBOS           = input.bool(true, "Show BOS", group=GRP_MS)
+bool i_showCHoCH         = input.bool(true, "Show CHoCH", group=GRP_MS)
+color i_msBullishColor   = input.color(#00ff88, "Bullish Color", group=GRP_MS)
+color i_msBearishColor   = input.color(#ff4466, "Bearish Color", group=GRP_MS)
+bool i_showStructLabels  = input.bool(true, "Show Structure Labels", group=GRP_MS)
+string i_labelSize       = input.string("small", "Label Size", options=["tiny", "small", "normal"], group=GRP_MS)
+bool i_showStructBg      = input.bool(false, "Show Structure Background", group=GRP_MS)
+
+// === ZENKAI SETTINGS ===
+string GRP_ZEN = "═══ Zenkai Settings ═══"
+bool i_showDashboard     = input.bool(true, "Show Dashboard", tooltip="Shows current structure bias in corner", group=GRP_ZEN)
+
+// ┌──────────────────────────────────────────────────────────────────────────────┐
+// │                           USER-DEFINED TYPES                                 │
+// └──────────────────────────────────────────────────────────────────────────────┘
+
+// FVG Zone structure
+type FVGZone
+    float top
+    float bottom
+    int startBar
+    bool isBullish
+    bool isMitigated
+    bool isGreyedOut
+    box boxObj
+
+// Swing Point structure
+type SwingPoint
+    float price
+    int barIdx
+    bool isHigh
+
+// ┌──────────────────────────────────────────────────────────────────────────────┐
+// │                         GLOBAL VARIABLES                                     │
+// └──────────────────────────────────────────────────────────────────────────────┘
+
+// FVG tracking arrays
+var array<FVGZone> fvgZones = array.new<FVGZone>()
+
+// Market structure tracking
+var float lastSwingHigh = na
+var int lastSwingHighBar = na
+var float lastSwingLow = na
+var int lastSwingLowBar = na
+var string structureBias = "neutral"
+
+// Counters for dashboard
+var int activeBullishFVGs = 0
+var int activeBearishFVGs = 0
+
+// Label size conversion
+labelSize = switch i_labelSize
+    "tiny" => size.tiny
+    "small" => size.small
+    "normal" => size.normal
+    => size.small
+
+// ┌──────────────────────────────────────────────────────────────────────────────┐
+// │                      FAIR VALUE GAP DETECTION                                │
+// └──────────────────────────────────────────────────────────────────────────────┘
+
+// Detect FVGs (looking back 2 bars for confirmed candles)
+// Only detect on confirmed bars to prevent repainting
+detectFVG() =>
+    bool detected = false
+    if i_fvgEnable and bar_index >= 2 and barstate.isconfirmed
+        // Candle references (1 = oldest, 3 = most recent confirmed)
+        float c1High = high[2]
+        float c1Low = low[2]
+        float c3High = high[0]
+        float c3Low = low[0]
+
+        // Bullish FVG: Candle 1 HIGH < Candle 3 LOW (gap up)
+        if i_fvgShowBullish and c1High < c3Low
+            float gapSize = c3Low - c1High
+            float minSizeTicks = i_fvgMinSize * syminfo.mintick
+
+            if gapSize >= minSizeTicks
+                FVGZone newFVG = FVGZone.new()
+                newFVG.top := c3Low
+                newFVG.bottom := c1High
+                newFVG.startBar := bar_index
+                newFVG.isBullish := true
+                newFVG.isMitigated := false
+                newFVG.isGreyedOut := false
+                newFVG.boxObj := box.new(
+                     bar_index - 1, c3Low,
+                     bar_index, c1High,
+                     border_color=color.new(i_fvgBullishColor, 60),
+                     bgcolor=i_fvgBullishColor,
+                     border_width=1
+                     )
+
+                if i_fvgShowLabels
+                    label.new(bar_index - 1, c3Low, "FVG",
+                         style=label.style_none,
+                         textcolor=color.new(i_fvgBullishColor, 40),
+                         size=size.tiny)
+
+                array.push(fvgZones, newFVG)
+                detected := true
+
+        // Bearish FVG: Candle 1 LOW > Candle 3 HIGH (gap down)
+        if i_fvgShowBearish and c1Low > c3High
+            float gapSize = c1Low - c3High
+            float minSizeTicks = i_fvgMinSize * syminfo.mintick
+
+            if gapSize >= minSizeTicks
+                FVGZone newFVG = FVGZone.new()
+                newFVG.top := c1Low
+                newFVG.bottom := c3High
+                newFVG.startBar := bar_index
+                newFVG.isBullish := false
+                newFVG.isMitigated := false
+                newFVG.isGreyedOut := false
+                newFVG.boxObj := box.new(
+                     bar_index - 1, c1Low,
+                     bar_index, c3High,
+                     border_color=color.new(i_fvgBearishColor, 60),
+                     bgcolor=i_fvgBearishColor,
+                     border_width=1
+                     )
+
+                if i_fvgShowLabels
+                    label.new(bar_index - 1, c1Low, "FVG",
+                         style=label.style_none,
+                         textcolor=color.new(i_fvgBearishColor, 40),
+                         size=size.tiny)
+
+                array.push(fvgZones, newFVG)
+                detected := true
+    detected
+
+// Update and manage FVG zones
+manageFVGZones() =>
+    int bullishCount = 0
+    int bearishCount = 0
+
+    if i_fvgEnable and array.size(fvgZones) > 0
+        // Iterate backwards to safely remove elements
+        for i = array.size(fvgZones) - 1 to 0
+            FVGZone zone = array.get(fvgZones, i)
+
+            // Check for mitigation
+            bool mitigated = zone.isMitigated
+            if not mitigated
+                if zone.isBullish
+                    // Bullish FVG mitigated when low touches or enters the zone
+                    if low <= zone.top
+                        mitigated := true
+                        zone.isMitigated := true
+                else
+                    // Bearish FVG mitigated when high touches or enters the zone
+                    if high >= zone.bottom
+                        mitigated := true
+                        zone.isMitigated := true
+
+            // Check for max extension
+            int barsElapsed = bar_index - zone.startBar
+            bool expired = barsElapsed > i_fvgMaxExtension
+
+            // Handle zone based on state
+            if mitigated or expired
+                if i_fvgMitigation == "Remove" or expired
+                    box.delete(zone.boxObj)
+                    array.remove(fvgZones, i)
+                else if i_fvgMitigation == "Grey Out" and mitigated and not zone.isGreyedOut
+                    // Grey out the mitigated zone (only once)
+                    box.set_bgcolor(zone.boxObj, color.new(color.gray, 90))
+                    box.set_border_color(zone.boxObj, color.new(color.gray, 70))
+                    box.set_border_style(zone.boxObj, line.style_dashed)
+                    zone.isGreyedOut := true
+                // "Keep" option - do nothing, just don't extend
+            else
+                // Extend the box to current bar
+                box.set_right(zone.boxObj, bar_index)
+
+                // Count active FVGs
+                if zone.isBullish
+                    bullishCount += 1
+                else
+                    bearishCount += 1
+
+    activeBullishFVGs := bullishCount
+    activeBearishFVGs := bearishCount
+    [bullishCount, bearishCount]
+
+// ┌──────────────────────────────────────────────────────────────────────────────┐
+// │                       MARKET STRUCTURE DETECTION                             │
+// └──────────────────────────────────────────────────────────────────────────────┘
+
+// Detect swing points using pivot functions
+detectSwingPoints() =>
+    float swingHigh = ta.pivothigh(high, i_swingLength, i_swingLength)
+    float swingLow = ta.pivotlow(low, i_swingLength, i_swingLength)
+    [swingHigh, swingLow]
+
+// Draw swing point markers
+drawSwingMarker(float price, int barIdx, bool isHigh, color markerColor) =>
+    label lbl = na
+    if i_showSwingPoints
+        if isHigh
+            lbl := label.new(barIdx, price, "◆",
+                 style=label.style_none,
+                 textcolor=color.new(markerColor, 40),
+                 size=size.tiny,
+                 yloc=yloc.abovebar)
+        else
+            lbl := label.new(barIdx, price, "◆",
+                 style=label.style_none,
+                 textcolor=color.new(markerColor, 40),
+                 size=size.tiny,
+                 yloc=yloc.belowbar)
+    lbl
+
+// Draw BOS/CHoCH line and label
+drawStructureBreak(float price, int fromBar, int toBar, bool isBullish, bool isCHoCH) =>
+    string breakType = isCHoCH ? "CHoCH" : "BOS"
+    color lineColor = isBullish ? i_msBullishColor : i_msBearishColor
+    int lineWidth = isCHoCH ? 2 : 1
+
+    // Draw the structure line
+    line newLine = line.new(fromBar, price, toBar, price,
+         color=lineColor,
+         style=isCHoCH ? line.style_solid : line.style_dashed,
+         width=lineWidth)
+
+    // Draw label at midpoint
+    if i_showStructLabels
+        int midBar = math.round((fromBar + toBar) / 2)
+        label.new(midBar, price, breakType,
+             style=isBullish ? label.style_label_up : label.style_label_down,
+             color=color.new(lineColor, 80),
+             textcolor=lineColor,
+             size=labelSize)
+    newLine
+
+// Main market structure logic
+processMarketStructure() =>
+    string currentBias = structureBias
+    if i_msEnable
+        [swingHigh, swingLow] = detectSwingPoints()
+
+        // Process new swing high (confirmed i_swingLength bars ago)
+        if not na(swingHigh)
+            int swingBar = bar_index - i_swingLength
+
+            // Draw swing point marker
+            drawSwingMarker(swingHigh, swingBar, true, i_msBearishColor)
+
+            // Update last swing high
+            lastSwingHigh := swingHigh
+            lastSwingHighBar := swingBar
+
+        // Process new swing low (confirmed i_swingLength bars ago)
+        if not na(swingLow)
+            int swingBar = bar_index - i_swingLength
+
+            // Draw swing point marker
+            drawSwingMarker(swingLow, swingBar, false, i_msBullishColor)
+
+            // Update last swing low
+            lastSwingLow := swingLow
+            lastSwingLowBar := swingBar
+
+        // Check for structure breaks on confirmed bar close only
+        if barstate.isconfirmed
+            // Bullish break - close above last swing high
+            if not na(lastSwingHigh) and not na(lastSwingHighBar)
+                if close > lastSwingHigh and close[1] <= lastSwingHigh
+                    bool isCHoCH = structureBias == "bearish" or structureBias == "neutral"
+
+                    if (isCHoCH and i_showCHoCH) or (not isCHoCH and i_showBOS)
+                        drawStructureBreak(lastSwingHigh, lastSwingHighBar, bar_index, true, isCHoCH)
+
+                    structureBias := "bullish"
+                    currentBias := "bullish"
+
+            // Bearish break - close below last swing low
+            if not na(lastSwingLow) and not na(lastSwingLowBar)
+                if close < lastSwingLow and close[1] >= lastSwingLow
+                    bool isCHoCH = structureBias == "bullish" or structureBias == "neutral"
+
+                    if (isCHoCH and i_showCHoCH) or (not isCHoCH and i_showBOS)
+                        drawStructureBreak(lastSwingLow, lastSwingLowBar, bar_index, false, isCHoCH)
+
+                    structureBias := "bearish"
+                    currentBias := "bearish"
+    currentBias
+
+// ┌──────────────────────────────────────────────────────────────────────────────┐
+// │                          STRUCTURE BACKGROUND                                │
+// └──────────────────────────────────────────────────────────────────────────────┘
+
+// Background color based on structure bias
+bgColor = i_showStructBg and i_msEnable ?
+     (structureBias == "bullish" ? color.new(i_msBullishColor, 95) :
+      structureBias == "bearish" ? color.new(i_msBearishColor, 95) :
+      na) : na
+
+bgcolor(bgColor)
+
+// ┌──────────────────────────────────────────────────────────────────────────────┐
+// │                              DASHBOARD                                       │
+// └──────────────────────────────────────────────────────────────────────────────┘
+
+// Create dashboard table
+var table dashboard = table.new(position.top_right, 2, 4,
+     bgcolor=color.new(#1a1a2e, 20),
+     border_width=1,
+     border_color=color.new(color.white, 80),
+     frame_width=1,
+     frame_color=color.new(color.white, 70))
+
+// Update dashboard on last bar
+if barstate.islast and i_showDashboard
+    // Header
+    table.cell(dashboard, 0, 0, "ZENKAI ICT",
+         text_color=color.white,
+         text_size=size.small,
+         bgcolor=color.new(#16213e, 10))
+    table.cell(dashboard, 1, 0, "v1.0",
+         text_color=color.gray,
+         text_size=size.tiny,
+         bgcolor=color.new(#16213e, 10))
+
+    // Structure Bias
+    biasColor = structureBias == "bullish" ? i_msBullishColor :
+                structureBias == "bearish" ? i_msBearishColor :
+                color.gray
+    biasText = str.upper(structureBias)
+
+    table.cell(dashboard, 0, 1, "Bias",
+         text_color=color.gray,
+         text_size=size.tiny)
+    table.cell(dashboard, 1, 1, biasText,
+         text_color=biasColor,
+         text_size=size.small)
+
+    // Active Bullish FVGs
+    table.cell(dashboard, 0, 2, "Bull FVG",
+         text_color=color.gray,
+         text_size=size.tiny)
+    table.cell(dashboard, 1, 2, str.tostring(activeBullishFVGs),
+         text_color=i_fvgBullishColor,
+         text_size=size.small)
+
+    // Active Bearish FVGs
+    table.cell(dashboard, 0, 3, "Bear FVG",
+         text_color=color.gray,
+         text_size=size.tiny)
+    table.cell(dashboard, 1, 3, str.tostring(activeBearishFVGs),
+         text_color=i_fvgBearishColor,
+         text_size=size.small)
+
+// ┌──────────────────────────────────────────────────────────────────────────────┐
+// │                           MAIN EXECUTION                                     │
+// └──────────────────────────────────────────────────────────────────────────────┘
+
+// Execute FVG detection and management
+detectFVG()
+manageFVGZones()
+
+// Execute market structure detection
+processMarketStructure()
+
+// ══════════════════════════════════════════════════════════════════════════════
+// END OF ZENKAI ICT TOOLKIT
+// ══════════════════════════════════════════════════════════════════════════════
