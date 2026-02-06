@@ -78,7 +78,7 @@ Your AI-powered trading signal service.
 <b>What we offer:</b>
 • 📊 High-quality trading signals
 • 🤖 Powered by AlphaTrader AI
-• 📈 ICT-based market analysis
+• 📈 Smart money concepts analysis
 • ⏱️ Real-time alerts
 
 <b>Commands:</b>
@@ -98,7 +98,7 @@ Your AI-powered trading signal service.
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
-⚡ <b>Evolve or Die</b>
+🔥 <b>Every Setback, Stronger</b>
 """
 
 ABOUT_MESSAGE = """
@@ -107,7 +107,7 @@ ABOUT_MESSAGE = """
 Zenkai Signal Hub is part of <b>Zenkai Corporation</b> — building the future of trading, gaming, and automation powered by AI.
 
 <b>Our Projects:</b>
-• 📊 Zenkai ICT Toolkit (TradingView)
+• 📊 Zenkai Edge (TradingView)
 • 🤖 AlphaTrader (AI Trading System)
 • 📡 Signal Hub (You're here!)
 • 🎮 OGame Strategy Tools
@@ -121,7 +121,7 @@ Zenkai Signal Hub is part of <b>Zenkai Corporation</b> — building the future o
 
 <b>Founded by:</b> Son Goku 🇩🇰
 
-⚡ <b>Evolve or Die</b>
+🔥 <b>Every Setback, Stronger</b>
 """
 
 # ─────────────────────────────────────────────────────────────────────────────

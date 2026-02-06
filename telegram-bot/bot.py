@@ -53,6 +53,7 @@ from signal_handler import (
     get_active_signals,
 )
 import webhook
+from outbox_poller import OutboxPoller
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Logging
@@ -77,7 +78,7 @@ def is_admin(user_id: int) -> bool:
     return user_id in ADMIN_IDS
 
 
-async def broadcast_to_subscribers(app, message: str, parse_mode: str = ParseMode.HTML):
+async def broadcast_to_subscribers(app, message: str, parse_mode: str = ParseMode.HTML, reply_markup=None):
     """Broadcast a message to all active subscribers."""
     subscribers = db.get_active_subscribers()
     success = 0
@@ -88,7 +89,8 @@ async def broadcast_to_subscribers(app, message: str, parse_mode: str = ParseMod
             await app.bot.send_message(
                 chat_id=sub.user_id,
                 text=message,
-                parse_mode=parse_mode
+                parse_mode=parse_mode,
+                reply_markup=reply_markup
             )
             success += 1
         except Exception as e:
@@ -1010,9 +1012,34 @@ def main():
 
     webhook.register_broadcast_callback(webhook_broadcast)
 
+    # ── Outbox Poller (automated pipeline) ──────────────────────────────
+    # Watches AlphaTrader signal outbox and auto-broadcasts to subscribers.
+    # Same pipeline as the Discord bot — both read from the same outbox.
+
+    async def outbox_broadcast(message: str, parse_mode: str = ParseMode.HTML, reply_markup=None):
+        """Bridge function: OutboxPoller -> broadcast_to_subscribers."""
+        success, failed = await broadcast_to_subscribers(app, message, parse_mode, reply_markup)
+        logger.info(f"Outbox broadcast: {success} sent, {failed} failed")
+
+    poller = OutboxPoller(broadcast_callback=outbox_broadcast, app=app)
+
+    async def post_init(application):
+        """Start outbox poller after bot is initialized."""
+        await poller.start()
+        logger.info("📡 Outbox poller started — automated signals active")
+
+    async def post_shutdown(application):
+        """Stop outbox poller on shutdown."""
+        await poller.stop()
+        logger.info("📡 Outbox poller stopped")
+
+    app.post_init = post_init
+    app.post_shutdown = post_shutdown
+
     logger.info(f"Admin IDs: {ADMIN_IDS}")
     logger.info(f"Subscribers: {db.get_subscriber_count()}")
     logger.info("Bot is running...")
+    logger.info("📡 Outbox poller will start with bot")
 
     # Run
     app.run_polling(allowed_updates=Update.ALL_TYPES)
