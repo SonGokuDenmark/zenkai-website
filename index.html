@@ -447,27 +447,27 @@
 
         .about-p + .about-p { margin-top: 1rem; }
 
-        /* --- BETA --- */
-        #beta {
+        /* --- DOWNLOAD --- */
+        #download {
             text-align: center;
             padding: 5rem 2rem;
         }
 
-        .beta-box {
+        .dl-box {
             background: var(--card);
             border: 1px solid var(--bd);
             border-radius: 12px;
             padding: 3rem 2rem;
-            max-width: 500px;
+            max-width: 520px;
             margin: 0 auto;
         }
 
-        .beta-mark {
+        .dl-mark {
             width: 44px; height: 44px;
             margin: 0 auto 1.2rem;
         }
 
-        .beta-title {
+        .dl-title {
             font-family: var(--mono);
             font-size: 1.2rem;
             font-weight: 700;
@@ -475,56 +475,123 @@
             margin-bottom: 0.5rem;
         }
 
-        .beta-desc {
+        .dl-desc {
             font-size: 0.88rem;
             color: var(--t2);
             margin-bottom: 1.5rem;
             line-height: 1.7;
         }
 
-        .beta-form {
-            display: flex; gap: 0.5rem;
-            max-width: 380px; margin: 0 auto;
-        }
-
-        .beta-form input {
-            flex: 1;
+        .dl-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
             font-family: var(--mono);
-            font-size: 0.78rem;
-            padding: 0.65rem 0.8rem;
-            background: var(--bg);
-            border: 1px solid var(--bd);
-            border-radius: 5px;
-            color: var(--t1);
-            outline: none;
-            transition: border 0.2s;
-        }
-
-        .beta-form input::placeholder { color: var(--t3); }
-        .beta-form input:focus { border-color: var(--t3); }
-
-        .beta-form button {
-            font-family: var(--mono);
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            padding: 0.65rem 1.2rem;
+            padding: 0.85rem 2rem;
             background: var(--white);
             color: var(--bg);
-            border: none; border-radius: 5px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
             cursor: pointer;
-            transition: 0.2s;
-            white-space: nowrap;
+            transition: all 0.25s;
+            margin-bottom: 1.2rem;
         }
 
-        .beta-form button:hover {
-            box-shadow: 0 0 16px rgba(255,255,255,0.1);
+        .dl-primary:hover {
+            box-shadow: 0 4px 24px rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
         }
 
-        .beta-note {
+        .dl-primary svg { width: 16px; height: 16px; }
+
+        .dl-all {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .dl-platform {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem;
+            background: transparent;
+            color: var(--t2);
+            border: 1px solid var(--bd2);
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+
+        .dl-platform:hover {
+            border-color: var(--t3);
+            color: var(--t1);
+        }
+
+        .dl-platform svg { width: 12px; height: 12px; fill: currentColor; }
+
+        .dl-version {
             font-family: var(--mono);
             font-size: 0.6rem;
             color: var(--t3);
-            margin-top: 0.7rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .dl-mobile {
+            display: none;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--t3);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .dl-hashes-toggle {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: var(--t3);
+            cursor: pointer;
+            background: none;
+            border: none;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            transition: color 0.2s;
+        }
+
+        .dl-hashes-toggle:hover { color: var(--t2); }
+
+        .dl-hashes-content {
+            display: none;
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background: var(--bg);
+            border: 1px solid var(--bd);
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .dl-hash-row {
+            font-family: var(--mono);
+            font-size: 0.55rem;
+            color: var(--t3);
+            margin-bottom: 0.4rem;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+
+        .dl-hash-row:last-child { margin-bottom: 0; }
+
+        .dl-hash-row strong {
+            color: var(--t2);
+            font-weight: 600;
         }
 
         /* --- FOOTER --- */
@@ -628,7 +695,8 @@
             .prod-grid { grid-template-columns: 1fr; }
             .foot-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .foot-bottom { flex-direction: column; gap: 0.3rem; text-align: center; }
-            .beta-form { flex-direction: column; }
+            .dl-all { flex-direction: column; align-items: center; }
+            .dl-platform { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -651,7 +719,7 @@
     <ul class="nav-links" id="nl">
         <li><a href="#products">Products</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#beta" class="nav-cta">Join Beta</a></li>
+        <li><a href="#download" class="nav-cta">Get Zenkai</a></li>
     </ul>
     <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
@@ -669,7 +737,7 @@
         </p>
         <p class="hero-motto">Every Setback, Stronger</p>
         <div class="hero-buttons">
-            <a href="#beta" class="btn-w">Get Early Access</a>
+            <a href="#download" class="btn-w">Download Now</a>
             <a href="#products" class="btn-g">See What's Inside</a>
         </div>
     </div>
@@ -766,20 +834,48 @@
 
 <div class="divider"></div>
 
-<!-- BETA -->
-<section id="beta">
-    <div class="beta-box rv">
-        <img src="assets/zenkai-mark-transparent-512.png" alt="Zenkai" class="beta-mark">
-        <h2 class="beta-title">Join the Beta</h2>
-        <p class="beta-desc">
-            We're testing with a small group. Drop your email and
-            we'll send you a beta key when your spot is ready.
+<!-- DOWNLOAD -->
+<section id="download">
+    <div class="dl-box rv">
+        <img src="assets/zenkai-mark-transparent-512.png" alt="Zenkai" class="dl-mark">
+        <h2 class="dl-title">Download Zenkai</h2>
+        <p class="dl-desc">
+            Free. No account required. Your hardware, your AI.
         </p>
-        <form class="beta-form" action="https://formspree.io/f/xbdadzdk" method="POST">
-            <input type="email" name="email" placeholder="your@email.com" required>
-            <button type="submit">Request Access</button>
-        </form>
-        <p class="beta-note">Windows only &middot; No credit card required</p>
+
+        <p class="dl-mobile" id="dl-mobile">
+            Zenkai is a desktop app. Download it on your<br>
+            Windows, macOS, or Linux computer.
+        </p>
+
+        <a id="dl-main" href="#download" class="dl-primary">
+            <svg id="dl-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"></svg>
+            <span id="dl-text">Download</span>
+        </a>
+
+        <div class="dl-all" id="dl-all">
+            <a href="https://api.zenkaicorp.com/downloads/Zenkai_1.0.0_x64-setup.exe" class="dl-platform" data-os="windows">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 3.449L9.75 2.1v9.45H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.45L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                Windows (.exe) ~85 MB
+            </a>
+            <a href="https://api.zenkaicorp.com/downloads/Zenkai_1.0.0_x64.dmg" class="dl-platform" data-os="macos">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                macOS (.dmg) ~85 MB
+            </a>
+            <a href="https://api.zenkaicorp.com/downloads/Zenkai_1.0.0_amd64.AppImage" class="dl-platform" data-os="linux">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.368 1.884 1.43.868.07 1.799-.358 2.395-1.382.095-.152.191-.343.223-.58.138-.344.17-.692.148-1.048.076-.31.156-.572.237-.866.164-.764.126-1.544-.175-2.07-.042-.074-.088-.138-.164-.18a.826.826 0 00-.235-.095c-.12-.37-.286-.686-.478-.978-.167-.32-.313-.681-.43-.873-.104-.194-.24-.374-.39-.541 1.017-.209 1.577-1.256 1.577-2.672-.001-2.755-3.772-4.958-3.891-8.418C19.093 2.833 16.211.003 12.504 0z"/></svg>
+                Linux (.AppImage) ~85 MB
+            </a>
+        </div>
+
+        <p class="dl-version">v1.0.0</p>
+
+        <button class="dl-hashes-toggle" id="dl-hashes-toggle">Verify your download</button>
+        <div class="dl-hashes-content" id="dl-hashes-content">
+            <p class="dl-hash-row"><strong>Windows (.exe)</strong><br>SHA256: <em>available after first release</em></p>
+            <p class="dl-hash-row"><strong>macOS (.dmg)</strong><br>SHA256: <em>available after first release</em></p>
+            <p class="dl-hash-row"><strong>Linux (.AppImage)</strong><br>SHA256: <em>available after first release</em></p>
+        </div>
     </div>
 </section>
 
@@ -903,6 +999,53 @@ function draw() {
 window.addEventListener('resize', resize);
 resize();
 draw();
+
+// OS detection for download button
+(function() {
+    var ua = navigator.userAgent.toLowerCase();
+    var plat = (navigator.platform || '').toLowerCase();
+    var main = document.getElementById('dl-main');
+    var text = document.getElementById('dl-text');
+    var icon = document.getElementById('dl-icon');
+    var mobile = document.getElementById('dl-mobile');
+
+    var isWin = ua.includes('win') && !ua.includes('phone');
+    var isMac = ua.includes('mac') && !('ontouchend' in document);
+    var isLinux = ua.includes('linux') && !ua.includes('android');
+    var isMobile = /android|iphone|ipad|ipod|mobile/i.test(ua) || ('ontouchend' in document && !isMac);
+
+    if (isMobile) {
+        main.style.display = 'none';
+        mobile.style.display = 'block';
+    } else if (isWin) {
+        main.href = 'https://api.zenkaicorp.com/downloads/Zenkai_1.0.0_x64-setup.exe';
+        text.textContent = 'Download for Windows';
+        icon.innerHTML = '<path d="M0 3.449L9.75 2.1v9.45H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.45L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>';
+    } else if (isMac) {
+        main.href = 'https://api.zenkaicorp.com/downloads/Zenkai_1.0.0_x64.dmg';
+        text.textContent = 'Download for macOS';
+        icon.innerHTML = '<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>';
+    } else if (isLinux) {
+        main.href = 'https://api.zenkaicorp.com/downloads/Zenkai_1.0.0_amd64.AppImage';
+        text.textContent = 'Download for Linux';
+        icon.innerHTML = '<path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.368 1.884 1.43.868.07 1.799-.358 2.395-1.382.095-.152.191-.343.223-.58.138-.344.17-.692.148-1.048.076-.31.156-.572.237-.866.164-.764.126-1.544-.175-2.07-.042-.074-.088-.138-.164-.18a.826.826 0 00-.235-.095c-.12-.37-.286-.686-.478-.978-.167-.32-.313-.681-.43-.873-.104-.194-.24-.374-.39-.541 1.017-.209 1.577-1.256 1.577-2.672-.001-2.755-3.772-4.958-3.891-8.418C19.093 2.833 16.211.003 12.504 0z"/>';
+    } else {
+        // Unknown OS — hide primary, show all platforms
+        main.style.display = 'none';
+    }
+})();
+
+// Hash toggle (collapsed by default)
+document.getElementById('dl-hashes-toggle').addEventListener('click', function() {
+    var content = document.getElementById('dl-hashes-content');
+    if (content.style.display === 'block') {
+        content.style.display = 'none';
+        this.textContent = 'Verify your download';
+    } else {
+        content.style.display = 'block';
+        this.textContent = 'Hide checksums';
+    }
+});
 </script>
 
 </body>
