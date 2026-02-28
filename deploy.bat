@@ -10,7 +10,7 @@ if "%MSG%"=="" set MSG=Deploy update
 
 git add -A
 git commit -m "%MSG%"
-git push origin main
+git push origin master
 
 echo.
 echo Deploy complete.

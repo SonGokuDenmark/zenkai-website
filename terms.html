@@ -5,305 +5,330 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service — Zenkai Corporation</title>
     <meta name="description" content="Zenkai Corporation Terms of Service.">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-
-    <!-- Fonts -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="assets/favicon-128.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/favicon-256.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .legal-page {
-            padding: 8rem 0 4rem;
-            min-height: 100vh;
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #050507; --bg2: #0a0a0e; --card: #0e0e13; --card-up: #131318;
+            --bd: #1a1a22; --bd2: #2a2a35; --t1: #e8e8ec; --t2: #8a8a98; --t3: #55555f;
+            --white: #ffffff; --mono: 'JetBrains Mono', monospace; --sans: 'Outfit', system-ui, sans-serif;
         }
-        .legal-page .container {
-            max-width: 800px;
-        }
-        .legal-page h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .legal-page .legal-updated {
-            color: var(--color-text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 3rem;
-        }
-        .legal-page h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--color-primary);
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.15);
-        }
-        .legal-page h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-        .legal-page p, .legal-page li {
-            color: var(--color-text-muted);
-            line-height: 1.7;
-            margin-bottom: 1rem;
-        }
-        .legal-page ul {
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        .legal-page li {
-            margin-bottom: 0.5rem;
-        }
-        .legal-page strong {
-            color: var(--color-text);
-        }
-        .legal-page a {
-            color: var(--color-primary);
-            text-decoration: underline;
-        }
-        .legal-page .short-version {
-            background: var(--color-bg-card);
-            border: 1px solid rgba(0, 255, 136, 0.15);
-            border-radius: var(--border-radius-lg);
-            padding: 1.5rem 2rem;
-            margin-bottom: 2rem;
-        }
-        .legal-page .short-version p {
-            color: var(--color-text);
-            margin-bottom: 0;
-        }
-        .legal-page .warning-box {
-            background: rgba(255, 68, 102, 0.08);
-            border: 1px solid rgba(255, 68, 102, 0.3);
-            border-radius: var(--border-radius-lg);
-            padding: 1.5rem 2rem;
-            margin: 1.5rem 0;
-        }
-        .legal-page .warning-box p {
-            color: var(--color-text);
-        }
-        .legal-back {
-            display: inline-block;
-            color: var(--color-text-muted);
-            text-decoration: none;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-        }
-        .legal-back:hover {
-            color: var(--color-primary);
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--t1); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 2px; }
+
+        /* NAV */
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: rgba(5,5,7,0.85); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(26,26,34,0.5); }
+        .nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+        .nav-logo svg { width: 24px; height: 26px; }
+        .nav-text { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.14em; color: var(--white); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { font-family: var(--mono); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; color: var(--t3); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--t1); }
+        .nav-cta { padding: 0.4rem 1rem !important; background: var(--white) !important; color: var(--bg) !important; border-radius: 4px; font-weight: 600 !important; }
+        .ham { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 4px; }
+        .ham span { display: block; width: 18px; height: 1.5px; background: var(--t3); }
+
+        /* FOOTER */
+        footer { border-top: 1px solid var(--bd); padding: 2rem; max-width: 1080px; margin: 0 auto; }
+        .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+        .foot-logo { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .foot-logo svg { width: 20px; height: 22px; }
+        .foot-logo span { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--white); }
+        .foot-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--t3); margin-bottom: 0.4rem; }
+        .foot-loc { font-family: var(--mono); font-size: 0.68rem; color: var(--t3); }
+        .foot-col h4 { font-family: var(--mono); font-size: 0.68rem; font-weight: 600; color: var(--t1); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.7rem; }
+        .foot-col a { display: block; font-family: var(--mono); font-size: 0.72rem; color: var(--t3); text-decoration: none; margin-bottom: 0.4rem; transition: color 0.2s; }
+        .foot-col a:hover { color: var(--white); }
+        .foot-bottom { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--bd); display: flex; justify-content: space-between; align-items: center; }
+        .foot-bottom p { font-family: var(--mono); font-size: 0.6rem; color: var(--t3); }
+
+        /* LEGAL */
+        .legal { padding: 7rem 2rem 4rem; max-width: 780px; margin: 0 auto; }
+        .legal-back { display: inline-block; font-family: var(--mono); font-size: 0.72rem; color: var(--t3); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.2s; }
+        .legal-back:hover { color: var(--white); }
+        .legal h1 { font-family: var(--mono); font-size: clamp(1.6rem,4vw,2.2rem); font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+        .legal-meta { font-family: var(--mono); font-size: 0.68rem; color: var(--t3); margin-bottom: 2.5rem; }
+        .legal-meta a { color: var(--t2); }
+        .legal-summary { background: var(--card); border: 1px solid var(--bd); border-radius: 8px; padding: 1.5rem 1.8rem; margin-bottom: 2.5rem; }
+        .legal-summary p { color: var(--t1); font-size: 0.92rem; line-height: 1.8; margin: 0; }
+        .legal h2 { font-family: var(--mono); font-size: 1rem; font-weight: 600; color: var(--white); margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--bd); letter-spacing: 0.02em; }
+        .legal h3 { font-family: var(--mono); font-size: 0.85rem; font-weight: 600; color: var(--t1); margin-top: 1.8rem; margin-bottom: 0.8rem; }
+        .legal p { font-size: 0.9rem; color: var(--t2); line-height: 1.85; margin-bottom: 1rem; }
+        .legal ul { padding-left: 1.2rem; margin-bottom: 1.2rem; }
+        .legal li { font-size: 0.88rem; color: var(--t2); line-height: 1.8; margin-bottom: 0.5rem; }
+        .legal strong { color: var(--t1); }
+        .legal a { color: var(--t1); text-decoration: underline; text-underline-offset: 2px; }
+        .legal a:hover { color: var(--white); }
+        .legal-warn { background: rgba(244,63,94,0.06); border: 1px solid rgba(244,63,94,0.2); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.5rem 0; }
+        .legal-warn p { color: var(--t1); margin: 0; }
+        .legal-caps { font-size: 0.82rem !important; color: var(--t3) !important; line-height: 1.8 !important; }
+        .legal-contact { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--bd); }
+        .legal-motto { font-family: var(--mono); font-size: 0.75rem; color: var(--t3); font-style: italic; margin-top: 2rem; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .ham { display: flex; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: rgba(5,5,7,0.97); backdrop-filter: blur(20px); padding: 1rem 2rem; border-bottom: 1px solid var(--bd); gap: 0.8rem; }
+            .foot-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .foot-bottom { flex-direction: column; gap: 0.3rem; text-align: center; }
+            .legal { padding: 5rem 1.5rem 3rem; }
         }
     </style>
 </head>
 <body>
+<nav>
+    <a href="index.html" class="nav-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132"><line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="nav-text">ZENKAI</span>
+    </a>
+    <ul class="nav-links" id="nl">
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#download" class="nav-cta">Get Zenkai</a></li>
+    </ul>
+    <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
-    <!-- NAVIGATION -->
-    <nav class="navbar scrolled" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">ZENKAI</span>
-            </a>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="index.html#products" class="nav-link">Products</a></li>
-                <li><a href="index.html#beta" class="nav-link nav-cta">Join Beta</a></li>
-            </ul>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
-                <span class="hamburger"></span>
-            </button>
-        </div>
-    </nav>
+<div class="legal">
+    <a href="index.html" class="legal-back">&larr; Back to Home</a>
+    <h1>Terms of Service</h1>
+    <p class="legal-meta">Last updated: February 28, 2026 &middot; CVR: 46261690 &middot; <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></p>
 
-    <section class="legal-page">
-        <div class="container">
-            <a href="index.html" class="legal-back">&larr; Back to Home</a>
+    <div class="legal-summary"><p>Use Zenkai responsibly. Don't reverse-engineer it, don't redistribute it. We'll do our best to make great software. You accept that beta software has rough edges. Zenkai captures your screen and controls your mouse/keyboard during training &mdash; only when you tell it to.</p></div>
 
-            <h1>Terms of Service</h1>
-            <p class="legal-updated"><strong>Last updated:</strong> February 2026 &nbsp;|&nbsp; <strong>Company:</strong> Zenkai Corporation, Denmark &nbsp;|&nbsp; <strong>Contact:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></p>
+    <h2>1. Who We Are</h2>
+    <p>Zenkai is operated by <strong>Zenkai Corporation</strong>, the trading name of a sole proprietorship (<em>enkeltmandsvirksomhed</em>) registered in Denmark.</p>
+    <ul>
+        <li><strong>Owner:</strong> Lars Sommer</li>
+        <li><strong>CVR:</strong> 46261690</li>
+        <li><strong>Address:</strong> Vestervold 13 2. tv, 7600 Struer, Denmark</li>
+        <li><strong>Email:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></li>
+    </ul>
+    <p>By downloading, installing, or using any Zenkai product, visiting zenkaicorp.com, or participating in the beta program, you agree to these terms. If you don't agree, don't use the products.</p>
 
-            <div class="short-version">
-                <p>Use Zenkai responsibly. Don't reverse-engineer it, don't redistribute it. We'll do our best to make great software. You accept that beta software has rough edges. Here's the full version.</p>
+    <h2>2. Eligibility</h2>
+    <p>You must be at least <strong>18 years old</strong> to use Zenkai. By using the software, you represent that you meet this requirement and that your use complies with all applicable laws in your jurisdiction.</p>
+
+    <h2>3. The Beta Program</h2>
+    <h3>What Beta Means</h3>
+    <p>Zenkai is currently in beta. Under EU Directive 2019/770 (Digital Content Directive), Article 7(5), you are being specifically informed of the following deviations from objective conformity requirements, which you must expressly accept before using the software:</p>
+    <ul>
+        <li>Features may be incomplete, buggy, or change without notice</li>
+        <li>Training runs may crash or produce unexpected results</li>
+        <li>The product may not work perfectly on all hardware configurations</li>
+        <li>Screen capture and input control features may behave unexpectedly</li>
+        <li>We may reset, modify, or end the beta program at any time</li>
+        <li>Beta access does not guarantee access to the final product</li>
+    </ul>
+    <p>By clicking "I Accept" on first launch, you expressly and separately accept these deviations as required by Article 7(5) of the Digital Content Directive.</p>
+
+    <h3>Your Responsibilities as a Beta Tester</h3>
+    <ul>
+        <li>Report bugs when you find them</li>
+        <li>Don't publicly share pre-release features or screenshots without permission</li>
+        <li>Provide honest feedback</li>
+    </ul>
+
+    <h2>4. Screen Capture and Input Control</h2>
+    <div class="legal-warn"><p><strong>Important:</strong> Zenkai captures your screen and controls your mouse and keyboard during AI training sessions. This section explains exactly what that means.</p></div>
+
+    <h3>What Zenkai Does During Training</h3>
+    <ul>
+        <li><strong>Screen capture:</strong> Zenkai reads pixels from your screen to allow the AI agent to "see" the game. This captures whatever is visible on your display during training.</li>
+        <li><strong>Mouse control:</strong> Zenkai moves your mouse cursor and clicks to allow the AI agent to play the game.</li>
+        <li><strong>Keyboard control:</strong> Zenkai sends keystrokes to control game actions.</li>
+    </ul>
+
+    <h3>When It Happens</h3>
+    <ul>
+        <li>Only when you explicitly start a training session</li>
+        <li>Never in the background or without your knowledge</li>
+        <li>You can stop at any time using the Stop button or Ctrl+Shift+Q</li>
+    </ul>
+
+    <h3>What You Should Know</h3>
+    <ul>
+        <li>Screen capture may inadvertently capture sensitive information visible on your screen (notifications, messages, other applications)</li>
+        <li>Close sensitive applications and disable notifications before starting training</li>
+        <li>During training, your computer is not usable for other tasks &mdash; the AI is controlling mouse and keyboard</li>
+        <li>Bugs in the software could cause unintended mouse clicks or keystrokes</li>
+        <li>Screen capture data is processed locally and is not transmitted to our servers</li>
+    </ul>
+
+    <h3>Your Consent</h3>
+    <p>Screen capture and input control require your explicit consent each time you start a training session. You may withdraw consent at any time by stopping the training session. See our <a href="privacy.html">Privacy Policy</a> for details on how screen capture data is processed.</p>
+
+    <h2>5. License</h2>
+    <p>We grant you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to use Zenkai products for personal, educational, and commercial purposes in accordance with these Terms.</p>
+    <h3>You CAN:</h3>
+    <ul>
+        <li>Use Zenkai products for personal, educational, and commercial purposes</li>
+        <li>Train AI agents on games you legally own</li>
+        <li>Share your results, trained model performance, and experiences publicly</li>
+        <li>Stream or create content showing Zenkai products in use</li>
+    </ul>
+    <h3>You CANNOT:</h3>
+    <ul>
+        <li>Reverse-engineer, decompile, or disassemble Zenkai software</li>
+        <li>Redistribute, resell, sublicense, or share Zenkai software</li>
+        <li>Remove or alter any copyright notices, branding, or attribution</li>
+        <li>Use Zenkai to develop a competing product</li>
+        <li>Attempt to bypass licensing or validation systems</li>
+        <li>Use Zenkai products for any illegal activity</li>
+    </ul>
+
+    <h2>6. Intellectual Property</h2>
+    <h3>Ours</h3>
+    <p>Zenkai Corporation owns all rights to: the Zenkai software (source code, binaries, architecture), the Zenkai brand (name, logo, visual identity), website content, documentation, and all AI training frameworks and proprietary systems within the products.</p>
+    <h3>Yours</h3>
+    <p>You own: all AI models ("Sparks") you train using Zenkai products, all training data you generate, all configurations and presets you create, and all results and analyses you produce.</p>
+    <p><strong>Your trained models are yours. Your data is yours.</strong> We have no claim to anything you create with our tools.</p>
+    <h3>Nexus &mdash; Shared Content</h3>
+    <p>When you upload content to Zenkai Nexus (Sparks, community posts, profile information):</p>
+    <ul>
+        <li>You retain full ownership of your content</li>
+        <li>You grant Zenkai Corporation a non-exclusive, worldwide, royalty-free license to host, display, and distribute your uploaded content through Nexus &mdash; solely for the purpose of operating the platform</li>
+        <li>This license ends when you delete the content</li>
+        <li>Other users who download your Sparks may use them for personal training and experimentation within Zenkai products</li>
+        <li>Other users may NOT sell, redistribute outside of Zenkai, or claim ownership of your shared content</li>
+    </ul>
+    <h3>Account Deletion and Content</h3>
+    <p>When you delete your account, all your uploaded Sparks and community posts are deleted from our servers within 30 days. Locally stored data (models, configs) remains on your machine.</p>
+    <h3>Game Files</h3>
+    <p>Zenkai does NOT distribute game files. For screen capture training (e.g. Aim Lab), users must own the game. Atari arcade games included in Dojo are provided through legally licensed ROM packages maintained by the Farama Foundation (Gymnasium).</p>
+
+    <h2>7. Nexus Community &mdash; Content Moderation</h2>
+    <p>Zenkai Nexus is a community platform where users share AI models, post in communities, and interact. Under EU Regulation 2022/2065 (Digital Services Act), we provide the following information about our content moderation practices.</p>
+    <h3>Prohibited Content</h3>
+    <p>You may not upload or post content that:</p>
+    <ul>
+        <li>Contains malicious code, exploits, or executable payloads disguised as AI models</li>
+        <li>Is intentionally misleading about model performance or capabilities</li>
+        <li>Infringes third-party intellectual property rights</li>
+        <li>Is illegal under applicable EU or Danish law</li>
+        <li>Constitutes harassment, hate speech, or threats</li>
+        <li>Contains personal information of others without consent</li>
+    </ul>
+    <h3>How We Moderate</h3>
+    <ul>
+        <li><strong>Automated:</strong> Uploaded Sparks are validated for file format (SafeTensors only &mdash; cannot contain executable code). Metadata is sanitized to remove system-identifying information.</li>
+        <li><strong>Human review:</strong> Reported content is reviewed by team members. We aim to review reports within 7 days.</li>
+        <li><strong>No algorithmic recommendation:</strong> Nexus does not use algorithmic content recommendation systems.</li>
+    </ul>
+    <h3>Reporting Illegal Content (DSA Article 16)</h3>
+    <p>To report content you believe is illegal, email <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a> with subject line "Content Report" and include:</p>
+    <ul>
+        <li>A description of why you believe the content is illegal</li>
+        <li>The URL or identifier of the content</li>
+        <li>Your contact information</li>
+        <li>A statement that you believe in good faith the content is illegal</li>
+    </ul>
+    <p>We will acknowledge receipt without undue delay and notify you of our decision with a statement of reasons (DSA Article 17).</p>
+    <h3>Enforcement Actions</h3>
+    <p>When we remove content or restrict an account, we will provide a clear statement of reasons including: the facts and circumstances, the legal or contractual basis, and information about available remedies. You may appeal enforcement decisions by emailing us.</p>
+    <h3>Law Enforcement Notification</h3>
+    <p>If we become aware of content that suggests a threat to life or safety, we will notify the relevant law enforcement authority (DSA Article 18).</p>
+
+    <h2>8. Hardware &amp; System Safety</h2>
+    <p>We've built safety systems into the product (hardware monitoring, auto-throttle, pre-run warnings, emergency stop hotkey). However:</p>
+    <ul>
+        <li>Intensive AI training can cause wear on hardware (high GPU/CPU usage, elevated temperatures)</li>
+        <li>Bugs in screen capture or input control could cause unintended system behavior</li>
+        <li>If you ignore safety warnings or push your system beyond its capabilities, the consequences are yours</li>
+        <li>We recommend keeping your system updated, monitoring temperatures, and using the safety features we built</li>
+    </ul>
+
+    <h2>9. Availability &amp; Updates</h2>
+    <ul>
+        <li>We provide Zenkai products "as is" during beta. No uptime guarantees.</li>
+        <li>We may push updates at any time. The auto-updater will notify you.</li>
+        <li>We may discontinue features, change functionality, or restructure products.</li>
+        <li>We'll do our best to communicate changes in advance, but beta means things move fast.</li>
+    </ul>
+
+    <h2>10. Warranty Disclaimer</h2>
+    <p class="legal-caps">THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, OR NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SOFTWARE WILL BE UNINTERRUPTED, ERROR-FREE, OR SECURE.</p>
+    <p>This disclaimer applies to the extent permitted by applicable law, subject to the beta deviations you expressly accepted under Section 3.</p>
+
+    <h2>11. Limitation of Liability</h2>
+    <p><strong>To the maximum extent permitted by Danish and EU law:</strong></p>
+    <p class="legal-caps">OUR TOTAL LIABILITY ARISING FROM OR RELATED TO THESE TERMS OR YOUR USE OF THE SOFTWARE SHALL NOT EXCEED THE GREATER OF: (A) THE FEES YOU PAID TO US IN THE SIX (6) MONTHS PRECEDING THE CLAIM, OR (B) &euro;100.</p>
+    <p class="legal-caps">WE SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO: HARDWARE DAMAGE, DATA LOSS, LOST PROFITS, OR BUSINESS INTERRUPTION.</p>
+    <p><strong>This does NOT limit liability for:</strong></p>
+    <ul>
+        <li>Fraud or intentional misconduct (Danish: <em>forsæt</em>)</li>
+        <li>Gross negligence (Danish: <em>grov uagtsomhed</em>)</li>
+        <li>Death or personal injury caused by our negligence</li>
+        <li>Product liability under Danish Produktansvarsloven</li>
+        <li>Any liability that cannot be excluded under Danish or EU law</li>
+    </ul>
+
+    <h2>12. Indemnification</h2>
+    <p>You agree to indemnify and hold harmless Zenkai Corporation from any claims, damages, losses, liabilities, and expenses (including reasonable legal fees) arising from: (a) your use of the software, (b) your violation of these Terms, or (c) your violation of any applicable law. This obligation survives termination of these Terms.</p>
+
+    <h2>13. Termination</h2>
+    <h3>By You</h3>
+    <p>You can stop using Zenkai at any time. Uninstall the software, delete your data, email us to delete your account data.</p>
+    <h3>By Us</h3>
+    <p>We can terminate your access if you violate these terms, attempt to reverse-engineer or bypass licensing, use the products for illegal activity, or engage in behavior that harms other users or the Zenkai community.</p>
+    <p>If we terminate your access, your locally stored data (models, configs) remains yours. We revoke the software license only. Sections 6, 8, 10, 11, 12, and 14 survive termination.</p>
+
+    <h2>14. Governing Law and Disputes</h2>
+    <p>These Terms are governed by and construed in accordance with the <strong>laws of Denmark</strong>, without regard to its conflict of laws provisions.</p>
+    <p>Any disputes arising from these Terms shall be submitted to the courts of <strong>Denmark</strong>.</p>
+    <p>If you are a consumer in the European Economic Area, nothing in these Terms affects your statutory right to bring proceedings in the courts of your country of residence.</p>
+    <p><strong>EU Online Dispute Resolution:</strong> The European Commission provides an online dispute resolution platform at <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr/</a>.</p>
+    <p>Before going legal, we'd appreciate if you just emailed us. Most problems can be solved with a conversation.</p>
+
+    <h2>15. Changes to These Terms</h2>
+    <ul>
+        <li>We'll update the "Last updated" date</li>
+        <li>We'll post a notice on zenkaicorp.com</li>
+        <li>For material changes, we'll email registered users at least 14 days before they take effect</li>
+        <li>Continued use after changes constitutes acceptance of revised terms</li>
+    </ul>
+
+    <h2>16. Severability</h2>
+    <p>If any part of these terms is found to be unenforceable by a court, the rest remains in full effect.</p>
+
+    <h2>17. Entire Agreement</h2>
+    <p>These Terms of Service, together with our <a href="privacy.html">Privacy Policy</a> and the <a href="disclaimer.html">Beta &amp; Screen Capture Disclaimer</a>, constitute the entire agreement between you and Zenkai Corporation regarding use of our products.</p>
+
+    <div class="legal-contact">
+        <p><strong>Zenkai Corporation</strong><br>Lars Sommer &middot; CVR 46261690<br>Vestervold 13 2. tv, 7600 Struer, Denmark</p>
+        <p><strong>Email:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></p>
+    </div>
+    <p class="legal-motto">Every setback, stronger.</p>
+</div>
+
+<footer>
+    <div class="foot-grid">
+        <div>
+            <div class="foot-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132"><line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>ZENKAI</span>
             </div>
-
-            <h2>1. What You're Agreeing To</h2>
-            <p>By using any Zenkai product (Zenkai Hub, Zenkai Dojo, or any future Zenkai product), visiting zenkaicorp.com, or participating in the beta program, you agree to these terms. If you don't agree, don't use the products.</p>
-            <p>These terms are between you and <strong>Zenkai Corporation</strong>, a company registered in Denmark.</p>
-
-            <h2>2. The Beta Program</h2>
-
-            <h3>What Beta Means</h3>
-            <p>You're testing early-stage software. You understand and accept that:</p>
-            <ul>
-                <li>Features may be incomplete, buggy, or change without notice</li>
-                <li>Training runs may crash or produce unexpected results</li>
-                <li>The product may not work perfectly on all hardware configurations</li>
-                <li>We may reset, modify, or end the beta program at any time</li>
-                <li>Beta access does not guarantee access to the final product</li>
-            </ul>
-
-            <h3>Your Beta Key</h3>
-            <ul>
-                <li>Your beta key is personal. Don't share it.</li>
-                <li>One key per person. Don't create multiple accounts.</li>
-                <li>We can revoke beta access at any time, for any reason, without prior notice.</li>
-                <li>Beta keys will transition to license keys when the product launches. Beta participants will receive preferential pricing.</li>
-            </ul>
-
-            <h3>Your Responsibilities as a Beta Tester</h3>
-            <ul>
-                <li>Report bugs when you find them (the bug report button is there for a reason)</li>
-                <li>Don't publicly share pre-release features or screenshots without permission</li>
-                <li>Provide honest feedback — we can handle it</li>
-            </ul>
-
-            <h2>3. What You Can and Cannot Do</h2>
-
-            <h3>You CAN:</h3>
-            <ul>
-                <li>Use Zenkai products for personal, educational, and commercial purposes</li>
-                <li>Train AI agents on games you legally own</li>
-                <li>Share your results, trained model performance, and experiences publicly</li>
-                <li>Stream or create content showing Zenkai products in use</li>
-            </ul>
-
-            <h3>You CANNOT:</h3>
-            <ul>
-                <li>Reverse-engineer, decompile, or disassemble Zenkai software</li>
-                <li>Redistribute, resell, sublicense, or share Zenkai software or your beta key</li>
-                <li>Remove or alter any copyright notices, branding, or attribution</li>
-                <li>Use Zenkai to develop a competing product</li>
-                <li>Attempt to bypass beta key validation or licensing systems</li>
-                <li>Use Zenkai products for any illegal activity</li>
-                <li>Upload malicious files to the Model Hub</li>
-                <li>Upload content to the Model Hub that is intentionally misleading</li>
-                <li>Attempt to embed executable code in model files or metadata</li>
-            </ul>
-
-            <h2>4. Intellectual Property</h2>
-
-            <h3>Ours</h3>
-            <p>Zenkai Corporation owns all rights to: the Zenkai software (source code, binaries, architecture), the Zenkai brand (name, logo, "Every Setback, Stronger," "Powered By Defeat"), the website content, documentation, and marketing materials, and all AI training frameworks, algorithms, and proprietary systems within the products.</p>
-
-            <h3>Yours</h3>
-            <p>You own: all AI models you train using Zenkai products, all training data you download or generate, all configurations and presets you create, all results, reports, and analyses you produce.</p>
-            <p><strong>Your trained models are yours. Your data is yours.</strong> We have no claim to anything you create with our tools. If you train a DOOM agent that becomes legendary — that's your achievement, not ours.</p>
-
-            <h3>Model Hub — Shared Content</h3>
-            <p>When you upload a model to the Zenkai Model Hub:</p>
-            <ul>
-                <li>You retain full ownership of your model and all associated content</li>
-                <li>You grant Zenkai Corporation a non-exclusive, worldwide license to host, display, and distribute your uploaded content through the Hub — solely for the purpose of making it available to other Zenkai users</li>
-                <li>This license ends when you delete the upload</li>
-                <li>Other users who download your model may use it for personal training, fine-tuning, and experimentation within Zenkai products</li>
-                <li>Other users may NOT sell, redistribute outside of Zenkai, or claim ownership of your shared models</li>
-            </ul>
-
-            <h3>Data Portability</h3>
-            <p>You can export your trained models, configurations, and training data at any time using the built-in Export function. You are free to use exported data however you wish — it's yours.</p>
-
-            <h3>Game Files</h3>
-            <p>Zenkai does NOT distribute game files. For games requiring original files (such as DOOM campaign mode), users must own legitimate copies. Atari arcade games included in Dojo are provided through legally licensed ROM packages maintained by the Farama Foundation (Gymnasium).</p>
-
-            <h2>5. Hardware &amp; System Safety</h2>
-            <p>We've built safety systems into every product (ResourceGuardian, hardware monitoring, auto-throttle, pre-run warnings). We take your hardware seriously.</p>
-            <p>However:</p>
-            <ul>
-                <li>We cannot guarantee that intensive AI training will not cause wear on your hardware</li>
-                <li>If you ignore safety warnings, override throttling, or push your system beyond its capabilities, the consequences are yours</li>
-                <li>We are not liable for hardware damage, data loss, or system instability caused by AI training workloads</li>
-                <li>We recommend keeping your system updated, monitoring temperatures, and using the safety features we built</li>
-            </ul>
-
-            <h2>6. Availability &amp; Updates</h2>
-            <ul>
-                <li>We provide Zenkai products "as is" during beta. No uptime guarantees.</li>
-                <li>We may push updates at any time. The auto-updater will notify you.</li>
-                <li>We may discontinue features, change functionality, or restructure products.</li>
-                <li>We'll do our best to communicate changes in advance, but beta means things move fast.</li>
-            </ul>
-
-            <h2>7. Limitation of Liability</h2>
-            <p><strong>To the maximum extent permitted by Danish and EU law:</strong></p>
-            <ul>
-                <li>Zenkai Corporation is not liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our products</li>
-                <li>This includes but is not limited to: hardware damage, data loss, lost profits, or business interruption</li>
-                <li>Our total liability to you for any claim is limited to the amount you paid for the product (during beta: zero)</li>
-            </ul>
-            <p><strong>This does NOT limit liability for:</strong></p>
-            <ul>
-                <li>Fraud or intentional misconduct by Zenkai Corporation</li>
-                <li>Death or personal injury caused by our negligence</li>
-                <li>Any liability that cannot be excluded under Danish or EU law</li>
-            </ul>
-
-            <h2>8. Termination</h2>
-            <h3>By You</h3>
-            <p>You can stop using Zenkai products at any time. Uninstall the software, delete your data, email us to delete your account data. Done.</p>
-
-            <h3>By Us</h3>
-            <p>We can terminate your access if you:</p>
-            <ul>
-                <li>Violate these terms</li>
-                <li>Share or redistribute the software or your beta key</li>
-                <li>Attempt to reverse-engineer or bypass licensing</li>
-                <li>Use the products for illegal activity</li>
-                <li>Engage in behavior that harms other users or the Zenkai community</li>
-            </ul>
-            <p>If we terminate your access, your locally stored data (models, configs) remains yours. We just revoke the software license.</p>
-
-            <h2>9. Dispute Resolution</h2>
-            <ul>
-                <li>These terms are governed by <strong>Danish law</strong>.</li>
-                <li>Any disputes will be resolved in the courts of <strong>Denmark</strong>.</li>
-                <li>Before going legal, we'd appreciate if you just emailed us. Most problems can be solved with a conversation. We're reasonable people building something we care about.</li>
-            </ul>
-
-            <h2>10. Changes to These Terms</h2>
-            <p>If we update these terms:</p>
-            <ul>
-                <li>We'll update the "Last updated" date</li>
-                <li>We'll post a notice on zenkaicorp.com</li>
-                <li>For material changes, we'll email you at least 14 days before they take effect</li>
-                <li>Continued use after changes = acceptance of new terms</li>
-            </ul>
-
-            <h2>11. Severability</h2>
-            <p>If any part of these terms is found to be unenforceable by a court, the rest remains in full effect.</p>
-
-            <h2>12. Entire Agreement</h2>
-            <p>These Terms of Service, together with our <a href="privacy.html">Privacy Policy</a> and any product-specific disclaimers, constitute the entire agreement between you and Zenkai Corporation regarding use of our products.</p>
-
-            <h2>Contact</h2>
-            <p><strong>Zenkai Corporation</strong><br>
-            Denmark</p>
-            <p><strong>Email:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a><br>
-            <strong>Website:</strong> zenkaicorp.com</p>
-
-            <p><em>Build smart. Every setback, stronger.</em></p>
+            <p class="foot-tag">Train AI. Share Strategies. No Cloud Required.</p>
+            <p class="foot-loc">Struer, Denmark 🇩🇰</p>
         </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <span class="copyright">&copy; 2026 Zenkai Corporation</span>
-                <span class="footer-legal">
-                    <a href="privacy.html" style="color: #888; text-decoration: none; margin-right: 1rem;">Privacy Policy</a>
-                    <a href="terms.html" style="color: #888; text-decoration: none;">Terms of Service</a>
-                </span>
-                <span class="founder">Built in Struer, Denmark</span>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
+        <div class="foot-col"><h4>Community</h4><a href="https://discord.gg/YHUKqegZ2Y" target="_blank">Discord</a><a href="https://github.com/zenkaicorp" target="_blank">GitHub</a></div>
+        <div class="foot-col"><h4>Legal</h4><a href="terms.html">Terms of Service</a><a href="privacy.html">Privacy Policy</a><a href="disclaimer.html">Disclaimer</a></div>
+        <div class="foot-col"><h4>Contact</h4><a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></div>
+    </div>
+    <div class="foot-bottom">
+        <p>&copy; 2026 Zenkai Corporation &middot; CVR 46261690</p>
+        <p>Built in Struer, Denmark 🇩🇰</p>
+    </div>
+</footer>
+<script>document.getElementById('ham').addEventListener('click',()=>{document.getElementById('nl').classList.toggle('open')});</script>
 </body>
 </html>

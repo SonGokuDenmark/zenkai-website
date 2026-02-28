@@ -4,339 +4,297 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy — Zenkai Corporation</title>
-    <meta name="description" content="Zenkai Corporation Privacy Policy. Your data stays on your machine.">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-
-    <!-- Fonts -->
+    <meta name="description" content="Zenkai Corporation Privacy Policy. Your training data stays on your machine.">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="assets/favicon-128.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/favicon-256.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .legal-page {
-            padding: 8rem 0 4rem;
-            min-height: 100vh;
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #050507; --bg2: #0a0a0e; --card: #0e0e13; --card-up: #131318;
+            --bd: #1a1a22; --bd2: #2a2a35; --t1: #e8e8ec; --t2: #8a8a98; --t3: #55555f;
+            --white: #ffffff; --mono: 'JetBrains Mono', monospace; --sans: 'Outfit', system-ui, sans-serif;
         }
-        .legal-page .container {
-            max-width: 800px;
-        }
-        .legal-page h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .legal-page .legal-updated {
-            color: var(--color-text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 3rem;
-        }
-        .legal-page h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--color-primary);
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.15);
-        }
-        .legal-page h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-        .legal-page p, .legal-page li {
-            color: var(--color-text-muted);
-            line-height: 1.7;
-            margin-bottom: 1rem;
-        }
-        .legal-page ul {
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        .legal-page li {
-            margin-bottom: 0.5rem;
-        }
-        .legal-page strong {
-            color: var(--color-text);
-        }
-        .legal-page a {
-            color: var(--color-primary);
-            text-decoration: underline;
-        }
-        .legal-page table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0 1.5rem;
-            font-size: 0.9rem;
-        }
-        .legal-page th, .legal-page td {
-            text-align: left;
-            padding: 0.75rem 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .legal-page th {
-            background: rgba(0, 255, 136, 0.05);
-            color: var(--color-text);
-            font-weight: 600;
-        }
-        .legal-page td {
-            color: var(--color-text-muted);
-        }
-        .legal-page .short-version {
-            background: var(--color-bg-card);
-            border: 1px solid rgba(0, 255, 136, 0.15);
-            border-radius: var(--border-radius-lg);
-            padding: 1.5rem 2rem;
-            margin-bottom: 2rem;
-        }
-        .legal-page .short-version p {
-            color: var(--color-text);
-            margin-bottom: 0;
-        }
-        .legal-back {
-            display: inline-block;
-            color: var(--color-text-muted);
-            text-decoration: none;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-        }
-        .legal-back:hover {
-            color: var(--color-primary);
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--t1); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 2px; }
+
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: rgba(5,5,7,0.85); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(26,26,34,0.5); }
+        .nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+        .nav-logo svg { width: 24px; height: 26px; }
+        .nav-text { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.14em; color: var(--white); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { font-family: var(--mono); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; color: var(--t3); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--t1); }
+        .nav-cta { padding: 0.4rem 1rem !important; background: var(--white) !important; color: var(--bg) !important; border-radius: 4px; font-weight: 600 !important; }
+        .ham { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 4px; }
+        .ham span { display: block; width: 18px; height: 1.5px; background: var(--t3); }
+
+        footer { border-top: 1px solid var(--bd); padding: 2rem; max-width: 1080px; margin: 0 auto; }
+        .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+        .foot-logo { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .foot-logo svg { width: 20px; height: 22px; }
+        .foot-logo span { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--white); }
+        .foot-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--t3); margin-bottom: 0.4rem; }
+        .foot-loc { font-family: var(--mono); font-size: 0.68rem; color: var(--t3); }
+        .foot-col h4 { font-family: var(--mono); font-size: 0.68rem; font-weight: 600; color: var(--t1); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.7rem; }
+        .foot-col a { display: block; font-family: var(--mono); font-size: 0.72rem; color: var(--t3); text-decoration: none; margin-bottom: 0.4rem; transition: color 0.2s; }
+        .foot-col a:hover { color: var(--white); }
+        .foot-bottom { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--bd); display: flex; justify-content: space-between; align-items: center; }
+        .foot-bottom p { font-family: var(--mono); font-size: 0.6rem; color: var(--t3); }
+
+        .legal { padding: 7rem 2rem 4rem; max-width: 780px; margin: 0 auto; }
+        .legal-back { display: inline-block; font-family: var(--mono); font-size: 0.72rem; color: var(--t3); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.2s; }
+        .legal-back:hover { color: var(--white); }
+        .legal h1 { font-family: var(--mono); font-size: clamp(1.6rem,4vw,2.2rem); font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+        .legal-meta { font-family: var(--mono); font-size: 0.68rem; color: var(--t3); margin-bottom: 2.5rem; }
+        .legal-meta a { color: var(--t2); }
+        .legal-summary { background: var(--card); border: 1px solid var(--bd); border-radius: 8px; padding: 1.5rem 1.8rem; margin-bottom: 2.5rem; }
+        .legal-summary p { color: var(--t1); font-size: 0.92rem; line-height: 1.8; margin: 0; }
+        .legal h2 { font-family: var(--mono); font-size: 1rem; font-weight: 600; color: var(--white); margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--bd); letter-spacing: 0.02em; }
+        .legal h3 { font-family: var(--mono); font-size: 0.85rem; font-weight: 600; color: var(--t1); margin-top: 1.8rem; margin-bottom: 0.8rem; }
+        .legal p { font-size: 0.9rem; color: var(--t2); line-height: 1.85; margin-bottom: 1rem; }
+        .legal ul { padding-left: 1.2rem; margin-bottom: 1.2rem; }
+        .legal li { font-size: 0.88rem; color: var(--t2); line-height: 1.8; margin-bottom: 0.5rem; }
+        .legal strong { color: var(--t1); }
+        .legal a { color: var(--t1); text-decoration: underline; text-underline-offset: 2px; }
+        .legal a:hover { color: var(--white); }
+        .legal-warn { background: rgba(244,63,94,0.06); border: 1px solid rgba(244,63,94,0.2); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.5rem 0; }
+        .legal-warn p { color: var(--t1); margin: 0; }
+        .legal table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.82rem; }
+        .legal th, .legal td { text-align: left; padding: 0.65rem 0.8rem; border: 1px solid var(--bd); }
+        .legal th { background: var(--card); color: var(--t1); font-weight: 600; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.02em; }
+        .legal td { color: var(--t2); }
+        .legal code { font-family: var(--mono); font-size: 0.82rem; background: var(--card); padding: 0.15rem 0.4rem; border-radius: 3px; color: var(--t1); }
+        .legal-contact { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--bd); }
+        .legal-motto { font-family: var(--mono); font-size: 0.75rem; color: var(--t3); font-style: italic; margin-top: 2rem; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .ham { display: flex; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: rgba(5,5,7,0.97); backdrop-filter: blur(20px); padding: 1rem 2rem; border-bottom: 1px solid var(--bd); gap: 0.8rem; }
+            .foot-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .foot-bottom { flex-direction: column; gap: 0.3rem; text-align: center; }
+            .legal { padding: 5rem 1.5rem 3rem; }
+            .legal table { font-size: 0.75rem; }
+            .legal th, .legal td { padding: 0.5rem; }
         }
     </style>
 </head>
 <body>
+<nav>
+    <a href="index.html" class="nav-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132"><line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="nav-text">ZENKAI</span>
+    </a>
+    <ul class="nav-links" id="nl">
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#download" class="nav-cta">Get Zenkai</a></li>
+    </ul>
+    <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
-    <!-- NAVIGATION -->
-    <nav class="navbar scrolled" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">ZENKAI</span>
-            </a>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="index.html#products" class="nav-link">Products</a></li>
-                <li><a href="index.html#beta" class="nav-link nav-cta">Join Beta</a></li>
-            </ul>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
-                <span class="hamburger"></span>
-            </button>
-        </div>
-    </nav>
+<div class="legal">
+    <a href="index.html" class="legal-back">&larr; Back to Home</a>
+    <h1>Privacy Policy</h1>
+    <p class="legal-meta">Last updated: February 28, 2026 &middot; CVR: 46261690 &middot; <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></p>
 
-    <section class="legal-page">
-        <div class="container">
-            <a href="index.html" class="legal-back">&larr; Back to Home</a>
+    <div class="legal-summary"><p>Your training data stays on your machine. Screen captures are processed locally and never transmitted. We collect the bare minimum to run accounts and the community platform. We don't sell your data. We don't share it.</p></div>
 
-            <h1>Privacy Policy</h1>
-            <p class="legal-updated"><strong>Last updated:</strong> February 2026 &nbsp;|&nbsp; <strong>Company:</strong> Zenkai Corporation, Denmark &nbsp;|&nbsp; <strong>Contact:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></p>
+    <h2>1. Data Controller</h2>
+    <p><strong>Zenkai Corporation</strong><br>Lars Sommer<br>CVR: 46261690<br>Vestervold 13 2. tv, 7600 Struer, Denmark<br>Email: <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></p>
+    <p>We are the data controller for personal data processed in connection with Zenkai products, zenkaicorp.com, and the Zenkai Nexus platform.</p>
 
-            <div class="short-version">
-                <p>Your data stays on your machine. We collect the bare minimum to run the beta program and improve the product. We don't sell your data. We don't share it. We don't want it. Here's exactly what we do collect and why.</p>
+    <h2>2. What We Collect</h2>
+    <h3>Account Data</h3>
+    <table>
+        <thead><tr><th>Data</th><th>Source</th><th>Purpose</th><th>Legal Basis</th></tr></thead>
+        <tbody>
+            <tr><td>Email address</td><td>Registration</td><td>Account management, communications</td><td>Contract (Art. 6(1)(b))</td></tr>
+            <tr><td>Password (hashed)</td><td>Registration</td><td>Authentication</td><td>Contract (Art. 6(1)(b))</td></tr>
+            <tr><td>Discord user ID + username</td><td>Discord OAuth</td><td>Account creation/login</td><td>Contract (Art. 6(1)(b))</td></tr>
+            <tr><td>Display name</td><td>You choose it</td><td>Public identity on Nexus</td><td>Contract (Art. 6(1)(b))</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Nexus Platform Data</h3>
+    <table>
+        <thead><tr><th>Data</th><th>Source</th><th>Purpose</th><th>Legal Basis</th></tr></thead>
+        <tbody>
+            <tr><td>Uploaded Sparks (AI models)</td><td>You, when you share</td><td>Community sharing</td><td>Contract (Art. 6(1)(b))</td></tr>
+            <tr><td>Community posts, votes, replies</td><td>You, when you post</td><td>Community interaction</td><td>Contract (Art. 6(1)(b))</td></tr>
+            <tr><td>Follow/follower relationships</td><td>You, when you follow</td><td>Social features</td><td>Contract (Art. 6(1)(b))</td></tr>
+            <tr><td>Spark ratings</td><td>You, when you rate</td><td>Quality signals</td><td>Contract (Art. 6(1)(b))</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Application Data</h3>
+    <table>
+        <thead><tr><th>Data</th><th>Source</th><th>Purpose</th><th>Legal Basis</th></tr></thead>
+        <tbody>
+            <tr><td>Update check</td><td>Automatic, on launch</td><td>Deliver security patches</td><td>Legitimate interest (Art. 6(1)(f))</td></tr>
+            <tr><td>Bug reports</td><td>You, when you click Report</td><td>Fix bugs (app version, OS, last error &mdash; NO personal/model data)</td><td>Consent (Art. 6(1)(a))</td></tr>
+        </tbody>
+    </table>
+
+    <h2>3. Screen Capture &mdash; Special Section</h2>
+    <div class="legal-warn"><p><strong>Screen capture is the most sensitive data processing Zenkai performs.</strong> Here's exactly what happens.</p></div>
+
+    <h3>What Is Captured</h3>
+    <p>During AI training sessions, Zenkai captures frames from your screen so the AI agent can "see" the game. This captures whatever is visible on your display at the time &mdash; the game window, and potentially other visible applications, notifications, or sensitive information.</p>
+
+    <h3>How Captures Are Processed</h3>
+    <ul>
+        <li><strong>Locally only.</strong> Screen frames are processed in real-time on your machine by the AI model.</li>
+        <li>Frames are used for immediate inference and are not saved as images.</li>
+        <li>No screen capture data is transmitted to our servers. Ever.</li>
+        <li>Training metrics (reward scores, episode counts) are logged locally as numerical data, not images.</li>
+    </ul>
+
+    <h3>Legal Basis</h3>
+    <p>Screen capture requires your <strong>explicit consent</strong> (GDPR Art. 6(1)(a) and ePrivacy Directive Art. 5(3), as implemented by Danish Cookiebekendtgørelsen). Consent is obtained:</p>
+    <ul>
+        <li>On first launch via the Beta &amp; Screen Capture Disclaimer (one-time acceptance)</li>
+        <li>Each time you click "Start Training" (per-session consent)</li>
+    </ul>
+    <p>You can withdraw consent at any time by stopping the training session. No screen data persists after the session ends.</p>
+
+    <h3>Your Precautions</h3>
+    <p>Before starting a training session:</p>
+    <ul>
+        <li>Close sensitive applications (banking, messaging, email)</li>
+        <li>Disable desktop notifications</li>
+        <li>Ensure only the target game is visible</li>
+    </ul>
+
+    <h2>4. What We Do NOT Collect</h2>
+    <ul>
+        <li><strong>Screen captures</strong> &mdash; never leave your machine, never transmitted</li>
+        <li><strong>Mouse/keyboard inputs during training</strong> &mdash; processed locally, not logged</li>
+        <li><strong>Your trained AI models</strong> &mdash; stored locally unless YOU choose to upload</li>
+        <li><strong>Your training configurations</strong> &mdash; never leave your machine</li>
+        <li><strong>Your hardware specs</strong> &mdash; checked locally, never transmitted</li>
+        <li><strong>Your browsing habits</strong> &mdash; we don't track you</li>
+        <li><strong>Your location</strong> &mdash; we don't need it</li>
+    </ul>
+
+    <h2>5. Nexus &mdash; Shared Content</h2>
+    <p>Sharing is always your choice. When you upload a Spark:</p>
+    <h3>What Gets Shared:</h3>
+    <ul>
+        <li>Model weights (SafeTensors format &mdash; cannot contain executable code)</li>
+        <li>Training configuration (hyperparameters, reward settings, scenario)</li>
+        <li>Metadata you provide (name, description, tags)</li>
+        <li>Your chosen display name (NOT your real name or email)</li>
+    </ul>
+    <h3>What NEVER Gets Shared:</h3>
+    <ul>
+        <li>Your email address, password, or auth tokens</li>
+        <li>Your file system paths or computer name</li>
+        <li>Your Discord account details (beyond display name)</li>
+    </ul>
+
+    <h2>6. Where Your Data Lives</h2>
+    <ul>
+        <li><strong>Account data, Nexus content:</strong> Our server infrastructure within the EU</li>
+        <li><strong>Training data, screen captures, AI models:</strong> YOUR machine, locally, in <code>AppData\Zenkai\</code></li>
+        <li><strong>Discord OAuth data:</strong> Processed via Discord's API (Discord Inc., San Francisco, USA)</li>
+    </ul>
+
+    <h2>7. International Data Transfers</h2>
+    <p>If you use Discord OAuth, your Discord user ID and username are processed by Discord Inc. in the United States. This transfer is covered by the EU-US Data Privacy Framework adequacy decision (European Commission, July 10, 2023).</p>
+    <p>All other personal data is processed within the EU/EEA.</p>
+
+    <h2>8. How Long We Keep It</h2>
+    <table>
+        <thead><tr><th>Data</th><th>Retention</th></tr></thead>
+        <tbody>
+            <tr><td>Account data</td><td>Duration of account + 30 days after deletion</td></tr>
+            <tr><td>Screen captures</td><td>Not retained &mdash; processed in real-time, discarded immediately</td></tr>
+            <tr><td>Training logs (local)</td><td>On your machine &mdash; you control deletion</td></tr>
+            <tr><td>Nexus uploads (Sparks)</td><td>Until you delete them, or 30 days after account deletion</td></tr>
+            <tr><td>Community posts</td><td>Until you delete them, or anonymized on account deletion</td></tr>
+            <tr><td>Bug reports</td><td>12 months, then deleted</td></tr>
+            <tr><td>Accounting records</td><td>5 years after transaction (Danish Bogføringsloven)</td></tr>
+        </tbody>
+    </table>
+
+    <h2>9. Who Sees Your Data</h2>
+    <ul>
+        <li><strong>Zenkai Corporation team members</strong> &mdash; platform operations and support</li>
+        <li><strong>Our hosting provider</strong> &mdash; EU-based infrastructure</li>
+        <li><strong>Discord Inc.</strong> &mdash; if you use Discord OAuth</li>
+    </ul>
+    <p>We do NOT sell, rent, trade, or share your personal data with advertisers, data brokers, or any third party for their own purposes.</p>
+
+    <h2>10. Content Moderation Analysis</h2>
+    <p>We may analyze uploaded content (Sparks, posts) for compliance with our Terms of Service and applicable law. This processing is based on <strong>legitimate interest</strong> (Art. 6(1)(f) GDPR). The legitimate interest assessment is available upon request.</p>
+
+    <h2>11. Your Rights (GDPR)</h2>
+    <table>
+        <thead><tr><th>Right</th><th>What It Means</th><th>Article</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Access</strong></td><td>Request a copy of data we hold about you</td><td>Art. 15</td></tr>
+            <tr><td><strong>Rectification</strong></td><td>Ask us to correct inaccurate data</td><td>Art. 16</td></tr>
+            <tr><td><strong>Erasure</strong></td><td>Ask us to delete your data (subject to legal retention)</td><td>Art. 17</td></tr>
+            <tr><td><strong>Restriction</strong></td><td>Ask us to limit processing</td><td>Art. 18</td></tr>
+            <tr><td><strong>Portability</strong></td><td>Receive data in machine-readable format</td><td>Art. 20</td></tr>
+            <tr><td><strong>Objection</strong></td><td>Object to legitimate interest processing</td><td>Art. 21</td></tr>
+            <tr><td><strong>Withdraw consent</strong></td><td>Withdraw screen capture or other consent at any time</td><td>Art. 7(3)</td></tr>
+        </tbody>
+    </table>
+    <p><strong>How to exercise your rights:</strong> Email <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a> with subject "Privacy Request". We respond within one month (Art. 12(3)). Usually faster.</p>
+
+    <h2>12. Supervisory Authority</h2>
+    <p>You have the right to lodge a complaint with the Danish Data Protection Agency:</p>
+    <p><strong>Datatilsynet</strong><br>Carl Jacobsens Vej 35<br>DK-2500 Valby, Denmark<br><a href="https://www.datatilsynet.dk" target="_blank" rel="noopener">www.datatilsynet.dk</a> &middot; <a href="mailto:dt@datatilsynet.dk">dt@datatilsynet.dk</a></p>
+
+    <h2>13. Cookies</h2>
+    <ul>
+        <li><strong>Essential cookies only</strong> &mdash; session management and CSRF protection</li>
+        <li>No tracking, advertising, or third-party analytics cookies</li>
+    </ul>
+    <p>Since we use only strictly necessary cookies, no consent banner is required under Danish Cookiebekendtgørelsen &sect; 4.</p>
+
+    <h2>14. Children</h2>
+    <p>Zenkai products are not designed for or marketed to anyone under 18. We do not knowingly collect data from minors.</p>
+
+    <h2>15. Changes to This Policy</h2>
+    <p>If we change this policy, we'll update the date, post a notice, and for significant changes, email registered users. We won't quietly change the rules.</p>
+
+    <div class="legal-contact">
+        <p><strong>Zenkai Corporation</strong><br>Lars Sommer &middot; CVR 46261690<br>Vestervold 13 2. tv, 7600 Struer, Denmark</p>
+        <p><strong>Email:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a><br>For privacy requests, use subject: <strong>"Privacy Request"</strong></p>
+    </div>
+    <p class="legal-motto">Your data, your machine, your choice.</p>
+</div>
+
+<footer>
+    <div class="foot-grid">
+        <div>
+            <div class="foot-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132"><line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>ZENKAI</span>
             </div>
-
-            <h2>Who We Are</h2>
-            <p>Zenkai Corporation is a Denmark-based technology company. We build AI-powered tools for game training (Zenkai Dojo). This policy covers all Zenkai products and the zenkaicorp.com website.</p>
-            <p><strong>Data Controller:</strong> Zenkai Corporation, Denmark<br>
-            <strong>Contact:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></p>
-            <p>For any privacy-related questions, requests, or complaints — email us. We're a small team. A real person will read it.</p>
-
-            <h2>What We Collect</h2>
-
-            <h3>Information You Give Us Directly</h3>
-            <table>
-                <thead>
-                    <tr><th>Data</th><th>When</th><th>Why</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Email address</td><td>Beta signup form</td><td>To send you your beta key and product updates</td></tr>
-                    <tr><td>Name (if provided)</td><td>Beta signup form</td><td>To address you like a human being</td></tr>
-                    <tr><td>Product preference</td><td>Beta signup form</td><td>To know which product you're interested in</td></tr>
-                    <tr><td>Bug reports</td><td>When you click the bug report button</td><td>To fix the bug (includes: app version, OS version, last error log — NO personal data, NO model data)</td></tr>
-                    <tr><td>Display name</td><td>Model Hub profile (optional)</td><td>To credit you on shared models — this is a public name you choose, not your real name</td></tr>
-                    <tr><td>Uploaded models</td><td>Model Hub (when you choose to share)</td><td>To make your trained AI agents available to the community</td></tr>
-                    <tr><td>Strategy descriptions</td><td>Model Hub (when you choose to share)</td><td>To help others understand your training approach</td></tr>
-                </tbody>
-            </table>
-
-            <h3>Information Collected Automatically</h3>
-            <table>
-                <thead>
-                    <tr><th>Data</th><th>When</th><th>Why</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Beta key validation</td><td>On app launch</td><td>To verify your beta access is active</td></tr>
-                    <tr><td>Update check</td><td>On app launch</td><td>To check if a new version is available</td></tr>
-                    <tr><td>Anonymous usage stats (OPT-IN ONLY)</td><td>During app use, if you opted in</td><td>App version, OS, which product launched, session length. Nothing personal.</td></tr>
-                    <tr><td>Model Hub download counts</td><td>When models are downloaded</td><td>To show popularity stats. We track download count, not WHO downloaded.</td></tr>
-                </tbody>
-            </table>
-
-            <h3>Information We Do NOT Collect</h3>
-            <p>This list matters more than the ones above:</p>
-            <ul>
-                <li>Your trained AI models — never leaves your machine</li>
-                <li>Your training configurations — never leaves your machine</li>
-                <li>Your hardware specs — checked locally, never transmitted</li>
-                <li>Your browsing habits — we don't track you</li>
-                <li>Your location — we don't need it</li>
-                <li>Your payment information — handled entirely by our payment processor</li>
-            </ul>
-
-            <h2>The Model Hub — Special Section</h2>
-            <p>The Zenkai Model Hub lets you share trained AI agents with other users. Sharing is ALWAYS your choice.</p>
-
-            <h3>What gets shared when you upload to the Hub:</h3>
-            <ul>
-                <li>Model weights (SafeTensors format only — cannot contain executable code)</li>
-                <li>Training configuration (hyperparameters, reward settings, scenario)</li>
-                <li>Metadata you provide (agent name, description, tags)</li>
-                <li>Your chosen display name (NOT your real name or email)</li>
-                <li>Performance stats (reward scores, episode count, training duration)</li>
-                <li>Hardware class (e.g. "mid-range-gpu" — NOT your specific GPU model)</li>
-            </ul>
-
-            <h3>What NEVER gets shared through the Hub:</h3>
-            <ul>
-                <li>Your email address</li>
-                <li>Your beta/license key</li>
-                <li>Your file system paths or computer name</li>
-                <li>Your real name (unless you choose it as your display name)</li>
-            </ul>
-
-            <h3>Security</h3>
-            <ul>
-                <li>All uploaded models MUST be in SafeTensors format. This format physically cannot contain executable code — it's pure mathematical data.</li>
-                <li>Metadata is sanitized on upload to strip any system-identifying information.</li>
-                <li>We validate file structure and reject anything that doesn't match expected formats.</li>
-            </ul>
-
-            <h3>Your rights over shared content:</h3>
-            <ul>
-                <li>You can delete any model you've uploaded at any time</li>
-                <li>You retain full ownership of your trained models (see Terms of Service)</li>
-                <li>Deleting your account removes all your Hub uploads</li>
-            </ul>
-
-            <h2>Why We Collect It (Legal Basis)</h2>
-            <p>Under GDPR, we need a legal reason for every piece of data we collect:</p>
-            <table>
-                <thead>
-                    <tr><th>Data</th><th>Legal Basis</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Email address</td><td>Consent — you gave it to us voluntarily via the signup form</td></tr>
-                    <tr><td>Beta key validation</td><td>Legitimate interest — necessary to operate the beta program</td></tr>
-                    <tr><td>Update checks</td><td>Legitimate interest — necessary to deliver security patches</td></tr>
-                    <tr><td>Bug reports</td><td>Consent — you actively click the button to send</td></tr>
-                    <tr><td>Anonymous usage stats</td><td>Consent — opt-in only, changeable anytime in Settings</td></tr>
-                    <tr><td>Model Hub uploads</td><td>Consent — you actively choose to share each model</td></tr>
-                    <tr><td>Model Hub display name</td><td>Consent — you choose what name to show publicly</td></tr>
-                </tbody>
-            </table>
-
-            <h2>Where Your Data Lives</h2>
-            <ul>
-                <li><strong>Beta signup emails:</strong> Processed by Formspree (US-based, GDPR-compliant). Forwarded to our email.</li>
-                <li><strong>Beta key records:</strong> Stored on our hosting provider.</li>
-                <li><strong>Anonymous usage stats (if opted in):</strong> Stored on our hosting infrastructure.</li>
-                <li><strong>Everything else:</strong> On YOUR machine. Locally. In <code>AppData\Zenkai\</code> on Windows.</li>
-            </ul>
-
-            <h2>How Long We Keep It</h2>
-            <table>
-                <thead>
-                    <tr><th>Data</th><th>Retention</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Email address</td><td>Until you request deletion, or 12 months after beta ends</td></tr>
-                    <tr><td>Beta key records</td><td>Duration of beta program + 6 months</td></tr>
-                    <tr><td>Bug reports</td><td>12 months, then deleted</td></tr>
-                    <tr><td>Model Hub uploads</td><td>Until you delete them, or 6 months after account deletion</td></tr>
-                    <tr><td>Model Hub display name</td><td>Until you change or delete it</td></tr>
-                    <tr><td>Anonymous usage stats</td><td>Aggregated and anonymized — kept indefinitely as statistical data</td></tr>
-                </tbody>
-            </table>
-
-            <h2>Who Sees Your Data</h2>
-            <ul>
-                <li><strong>Zenkai Corporation team members</strong> — for beta management and product development</li>
-                <li><strong>Formspree</strong> — processes the signup form (they don't use your data for anything else)</li>
-                <li><strong>Our hosting provider</strong> — stores the website and API (standard infrastructure)</li>
-            </ul>
-            <p>We do NOT sell, rent, trade, or share your personal data with advertisers, data brokers, or any third party for their own purposes. Period.</p>
-
-            <h2>Your Rights (GDPR)</h2>
-            <p>You're in the EU. You have rights. Here they are, in plain language:</p>
-            <table>
-                <thead>
-                    <tr><th>Right</th><th>What It Means</th><th>How To Use It</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Access</strong></td><td>See what data we have about you</td><td>Email us</td></tr>
-                    <tr><td><strong>Rectification</strong></td><td>Fix incorrect data</td><td>Email us</td></tr>
-                    <tr><td><strong>Erasure</strong></td><td>Delete all your data</td><td>Email us — we'll confirm within 30 days</td></tr>
-                    <tr><td><strong>Data portability</strong></td><td>Get your data in a machine-readable format</td><td>Email us</td></tr>
-                    <tr><td><strong>Withdraw consent</strong></td><td>Change your mind about analytics or marketing</td><td>Toggle off in app Settings, or email us</td></tr>
-                    <tr><td><strong>Object</strong></td><td>Object to processing based on legitimate interest</td><td>Email us — we'll respond within 30 days</td></tr>
-                    <tr><td><strong>Complaint</strong></td><td>File a complaint with a supervisory authority</td><td>Danish Data Protection Agency (Datatilsynet): dt@datatilsynet.dk</td></tr>
-                </tbody>
-            </table>
-            <p><strong>Response time:</strong> We respond to all privacy requests within 30 days. Usually faster.</p>
-            <p><strong>How to contact us:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a> with subject line "Privacy Request"</p>
-
-            <h2>Cookies</h2>
-            <p>The zenkaicorp.com website uses:</p>
-            <ul>
-                <li><strong>Essential cookies only</strong> — necessary for the website to function</li>
-                <li>No tracking cookies</li>
-                <li>No advertising cookies</li>
-                <li>No third-party analytics cookies</li>
-            </ul>
-
-            <h2>Children</h2>
-            <p>Zenkai products are not designed for or marketed to anyone under 16. We do not knowingly collect data from minors. If you're under 16, please don't sign up. If we discover we've collected data from someone under 16, we'll delete it immediately.</p>
-
-            <h2>Changes to This Policy</h2>
-            <p>If we change this policy, we'll:</p>
-            <ul>
-                <li>Update the "Last updated" date at the top</li>
-                <li>Post a notice on the website</li>
-                <li>For significant changes, email beta users directly</li>
-            </ul>
-            <p>We won't quietly change the rules on you. That's not how we operate.</p>
-
-            <h2>Contact</h2>
-            <p><strong>Zenkai Corporation</strong><br>
-            Denmark</p>
-            <p><strong>Email:</strong> <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a><br>
-            <strong>Website:</strong> zenkaicorp.com</p>
-            <p>For privacy-specific requests, use the subject line: <strong>"Privacy Request"</strong></p>
-
-            <p><em>Your data, your machine, your choice. That's the Zenkai way.</em></p>
+            <p class="foot-tag">Train AI. Share Strategies. No Cloud Required.</p>
+            <p class="foot-loc">Struer, Denmark 🇩🇰</p>
         </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <span class="copyright">&copy; 2026 Zenkai Corporation</span>
-                <span class="footer-legal">
-                    <a href="privacy.html" style="color: #888; text-decoration: none; margin-right: 1rem;">Privacy Policy</a>
-                    <a href="terms.html" style="color: #888; text-decoration: none;">Terms of Service</a>
-                </span>
-                <span class="founder">Built in Struer, Denmark</span>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
+        <div class="foot-col"><h4>Community</h4><a href="https://discord.gg/YHUKqegZ2Y" target="_blank">Discord</a><a href="https://github.com/zenkaicorp" target="_blank">GitHub</a></div>
+        <div class="foot-col"><h4>Legal</h4><a href="terms.html">Terms of Service</a><a href="privacy.html">Privacy Policy</a><a href="disclaimer.html">Disclaimer</a></div>
+        <div class="foot-col"><h4>Contact</h4><a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></div>
+    </div>
+    <div class="foot-bottom">
+        <p>&copy; 2026 Zenkai Corporation &middot; CVR 46261690</p>
+        <p>Built in Struer, Denmark 🇩🇰</p>
+    </div>
+</footer>
+<script>document.getElementById('ham').addEventListener('click',()=>{document.getElementById('nl').classList.toggle('open')});</script>
 </body>
 </html>
