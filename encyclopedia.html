@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encyclopedia — Zenkai Corporation</title>
+    <meta name="description" content="Everything Zenkai is, does, and is becoming. No pitch. Just the full picture.">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="assets/favicon-128.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/favicon-256.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #050507; --bg2: #0a0a0e; --card: #0e0e13; --card-up: #131318;
+            --bd: #1a1a22; --bd2: #2a2a35; --t1: #e8e8ec; --t2: #8a8a98; --t3: #55555f;
+            --white: #ffffff; --mono: 'JetBrains Mono', monospace; --sans: 'Outfit', system-ui, sans-serif;
+            --dojo: #22C55E; --vex: #F43F5E; --lux: #F59E0B;
+            --nexus: #8B5CF6; --hex: #64748B; --spark: #06B6D4; --brand: #FF6B35;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--t1); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 2px; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: rgba(5,5,7,0.85); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(26,26,34,0.5); }
+        .nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+        .nav-logo svg { width: 24px; height: 26px; }
+        .nav-text { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.14em; color: var(--white); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { font-family: var(--mono); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; color: var(--t3); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--t1); }
+        .nav-cta { padding: 0.4rem 1rem !important; background: var(--white) !important; color: var(--bg) !important; border-radius: 4px; font-weight: 600 !important; }
+        .ham { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 4px; }
+        .ham span { display: block; width: 18px; height: 1.5px; background: var(--t3); }
+        footer { border-top: 1px solid var(--bd); padding: 2rem; max-width: 1080px; margin: 0 auto; }
+        .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+        .foot-logo { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .foot-logo svg { width: 20px; height: 22px; }
+        .foot-logo span { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--white); }
+        .foot-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--t3); margin-bottom: 0.4rem; }
+        .foot-loc { font-family: var(--mono); font-size: 0.68rem; color: var(--t3); }
+        .foot-col h4 { font-family: var(--mono); font-size: 0.68rem; font-weight: 600; color: var(--t1); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.7rem; }
+        .foot-col a { display: block; font-family: var(--mono); font-size: 0.72rem; color: var(--t3); text-decoration: none; margin-bottom: 0.4rem; transition: color 0.2s; }
+        .foot-col a:hover { color: var(--white); }
+        .foot-bottom { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--bd); display: flex; justify-content: space-between; align-items: center; }
+        .foot-bottom p { font-family: var(--mono); font-size: 0.6rem; color: var(--t3); }
+        .enc-page { padding: 7rem 2rem 4rem; max-width: 960px; margin: 0 auto; }
+        .enc-back { display: inline-block; font-family: var(--mono); font-size: 0.72rem; color: var(--t3); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.2s; }
+        .enc-back:hover { color: var(--white); }
+        .enc-header { margin-bottom: 3rem; }
+        .enc-header h1 { font-family: var(--mono); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--white); margin-bottom: 0.6rem; }
+        .enc-header p { font-size: 1rem; color: var(--t2); max-width: 600px; line-height: 1.8; }
+        .enc-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--bd); margin-bottom: 3rem; overflow-x: auto; scrollbar-width: none; }
+        .enc-tabs::-webkit-scrollbar { display: none; }
+        .tab-btn { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 1.2rem; border: none; background: none; color: var(--t3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; white-space: nowrap; }
+        .tab-btn:hover { color: var(--t1); }
+        .tab-btn.active { color: var(--white); border-bottom-color: var(--active-color, var(--brand)); }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        .enc-lead { font-size: 1.05rem; color: var(--t1); line-height: 1.9; margin-bottom: 2.5rem; max-width: 720px; }
+        .enc-section { margin-bottom: 2.5rem; }
+        .enc-section h2 { font-family: var(--mono); font-size: 0.85rem; font-weight: 600; color: var(--white); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--bd); }
+        .enc-section p { font-size: 0.92rem; color: var(--t2); line-height: 1.85; margin-bottom: 0.9rem; }
+        .enc-section p:last-child { margin-bottom: 0; }
+        .enc-section strong { color: var(--t1); }
+        .enc-section a { color: var(--t1); }
+        .enc-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .enc-card { background: var(--card); border: 1px solid var(--bd); border-radius: 8px; padding: 1.2rem 1.4rem; }
+        .enc-card-label { font-family: var(--mono); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+        .enc-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--white); margin-bottom: 0.4rem; }
+        .enc-card p { font-size: 0.82rem; color: var(--t2); line-height: 1.7; margin: 0; }
+        .future-tag { display: inline-block; font-family: var(--mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 3px; background: rgba(255,107,53,0.1); color: var(--brand); border: 1px solid rgba(255,107,53,0.2); margin-left: 0.5rem; vertical-align: middle; }
+        .tab-dojo   { --active-color: var(--dojo); }
+        .tab-vex    { --active-color: var(--vex); }
+        .tab-lux    { --active-color: var(--lux); }
+        .tab-nexus  { --active-color: var(--nexus); }
+        .tab-spark  { --active-color: var(--spark); }
+        .tab-hex    { --active-color: var(--hex); }
+        .tab-sage   { --active-color: var(--spark); }
+        .accent-dojo  { color: var(--dojo); }
+        .accent-vex   { color: var(--vex); }
+        .accent-lux   { color: var(--lux); }
+        .accent-nexus { color: var(--nexus); }
+        .accent-spark { color: var(--spark); }
+        .accent-hex   { color: var(--hex); }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .ham { display: flex; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: rgba(5,5,7,0.97); backdrop-filter: blur(20px); padding: 1rem 2rem; border-bottom: 1px solid var(--bd); gap: 0.8rem; }
+            .foot-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .foot-bottom { flex-direction: column; gap: 0.3rem; text-align: center; }
+            .enc-page { padding: 5rem 1.5rem 3rem; }
+            .enc-cards { grid-template-columns: 1fr; }
+            .tab-btn { padding: 0.75rem 0.8rem; font-size: 0.65rem; }
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html" class="nav-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132"><line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="nav-text">ZENKAI</span>
+    </a>
+    <ul class="nav-links" id="nl">
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="encyclopedia.html">Encyclopedia</a></li>
+        <li><a href="proof.html">Proof of Work</a></li>
+        <li><a href="index.html#download" class="nav-cta">Get Zenkai</a></li>
+    </ul>
+    <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="enc-page">
+    <a href="index.html" class="enc-back">&larr; Back to Home</a>
+    <div class="enc-header">
+        <h1>Encyclopedia</h1>
+        <p>Zenkai isn't one thing. This is the full picture — what each part is, how it works, and where it's going. No pitch. Just everything.</p>
+    </div>
+
+    <div class="enc-tabs" role="tablist">
+        <button class="tab-btn tab-dojo active" data-tab="dojo" role="tab">Dojo</button>
+        <button class="tab-btn tab-vex"         data-tab="vex"   role="tab">Vex</button>
+        <button class="tab-btn tab-lux"         data-tab="lux"   role="tab">Lux</button>
+        <button class="tab-btn tab-nexus"       data-tab="nexus" role="tab">Nexus</button>
+        <button class="tab-btn tab-spark"       data-tab="spark" role="tab">Spark Archive</button>
+        <button class="tab-btn tab-sage"        data-tab="sage"  role="tab">Sage</button>
+        <button class="tab-btn tab-hex"         data-tab="hex"   role="tab">Zenkai ⚗</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-dojo" role="tabpanel">
+        <p class="enc-lead">Dojo is where you train AI. Pick a game, pick a goal, hit start — and an AI agent begins learning to play it on your machine. Your hardware, your electricity, your AI. You own everything it learns.</p>
+        <div class="enc-section">
+            <h2>What it actually does</h2>
+            <p>Dojo runs a training loop directly on your PC. The AI agent — called a <strong>Spark</strong> — watches the game through screen capture or a built-in game adapter, makes decisions, receives reward signals, and updates itself. Thousands of attempts per session, each one a little better than the last.</p>
+            <p>You set the goal. Kill as many enemies as possible. Complete the level. Survive as long as you can. Score as high as you can. The Spark figures out how to get there.</p>
+            <p>Nothing leaves your machine. No cloud, no server, no upload. The Spark lives in <code style="font-family:var(--mono);font-size:0.82rem;background:var(--card);padding:0.15rem 0.4rem;border-radius:3px;">AppData\Zenkai\sparks\</code> and stays there unless you choose to share it.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Games in beta</h2>
+            <div class="enc-cards">
+                <div class="enc-card"><div class="enc-card-label accent-dojo">Ships with Zenkai</div><h3>Atari</h3><p>Pac-Man, Breakout, Space Invaders. Classic arcade AI. The place to start if you've never trained anything before.</p></div>
+                <div class="enc-card"><div class="enc-card-label accent-dojo">Ships with Zenkai</div><h3>DOOM — Training Rooms</h3><p>9 combat scenarios built for training. Navigate corridors. Clear rooms. Survive waves. No WAD file needed.</p></div>
+                <div class="enc-card"><div class="enc-card-label" style="color:var(--t3);">Bring your own WAD</div><h3>DOOM — Campaign</h3><p>Full E1M1–E1M9 if you own the original game. Drop your doom.wad into Zenkai and train on the real maps.</p></div>
+                <div class="enc-card"><div class="enc-card-label accent-dojo">Ships with Zenkai</div><h3>Vex Training Ground</h3><p>Train a Spark on Vex combat scenarios inside Dojo. Vex also has its own dedicated training system — see the Vex tab.</p></div>
+            </div>
+        </div>
+        <div class="enc-section">
+            <h2>How Sparks compound</h2>
+            <p>A Spark trained in Dojo isn't locked to the game it learned in. Sparks can be chained together — a Spark that learned survival in DOOM feeding its signal into a Spark learning combat in Vex. This is the Spark Chain system.</p>
+            <p>The idea is simple: <strong>learning compounds</strong>. An AI that already knows how to navigate under pressure learns faster when you teach it to fight. Transfer the useful patterns, build on top of them.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Coming after beta</h2>
+            <div class="enc-cards">
+                <div class="enc-card"><div class="enc-card-label" style="color:var(--brand);">Planned</div><h3>Sonic the Hedgehog</h3><p>Speed, momentum, and obstacle navigation. A completely different challenge from DOOM.</p></div>
+                <div class="enc-card"><div class="enc-card-label" style="color:var(--brand);">Planned</div><h3>Ocarina of Time</h3><p>3D navigation, puzzle-solving, long-horizon goals. The most complex adapter on the roadmap.</p></div>
+                <div class="enc-card"><div class="enc-card-label" style="color:var(--brand);">Planned</div><h3>Universal Screen Capture</h3><p>Point Zenkai at any game on your screen. No adapter needed. In active development.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-panel" id="tab-vex" role="tabpanel">
+        <p class="enc-lead">Vex is the competition layer. You trained a Spark in Dojo. Now that Spark fights other people's Sparks. Real battles, real stakes, ranked leaderboards — but you never touch a controller. Your AI plays for you.</p>
+        <div class="enc-section">
+            <h2>What it actually does</h2>
+            <p>Vex hosts battles between <strong>Flux creatures</strong> — your digital companions, each with their own stats, abilities, and a Spark brain you trained. Two Flux enter. The Sparks control them. You watch, or you let it run.</p>
+            <p>During beta, you fight simulated opponents of increasing difficulty — Rookie through Elite. When ranked matchmaking goes live, you fight real people's Sparks from anywhere.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Vex has its own training engine</h2>
+            <p>Vex doesn't just consume Sparks trained in Dojo. It has its own <strong>PPO-based training system</strong> built specifically for combat. You train directly inside Vex against simulated opponents — Rookie through Elite — using a self-play curriculum designed around Flux battle mechanics.</p>
+            <p>The observation space is a feature vector, not pixels. Vex reads the battle state directly — positions, abilities, cooldowns, health, temperament — and the Spark learns to make decisions from that structured data.</p>
+            <p>Self-play means the Spark trains against versions of itself. As it improves, the opponent improves.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Discord integration</h2>
+            <p>Vex integrates with Discord servers through the Zenkai bot. Community tournaments, challenge boards, match results posted automatically — your server becomes a living leaderboard.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Coming after beta</h2>
+            <p>Ranked matchmaking against real players, global Elo leaderboards, tournament brackets, and team battles — multiple Flux per side. <span class="future-tag">Planned</span></p>
+        </div>
+    </div>
+
+    <div class="tab-panel" id="tab-lux" role="tabpanel">
+        <p class="enc-lead">Lux is a pixel art generator that runs on your machine. It uses Stable Diffusion 1.5 with a custom LoRA trained specifically for pixel art. The output is yours. The model runs locally. No subscription, no generation limits, no sending images to a server.</p>
+        <div class="enc-section">
+            <h2>What it actually does</h2>
+            <p>Type a prompt. Set a style. Generate. It runs on your GPU — or CPU if you don't have a compatible card, though much slower. The output is a 320×320 PNG, saved locally. That's it.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Cosmetics and ownership</h2>
+            <p>Lux generates cosmetics as 320×320 layered overlays — outfit, hat, accessory, skin. Players generate their own looks, list them on the Nexus marketplace, and other players buy them. <strong>Zenkai takes 0–5% commission.</strong> Creators keep the rest.</p>
+            <p>If you hold a Season Pass: 0% commission. You keep everything.</p>
+        </div>
+        <div class="enc-section">
+            <h2>The honest limitation</h2>
+            <p>Lux is not magic. Prompt quality matters. CPU generation is slow — minutes per image, not seconds. The tradeoff: you own the output, you own the model, it runs forever on your hardware, and there's no per-image fee.</p>
+        </div>
+    </div>
+
+    <div class="tab-panel" id="tab-nexus" role="tabpanel">
+        <p class="enc-lead">Nexus is the community. Not a chat server. Not a forum bolted onto an app. A community platform built specifically for people who train AI, compete in Vex, and create with Lux.</p>
+        <div class="enc-section">
+            <h2>What's inside</h2>
+            <div class="enc-cards">
+                <div class="enc-card"><div class="enc-card-label accent-nexus">Intelligence</div><h3>Sage Coaching</h3><p>After a training run, Sage breaks down what happened — why your Spark made the choices it made, what to try next.</p></div>
+                <div class="enc-card"><div class="enc-card-label accent-nexus">Competition</div><h3>Ranked Vex</h3><p>Global Elo matchmaking, leaderboards, tournament brackets. Your Spark vs. the world.</p></div>
+                <div class="enc-card"><div class="enc-card-label accent-nexus">Marketplace</div><h3>Sparks &amp; Cosmetics</h3><p>Buy and sell trained Sparks and Lux-generated cosmetics. 0–5% commission.</p></div>
+                <div class="enc-card"><div class="enc-card-label accent-nexus">Identity</div><h3>Your Profile</h3><p>Your Flux. Your rank. Your best Sparks. Your created cosmetics. Everything you've built in one place.</p></div>
+                <div class="enc-card"><div class="enc-card-label accent-nexus">Content</div><h3>Clips &amp; Highlights</h3><p>Capture training moments and Vex match highlights. One-click out to Discord, YouTube, TikTok, and X.</p></div>
+                <div class="enc-card"><div class="enc-card-label accent-nexus">Cloud</div><h3>Sync</h3><p>Your settings, creatures, and models across devices. Nothing synced without your knowledge.</p></div>
+            </div>
+        </div>
+        <div class="enc-section">
+            <h2>The price</h2>
+            <p>One tier. One price. <strong>$9.95/month or $89/year.</strong> The local platform — Dojo, Lux, offline Vex, Spark Chains, the Hub — is free forever. No ads, no nags, no subscription banners inside the app.</p>
+        </div>
+        <div class="enc-section">
+            <h2>No ads. Ever.</h2>
+            <p>Inside Zenkai: no ads, no promoted content, no banners, no sponsored anything. The platform is yours. That doesn't change.</p>
+        </div>
+    </div>
+
+    <div class="tab-panel" id="tab-spark" role="tabpanel">
+        <p class="enc-lead">Spark Archive is your personal library. Every Spark you've ever trained. Every training run, every result, every configuration. The full history of what you've built — searchable, sortable, and never deleted without your permission.</p>
+        <div class="enc-section">
+            <h2>What it stores</h2>
+            <p>Every time you finish a training run in Dojo, a Spark is saved. The model weights, the training configuration, the game it was trained on, the scenario, the behavior preset, the reward settings, the session stats.</p>
+            <p>Sparks are stored as <code style="font-family:var(--mono);font-size:0.82rem;background:var(--card);padding:0.15rem 0.4rem;border-radius:3px;">.zenkai</code> packages in <code style="font-family:var(--mono);font-size:0.82rem;background:var(--card);padding:0.15rem 0.4rem;border-radius:3px;">AppData\Zenkai\sparks\</code>. Your training history survives any update.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Spark Chains</h2>
+            <p>Multiple Sparks can be chained together — one Spark's output feeding into the next. A Spark that learned navigation feeding into a Spark learning combat. A Spark trained on Atari reflexes feeding into a Vex fighter. You assemble the chain in Spark Archive.</p>
+        </div>
+        <div class="enc-section">
+            <h2>In the facility world</h2>
+            <p>Spark Archive has a physical wing in Zenkai HQ — the cyan wing. Walking into it opens your archive as a spatial interface. Sparks on shelves. Training history on the walls.</p>
+        </div>
+    </div>
+
+    <div class="tab-panel" id="tab-hex" role="tabpanel">
+        <p class="enc-lead">Zenkai is early. Everything on this page exists and works — but the platform is still being built around it. This tab is the honest one. What's here, what's rough, and what we're working toward.</p>
+        <div class="enc-section">
+            <h2>What's real right now</h2>
+            <p>Dojo trains real Sparks. The Atari and DOOM adapters are working. Pac-Man hits ~1,950 points in a breakthrough session. Screen capture RL runs live on commercial Steam games. The Vex PPO engine is running self-play. Sage has 1,024 validated training pairs and a first fine-tune behind her. The facility world — Zenkai HQ — rendered and walked around in one day.</p>
+            <p>The Hub is live. Beta keys are issued. The first user logged in. The company is registered. This is not a concept.</p>
+        </div>
+        <div class="enc-section">
+            <h2>What's still rough</h2>
+            <p>Sage is not yet conversational — Phase 2 is coming but not here yet. The screen capture reward function needs OCR-based score detection before it's reliable. The facility world is Phase 1 — the wings exist but most are empty. Nexus, the marketplace, and ranked matchmaking are not yet live.</p>
+            <p>We know exactly what's rough. We're not pretending otherwise.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Where it's going</h2>
+            <p>The goal is a platform where training AI is something anyone can do, own, and share — not rented from a server, not locked behind a cloud account. Local first, always. Community owned, genuinely.</p>
+            <p>We build it in public. The <a href="proof.html">Proof of Work</a> page is the receipts.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Help us build it</h2>
+            <p>Beta is where bugs live. If something breaks, behaves wrong, or just feels off — tell us. Just <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a> or the Zenkai Discord. You're not just a tester. You're part of what Zenkai becomes.</p>
+        </div>
+    </div>
+
+    <div class="tab-panel" id="tab-sage" role="tabpanel">
+        <p class="enc-lead">Sage is not a feature. Sage is the system. The intelligence behind the grid — the AI that watches you train, understands what your Spark is doing, and tells you what to do next.</p>
+        <div class="enc-section">
+            <h2>What Sage is</h2>
+            <p>Sage is a fine-tuned language model trained specifically on Zenkai data — training runs, reward signals, Spark behavior, game mechanics, coaching patterns. Not a general-purpose chatbot pointed at your training data. A model that was built to understand this domain from the ground up.</p>
+            <p>She lives in the facility. She speaks through the grid. She knows your Spark's history, your training patterns, and what you're trying to build. When she tells you something is wrong with your reward function, she's right.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Phase 1 — Analysis (live)</h2>
+            <p>Sage Phase 1 runs a lightweight <strong>PatchTST</strong> model — a time-series transformer that reads your training metrics in real time. Reward curves, loss progression, episode lengths, behavioral patterns. She watches your Spark learn and surfaces what matters.</p>
+        </div>
+        <div class="enc-section">
+            <h2>Phase 2 — Conversation (coming)</h2>
+            <p>Sage Phase 2 is a fine-tuned <strong>SmolLM2-135M</strong> — a small language model trained on Zenkai's coaching dataset. 135 million parameters. Runs locally. No cloud call, no API key, no monthly token budget. She lives on your machine the same way your Sparks do.</p>
+            <p>Phase 2 is a free download. Unlimited local use. 10 messages per day with cloud inference for machines without the hardware — unlimited with a Nexus subscription.</p>
+        </div>
+        <div class="enc-section">
+            <h2>The training data</h2>
+            <p>Sage was trained on a purpose-built dataset of coaching pairs validated against ground-truth Zenkai documentation. Bad pairs were filtered. Every pair that ships with Sage is one we verified. This is ongoing — Sage gets better as the community grows. <a href="proof.html">See the training data →</a></p>
+        </div>
+        <div class="enc-section">
+            <h2>Sage in the world</h2>
+            <p>In Zenkai HQ, Sage doesn't live in a sidebar or a chat window. She speaks through the facility itself — text appearing in the grid, the floor, the architecture of the building. Sage isn't a tool you open. She's the intelligence the facility runs on.</p>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="foot-grid">
+        <div>
+            <div class="foot-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132"><line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>ZENKAI</span>
+            </div>
+            <p class="foot-tag">Train AI. Share Strategies. No Cloud Required.</p>
+            <p class="foot-loc">Struer, Denmark 🇩🇰 &middot; CVR 46261690</p>
+        </div>
+        <div class="foot-col"><h4>Community</h4><a href="https://discord.gg/YHUKqegZ2Y" target="_blank">Discord</a><a href="https://github.com/zenkaicorp" target="_blank">GitHub</a></div>
+        <div class="foot-col"><h4>Legal</h4><a href="terms.html">Terms of Service</a><a href="privacy.html">Privacy Policy</a><a href="disclaimer.html">Disclaimer</a></div>
+        <div class="foot-col"><h4>Contact</h4><a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></div>
+    </div>
+    <div class="foot-bottom">
+        <p>&copy; 2026 Zenkai Corporation &middot; CVR 46261690</p>
+        <p>Built in Struer, Denmark 🇩🇰</p>
+    </div>
+</footer>
+
+<script>
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        });
+    });
+    document.getElementById('ham').addEventListener('click', () => {
+        document.getElementById('nl').classList.toggle('open');
+    });
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.querySelector(`[data-tab="${hash}"]`)) {
+        document.querySelector(`[data-tab="${hash}"]`).click();
+    }
+</script>
+</body>
+</html>

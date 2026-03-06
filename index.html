@@ -4,741 +4,336 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zenkai Corporation — Train AI on Your Games</title>
-    <meta name="description" content="Train AI agents on classic games — on your own hardware. No cloud, no code, no subscriptions.">
-    <meta property="og:title" content="Zenkai Corporation — Don't just run AI. Train it.">
-    <meta property="og:description" content="Train AI agents on classic games. Your hardware. Your data. Your AI.">
-    <meta property="og:url" content="https://zenkaicorp.com">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://zenkaicorp.com/assets/zenkai-og-image.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="128x128" href="assets/favicon-128.png">
-    <link rel="icon" type="image/png" sizes="256x256" href="assets/favicon-256.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
-            --bg: #050507;
-            --bg2: #0a0a0e;
-            --card: #0e0e13;
-            --card-up: #131318;
-            --bd: #1a1a22;
-            --bd2: #2a2a35;
-            --t1: #e8e8ec;
-            --t2: #8a8a98;
-            --t3: #55555f;
+            --bg: #050507; --bg2: #0a0a0e; --card: #0e0e13; --card-up: #111116;
+            --bd: #1a1a22; --bd2: #2a2a35; --t1: #e8e8ec; --t2: #8a8a98; --t3: #55555f;
             --white: #ffffff;
-            --mono: 'JetBrains Mono', monospace;
-            --sans: 'Outfit', system-ui, sans-serif;
+            --mono: 'JetBrains Mono', monospace; --sans: 'Outfit', system-ui, sans-serif;
+            --brand: #FF6B35; --dojo: #22C55E; --vex: #F43F5E;
+            --lux: #F59E0B; --nexus: #8B5CF6; --spark: #06B6D4;
         }
-
         html { scroll-behavior: smooth; }
-
-        body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--t1);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
+        body { font-family: var(--sans); background: var(--bg); color: var(--t1); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 2px; }
+        svg { image-rendering: pixelated; image-rendering: crisp-edges; }
 
-        /* --- NAV --- */
         nav {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            height: 56px;
-            display: flex; align-items: center; justify-content: space-between;
+            height: 56px; display: flex; align-items: center; justify-content: space-between;
             padding: 0 2rem;
-            background: rgba(5, 5, 7, 0.85);
-            backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(26, 26, 34, 0.5);
+            background: rgba(5,5,7,0.88); backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(26,26,34,0.6);
         }
-
-        .nav-logo {
-            display: flex; align-items: center; gap: 0.7rem;
-            text-decoration: none;
-        }
-
-        .nav-logo svg { width: 24px; height: 26px; }
-
-        .nav-text {
-            font-family: var(--mono);
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            color: var(--white);
-        }
-
-        .nav-links {
-            display: flex; align-items: center; gap: 2rem; list-style: none;
-        }
-
+        .nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+        .nav-logo svg { width: 22px; height: 24px; image-rendering: auto; }
+        .nav-text { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.14em; color: var(--white); }
+        .nav-links { display: flex; align-items: center; gap: 0.3rem; list-style: none; }
         .nav-links a {
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            color: var(--t3);
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: color 0.2s;
+            font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+            letter-spacing: 0.06em; color: var(--t3); text-decoration: none;
+            text-transform: uppercase; transition: color 0.2s;
+            padding: 0.35rem 0.7rem; border-radius: 4px;
         }
-
         .nav-links a:hover { color: var(--t1); }
-
-        .nav-cta {
-            padding: 0.4rem 1rem !important;
-            background: var(--white) !important;
-            color: var(--bg) !important;
-            border-radius: 4px;
-            font-weight: 600 !important;
-            transition: all 0.2s !important;
+        .nav-sep { width: 1px; height: 16px; background: var(--bd2); margin: 0 0.4rem; }
+        .nav-dl {
+            font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 0.4rem 1.1rem; border-radius: 5px;
+            background: var(--brand); color: var(--white);
+            text-decoration: none; transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.1);
         }
+        .nav-dl:hover { background: #ff7d4a; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,107,53,0.3); }
+        .ham { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 4px; }
+        .ham span { display: block; width: 18px; height: 1.5px; background: var(--t3); }
 
-        .nav-cta:hover {
-            background: var(--t1) !important;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
-        }
-
-        .ham {
-            display: none; background: none; border: none; cursor: pointer;
-            padding: 4px; flex-direction: column; gap: 4px;
-        }
-        .ham span {
-            display: block; width: 18px; height: 1.5px;
-            background: var(--t3); transition: 0.3s;
-        }
-
-        /* --- HERO --- */
         #hero {
-            min-height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center;
-            position: relative;
-            padding: 80px 2rem 2rem;
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            position: relative; padding: 80px 2rem 2rem;
         }
-
-        #hc {
-            position: absolute; inset: 0; z-index: 0; opacity: 0.25;
+        #hc { position: absolute; inset: 0; z-index: 0; opacity: 0.22; }
+        .hero-inner { position: relative; z-index: 1; max-width: 680px; }
+        .hero-logo {
+            width: 80px; height: 88px; margin: 0 auto 2rem;
+            opacity: 0; animation: markIn 0.8s ease 0.2s forwards;
         }
-
-        .hero-inner { position: relative; z-index: 1; max-width: 700px; }
-
-        .hero-mark {
-            width: 90px; height: 90px;
-            margin: 0 auto 2.5rem;
-            opacity: 0;
-            animation: markIn 0.8s ease 0.2s forwards;
-        }
-
-        @keyframes markIn {
-            from { opacity: 0; transform: scale(0.85) rotate(-5deg); }
-            to { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
+        .hero-logo svg { width: 100%; height: 100%; image-rendering: auto; }
+        @keyframes markIn { from { opacity:0; transform: scale(0.85) rotate(-5deg); } to { opacity:1; transform: scale(1) rotate(0deg); } }
+        @keyframes fadeUp { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes pulse { 0%,100% { opacity:0.2; } 50% { opacity:0.7; } }
 
         .hero-title {
-            font-family: var(--mono);
-            font-size: clamp(3rem, 9vw, 5.5rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 0.9;
-            color: var(--white);
-            margin-bottom: 0.3rem;
+            font-family: var(--mono); font-size: clamp(3rem, 9vw, 5.5rem);
+            font-weight: 800; letter-spacing: -0.02em; line-height: 0.9;
+            color: var(--white); margin-bottom: 0.3rem;
             animation: fadeUp 0.5s ease 0.4s both;
         }
-
         .hero-sub {
-            font-family: var(--mono);
-            font-size: clamp(0.75rem, 1.6vw, 1rem);
-            font-weight: 300;
-            letter-spacing: 0.55em;
-            color: var(--t3);
-            margin-bottom: 2.5rem;
-            animation: fadeUp 0.5s ease 0.5s both;
+            font-family: var(--mono); font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+            font-weight: 300; letter-spacing: 0.55em; color: var(--t3);
+            margin-bottom: 2rem; animation: fadeUp 0.5s ease 0.5s both;
         }
-
         .hero-desc {
-            font-size: clamp(1rem, 2vw, 1.12rem);
-            font-weight: 400;
-            color: var(--t2);
-            line-height: 1.8;
-            max-width: 540px;
-            margin: 0 auto 1.5rem;
+            font-size: clamp(1rem, 2vw, 1.1rem); color: var(--t2);
+            line-height: 1.8; max-width: 500px; margin: 0 auto 1.2rem;
             animation: fadeUp 0.5s ease 0.6s both;
         }
-
-        .hero-desc strong {
-            color: var(--white);
-            font-weight: 600;
-        }
-
+        .hero-desc strong { color: var(--white); font-weight: 600; }
         .hero-motto {
-            font-family: var(--mono);
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--t2);
-            margin-bottom: 2.5rem;
+            font-family: var(--mono); font-size: 0.85rem; font-weight: 600;
+            color: var(--t3); margin-bottom: 2.5rem;
             animation: fadeUp 0.5s ease 0.7s both;
         }
-
-        .hero-buttons {
-            display: flex; gap: 0.8rem;
-            justify-content: center; flex-wrap: wrap;
+        .hero-btns {
+            display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;
             animation: fadeUp 0.5s ease 0.8s both;
         }
-
-        .btn-w {
-            font-family: var(--mono);
-            font-size: 0.8rem; font-weight: 600;
-            padding: 0.75rem 1.6rem;
-            background: var(--white);
-            color: var(--bg);
-            border: none; border-radius: 5px;
-            text-decoration: none; cursor: pointer;
-            transition: all 0.25s;
+        .btn-primary {
+            font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
+            padding: 0.8rem 1.8rem; background: var(--brand); color: var(--white);
+            border: none; border-radius: 5px; text-decoration: none; cursor: pointer;
+            transition: all 0.25s; letter-spacing: 0.04em;
         }
-
-        .btn-w:hover {
-            box-shadow: 0 4px 24px rgba(255, 255, 255, 0.12);
-            transform: translateY(-1px);
+        .btn-primary:hover { background: #ff7d4a; box-shadow: 0 4px 20px rgba(255,107,53,0.35); transform: translateY(-1px); }
+        .btn-ghost {
+            font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
+            padding: 0.8rem 1.8rem; background: transparent; color: var(--t2);
+            border: 1px solid var(--bd2); border-radius: 5px; text-decoration: none;
+            cursor: pointer; transition: all 0.25s;
         }
-
-        .btn-g {
-            font-family: var(--mono);
-            font-size: 0.8rem; font-weight: 500;
-            padding: 0.75rem 1.6rem;
-            background: transparent;
-            color: var(--t2);
-            border: 1px solid var(--bd2);
-            border-radius: 5px;
-            text-decoration: none; cursor: pointer;
-            transition: all 0.25s;
-        }
-
-        .btn-g:hover {
-            border-color: var(--t3);
-            color: var(--t1);
-            transform: translateY(-1px);
-        }
-
+        .btn-ghost:hover { border-color: var(--t3); color: var(--t1); transform: translateY(-1px); }
         .hero-scroll {
-            position: absolute; bottom: 2rem; left: 50%;
-            transform: translateX(-50%);
-            display: flex; flex-direction: column;
-            align-items: center; gap: 0.4rem;
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
             animation: fadeIn 1s ease 1.5s both;
         }
+        .hero-scroll span { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--t3); }
+        .scroll-bar { width: 1px; height: 28px; background: linear-gradient(to bottom, var(--t3), transparent); animation: pulse 2.5s infinite; }
 
-        .hero-scroll span {
-            font-family: var(--mono);
-            font-size: 0.58rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--t3);
+        .divider { width: 100%; height: 1px; background: var(--bd); }
+
+        .section { padding: 5.5rem 2rem; max-width: 1080px; margin: 0 auto; }
+        .sec-label { font-family: var(--mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--t3); margin-bottom: 0.5rem; }
+        .sec-title { font-family: var(--mono); font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 0.5rem; }
+        .sec-desc { font-size: 0.93rem; color: var(--t2); line-height: 1.8; }
+
+        #products .prod-head { text-align: center; margin-bottom: 2.5rem; }
+        #products .prod-head .sec-desc { max-width: 480px; margin: 0 auto; }
+
+        .tier-1 {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+            background: var(--bd); border-radius: 12px 12px 0 0; overflow: hidden;
+            border: 1px solid var(--bd); border-bottom: none;
+        }
+        .tier-2 { background: var(--bd); border-left: 1px solid var(--bd); border-right: 1px solid var(--bd); }
+        .tier-3 {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px;
+            background: var(--bd); border-radius: 0 0 12px 12px; overflow: hidden;
+            border: 1px solid var(--bd); border-top: none;
         }
 
-        .scroll-bar {
-            width: 1px; height: 32px;
-            background: linear-gradient(to bottom, var(--t3), transparent);
-            animation: pulse 2.5s infinite;
+        .prod-card { background: var(--card); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: background 0.3s; }
+        .prod-card:hover { background: var(--card-up); }
+        .prod-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent); opacity:0; transition:opacity 0.3s; }
+        .prod-card:hover::before { opacity: 1; }
+        .prod-card.c-dojo  { --accent: var(--dojo); }
+        .prod-card.c-vex   { --accent: var(--vex); }
+        .prod-card.c-lux   { --accent: var(--lux); }
+        .prod-card.c-nexus { --accent: var(--nexus); }
+        .prod-card.c-arc   { --accent: var(--spark); }
+
+        .prod-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
+        .prod-icon { width:36px; height:36px; display:flex; align-items:center; justify-content:center; }
+        .prod-icon svg { width:36px; height:36px; }
+        .badge {
+            font-family:var(--mono); font-size:0.55rem; font-weight:600;
+            letter-spacing:0.1em; text-transform:uppercase;
+            padding:0.2rem 0.5rem; border-radius:3px;
         }
+        .badge-live  { color:var(--dojo);  border:1px solid rgba(34,197,94,0.3);  background:rgba(34,197,94,0.06); }
+        .badge-soon  { color:var(--brand); border:1px solid rgba(255,107,53,0.3); background:rgba(255,107,53,0.06); }
+        .badge-dim   { color:var(--t3);    border:1px solid var(--bd2);            background:rgba(255,255,255,0.03); }
 
-        @keyframes pulse { 0%,100% { opacity: 0.2; } 50% { opacity: 0.7; } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .prod-name { font-family:var(--mono); font-size:1.05rem; font-weight:700; color:var(--white); margin-bottom:0.2rem; }
+        .prod-tagline { font-family:var(--mono); font-size:0.62rem; color:var(--t3); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.8rem; }
+        .prod-desc { font-size:0.85rem; color:var(--t2); line-height:1.75; margin-bottom:1rem; }
+        .prod-tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
+        .prod-tag { font-family:var(--mono); font-size:0.58rem; color:var(--t3); padding:0.18rem 0.45rem; border:1px solid var(--bd); border-radius:3px; background:var(--bg2); }
 
-        /* --- DIVIDER --- */
-        .divider {
-            width: 100%; height: 1px;
-            background: var(--bd);
-        }
+        .tier-3 .prod-card { padding:1.6rem 1.5rem; }
+        .tier-3 .prod-name { font-size:0.92rem; }
+        .tier-3 .prod-desc { font-size:0.82rem; margin-bottom:0; }
+        .tier-3 .prod-tags { display:none; }
 
-        /* --- SECTION --- */
-        section {
-            padding: 5rem 2rem;
-            max-width: 1080px;
-            margin: 0 auto;
-        }
-
-        .sec-label {
-            font-family: var(--mono);
-            font-size: 0.62rem;
-            font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--t3);
-            margin-bottom: 0.8rem;
-        }
-
-        .sec-title {
-            font-family: var(--mono);
-            font-size: clamp(1.4rem, 3vw, 2rem);
-            font-weight: 700;
-            color: var(--white);
-            line-height: 1.2;
-            margin-bottom: 0.6rem;
-        }
-
-        .sec-desc {
-            font-size: 0.95rem;
-            color: var(--t2);
-            max-width: 520px;
-            line-height: 1.8;
-        }
-
-        /* --- PROBLEM --- */
-        #problem { text-align: center; }
-
-        .problem-text {
-            font-family: var(--mono);
-            font-size: clamp(1.2rem, 2.8vw, 1.8rem);
-            font-weight: 600;
-            line-height: 1.5;
-            max-width: 720px;
-            margin: 0 auto 1.5rem;
-            color: var(--t1);
-        }
-
-        .problem-text em {
-            font-style: normal;
-            color: var(--white);
-            border-bottom: 1px solid var(--t3);
-        }
-
-        .problem-body {
-            font-size: 1rem;
-            color: var(--t2);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
-        }
-
-        .pillars {
-            display: flex; justify-content: center;
-            gap: 0.4rem; flex-wrap: wrap;
-        }
-
-        .pill {
-            display: flex; align-items: center; gap: 0.5rem;
-            padding: 0.65rem 1.1rem;
-            background: var(--card);
-            border: 1px solid var(--bd);
-            border-radius: 6px;
-            transition: border-color 0.3s;
-        }
-
-        .pill:hover { border-color: var(--bd2); }
-
-        .pill-i { font-size: 1.1rem; }
-
-        .pill-t {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            font-weight: 500;
-            color: var(--t2);
-        }
-
-        /* --- PRODUCTS --- */
-        #products { padding-top: 4rem; }
-
-        .prod-head { text-align: center; margin-bottom: 2.5rem; }
-
-        .prod-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1px;
-            background: var(--bd);
-            border: 1px solid var(--bd);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .prod {
-            background: var(--card);
-            padding: 2rem;
+        .sage-band {
+            background: #080810;
+            padding: 2rem 2rem;
+            display: grid; grid-template-columns: 1fr auto;
+            gap: 2.5rem; align-items: center;
+            position: relative; overflow: hidden;
             transition: background 0.3s;
         }
-
-        .prod:hover { background: var(--card-up); }
-
-        .prod-top {
-            display: flex; align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.2rem;
+        .sage-band:hover { background: #0a0a14; }
+        .sage-band::after {
+            content:''; position:absolute; inset:0;
+            background-image: linear-gradient(rgba(6,182,212,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,0.025) 1px, transparent 1px);
+            background-size: 28px 28px; pointer-events:none;
         }
+        .sage-left { position:relative; z-index:1; display:flex; align-items:center; gap:1.5rem; }
+        .sage-icon { width:48px; height:48px; flex-shrink:0; }
+        .sage-icon svg { width:48px; height:48px; }
+        .sage-eyebrow { font-family:var(--mono); font-size:0.58rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--spark); margin-bottom:0.25rem; }
+        .sage-name { font-family:var(--mono); font-size:1rem; font-weight:700; color:var(--white); margin-bottom:0.2rem; }
+        .sage-tagline { font-family:var(--mono); font-size:0.6rem; color:var(--t3); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:0.5rem; }
+        .sage-desc { font-size:0.84rem; color:var(--t2); line-height:1.7; max-width:480px; }
+        .sage-right { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; flex-shrink:0; }
+        .sage-stat { background:rgba(6,182,212,0.05); border:1px solid rgba(6,182,212,0.1); border-radius:6px; padding:0.7rem 0.9rem; min-width:100px; }
+        .sage-stat-label { font-family:var(--mono); font-size:0.56rem; color:var(--t3); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.25rem; }
+        .sage-stat-value { font-family:var(--mono); font-size:1rem; font-weight:700; color:var(--spark); }
 
-        .prod-mark { width: 36px; height: 36px; border-radius: 6px; }
+        #about { text-align:center; }
+        .about-lead { font-family:var(--mono); font-size:clamp(1rem, 2.2vw, 1.3rem); font-weight:600; color:var(--t1); line-height:1.65; max-width:660px; margin:0 auto 0.8rem; }
+        .about-lead em { font-style:normal; color:var(--white); }
+        .about-body { font-size:0.93rem; color:var(--t2); max-width:540px; margin:0 auto 2.5rem; line-height:1.85; }
+        .about-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--bd); border:1px solid var(--bd); border-radius:10px; overflow:hidden; }
+        .about-block { background:var(--card); padding:1.7rem; transition:background 0.3s; }
+        .about-block:hover { background:var(--card-up); }
+        .about-block-lbl { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--t3); margin-bottom:0.5rem; }
+        .about-num { font-family:var(--mono); font-size:1.8rem; font-weight:700; color:var(--white); line-height:1; margin-bottom:0.4rem; }
+        .about-num span { color:var(--brand); }
+        .about-block p { font-size:0.82rem; color:var(--t2); line-height:1.7; }
 
-        .prod-badge {
-            font-family: var(--mono);
-            font-size: 0.55rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            color: var(--t2);
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--bd);
+        #download { background: var(--bg2); border-top:1px solid var(--bd); border-bottom:1px solid var(--bd); }
+        .dl-inner { max-width:1080px; margin:0 auto; padding:5rem 2rem; display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+        .dl-left .sec-label { margin-bottom:0.6rem; }
+        .dl-title { font-family:var(--mono); font-size:clamp(1.5rem, 3vw, 2.2rem); font-weight:700; color:var(--white); line-height:1.15; margin-bottom:0.8rem; }
+        .dl-desc { font-size:0.93rem; color:var(--t2); line-height:1.8; margin-bottom:1.5rem; max-width:420px; }
+        .dl-meta { font-family:var(--mono); font-size:0.62rem; color:var(--t3); margin-top:1rem; }
+        .dl-right { display:flex; flex-direction:column; gap:0.6rem; }
+
+        .dl-main {
+            display:flex; align-items:center; gap:0.8rem;
+            padding:1rem 1.5rem; background:var(--white); color:var(--bg);
+            border:none; border-radius:7px; text-decoration:none; cursor:pointer;
+            transition:all 0.25s; font-family:var(--mono);
         }
+        .dl-main:hover { box-shadow:0 4px 24px rgba(255,255,255,0.12); transform:translateY(-1px); }
+        .dl-main-icon { width:20px; height:20px; flex-shrink:0; }
+        .dl-main-icon svg { width:20px; height:20px; fill:var(--bg); image-rendering:auto; }
+        .dl-main-label { font-size:0.65rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--t3); margin-bottom:0.1rem; }
+        .dl-main-title { font-size:0.88rem; font-weight:700; color:var(--bg); }
 
-        .prod-name {
-            font-family: var(--mono);
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 0.15rem;
+        .dl-alts { display:flex; gap:0.5rem; }
+        .dl-alt {
+            flex:1; display:flex; align-items:center; justify-content:center; gap:0.5rem;
+            padding:0.7rem; background:transparent; border:1px solid var(--bd2);
+            border-radius:6px; text-decoration:none; font-family:var(--mono);
+            font-size:0.65rem; color:var(--t3); transition:all 0.2s;
         }
+        .dl-alt:hover { border-color:var(--t3); color:var(--t1); }
+        .dl-alt svg { width:14px; height:14px; fill:currentColor; image-rendering:auto; }
 
-        .prod-sub {
-            font-family: var(--mono);
-            font-size: 0.65rem;
-            color: var(--t3);
-            letter-spacing: 0.04em;
-            margin-bottom: 0.8rem;
+        .dl-note { font-family:var(--mono); font-size:0.6rem; color:var(--t3); line-height:1.7; }
+        .dl-note a { color:var(--t2); }
+
+        .dl-version-row { display:flex; align-items:center; gap:1rem; }
+        .dl-version { font-family:var(--mono); font-size:0.6rem; color:var(--t3); }
+        .dl-verify { font-family:var(--mono); font-size:0.6rem; color:var(--t3); cursor:pointer; background:none; border:none; text-decoration:underline; text-underline-offset:2px; transition:color 0.2s; }
+        .dl-verify:hover { color:var(--t2); }
+        .dl-hashes { display:none; padding:0.8rem; background:var(--bg); border:1px solid var(--bd); border-radius:5px; }
+        .dl-hashes p { font-family:var(--mono); font-size:0.56rem; color:var(--t3); margin-bottom:0.4rem; line-height:1.6; word-break:break-all; }
+        .dl-hashes p strong { color:var(--t2); }
+
+        footer { padding:2rem; max-width:1080px; margin:0 auto; }
+        .foot-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; }
+        .foot-logo { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; }
+        .foot-logo svg { width:20px; height:22px; image-rendering:auto; }
+        .foot-logo span { font-family:var(--mono); font-size:0.8rem; font-weight:700; letter-spacing:0.1em; color:var(--white); }
+        .foot-tag { font-family:var(--mono); font-size:0.7rem; color:var(--t3); margin-bottom:0.3rem; }
+        .foot-loc { font-family:var(--mono); font-size:0.66rem; color:var(--t3); }
+        .foot-col h4 { font-family:var(--mono); font-size:0.66rem; font-weight:600; color:var(--t1); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.7rem; }
+        .foot-col a { display:block; font-family:var(--mono); font-size:0.7rem; color:var(--t3); text-decoration:none; margin-bottom:0.4rem; transition:color 0.2s; }
+        .foot-col a:hover { color:var(--white); }
+        .foot-bottom { margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--bd); display:flex; justify-content:space-between; align-items:center; }
+        .foot-bottom p { font-family:var(--mono); font-size:0.58rem; color:var(--t3); }
+
+        .rv { opacity:0; transform:translateY(18px); transition:all 0.5s ease; }
+        .rv.vis { opacity:1; transform:translateY(0); }
+
+        @media (max-width: 900px) {
+            .dl-inner { grid-template-columns:1fr; gap:2rem; }
+            .sage-right { display:none; }
         }
-
-        .prod-desc {
-            font-size: 0.85rem;
-            color: var(--t2);
-            line-height: 1.7;
-            margin-bottom: 1rem;
-        }
-
-        .more-row {
-            text-align: center;
-            margin-top: 1.5rem;
-        }
-
-        .more-row p {
-            font-family: var(--mono);
-            font-size: 0.75rem;
-            color: var(--t3);
-        }
-
-        /* --- ABOUT --- */
-        #about { text-align: center; }
-
-        .about-title {
-            font-family: var(--mono);
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 1.5rem;
-            line-height: 1.3;
-        }
-
-        .about-p {
-            font-size: 0.95rem;
-            color: var(--t2);
-            max-width: 580px;
-            margin: 0 auto;
-            line-height: 1.9;
-        }
-
-        .about-p + .about-p { margin-top: 1rem; }
-
-        /* --- DOWNLOAD --- */
-        #download {
-            text-align: center;
-            padding: 5rem 2rem;
-        }
-
-        .dl-box {
-            background: var(--card);
-            border: 1px solid var(--bd);
-            border-radius: 12px;
-            padding: 3rem 2rem;
-            max-width: 520px;
-            margin: 0 auto;
-        }
-
-        .dl-mark {
-            width: 44px; height: 44px;
-            margin: 0 auto 1.2rem;
-        }
-
-        .dl-title {
-            font-family: var(--mono);
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 0.5rem;
-        }
-
-        .dl-desc {
-            font-size: 0.88rem;
-            color: var(--t2);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .dl-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-family: var(--mono);
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 0.85rem 2rem;
-            background: var(--white);
-            color: var(--bg);
-            border: none;
-            border-radius: 6px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.25s;
-            margin-bottom: 1.2rem;
-        }
-
-        .dl-primary:hover {
-            box-shadow: 0 4px 24px rgba(255, 255, 255, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .dl-primary svg { width: 16px; height: 16px; }
-
-        .dl-all {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        .dl-platform {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            font-weight: 500;
-            padding: 0.5rem 0.9rem;
-            background: transparent;
-            color: var(--t2);
-            border: 1px solid var(--bd2);
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.25s;
-        }
-
-        .dl-platform:hover {
-            border-color: var(--t3);
-            color: var(--t1);
-        }
-
-        .dl-platform svg { width: 12px; height: 12px; fill: currentColor; }
-
-        .dl-version {
-            font-family: var(--mono);
-            font-size: 0.6rem;
-            color: var(--t3);
-            margin-bottom: 0.8rem;
-        }
-
-        .dl-mobile {
-            display: none;
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            color: var(--t3);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .dl-hashes-toggle {
-            font-family: var(--mono);
-            font-size: 0.6rem;
-            color: var(--t3);
-            cursor: pointer;
-            background: none;
-            border: none;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-            transition: color 0.2s;
-        }
-
-        .dl-hashes-toggle:hover { color: var(--t2); }
-
-        .dl-hashes-content {
-            display: none;
-            margin-top: 0.8rem;
-            padding: 0.8rem;
-            background: var(--bg);
-            border: 1px solid var(--bd);
-            border-radius: 6px;
-            text-align: left;
-        }
-
-        .dl-hash-row {
-            font-family: var(--mono);
-            font-size: 0.55rem;
-            color: var(--t3);
-            margin-bottom: 0.4rem;
-            word-break: break-all;
-            line-height: 1.5;
-        }
-
-        .dl-hash-row:last-child { margin-bottom: 0; }
-
-        .dl-hash-row strong {
-            color: var(--t2);
-            font-weight: 600;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            border-top: 1px solid var(--bd);
-            padding: 2rem 2rem;
-            max-width: 1080px;
-            margin: 0 auto;
-        }
-
-        .foot-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .foot-logo {
-            display: flex; align-items: center; gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .foot-logo svg { width: 20px; height: 22px; }
-
-        .foot-logo span {
-            font-family: var(--mono);
-            font-size: 0.8rem; font-weight: 700;
-            letter-spacing: 0.1em; color: var(--white);
-        }
-
-        .foot-tag {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            color: var(--t3);
-            margin-bottom: 0.4rem;
-        }
-
-        .foot-loc {
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            color: var(--t3);
-        }
-
-        .foot-col h4 {
-            font-family: var(--mono);
-            font-size: 0.68rem; font-weight: 600;
-            color: var(--t1);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 0.7rem;
-        }
-
-        .foot-col a {
-            display: flex; align-items: center; gap: 0.4rem;
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            color: var(--t3);
-            text-decoration: none;
-            margin-bottom: 0.4rem;
-            transition: color 0.2s;
-        }
-
-        .foot-col a:hover { color: var(--white); }
-
-        .foot-bottom {
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--bd);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .foot-bottom p {
-            font-family: var(--mono);
-            font-size: 0.6rem;
-            color: var(--t3);
-        }
-
-        /* --- REVEAL --- */
-        .rv {
-            opacity: 0; transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-        .rv.vis { opacity: 1; transform: translateY(0); }
-
-        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            section { padding: 3.5rem 1.5rem; }
-            .nav-links { display: none; }
-            .ham { display: flex; }
-            .nav-links.open {
-                display: flex; flex-direction: column;
-                position: absolute; top: 56px; left: 0; right: 0;
-                background: rgba(5,5,7,0.97);
-                backdrop-filter: blur(20px);
-                padding: 1rem 2rem;
-                border-bottom: 1px solid var(--bd);
-                gap: 0.8rem;
-            }
-            .pillars { flex-direction: column; align-items: center; }
-            .prod-grid { grid-template-columns: 1fr; }
-            .foot-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-            .foot-bottom { flex-direction: column; gap: 0.3rem; text-align: center; }
-            .dl-all { flex-direction: column; align-items: center; }
-            .dl-platform { width: 100%; justify-content: center; }
+            .nav-links { display:none; }
+            .ham { display:flex; }
+            .nav-links.open { display:flex; flex-direction:column; position:absolute; top:56px; left:0; right:0; background:rgba(5,5,7,0.97); backdrop-filter:blur(20px); padding:1rem 2rem; border-bottom:1px solid var(--bd); gap:0.8rem; }
+            .tier-1 { grid-template-columns:1fr; }
+            .tier-3 { grid-template-columns:1fr; }
+            .about-grid { grid-template-columns:1fr; }
+            .foot-grid { grid-template-columns:1fr; gap:1.5rem; }
+            .foot-bottom { flex-direction:column; gap:0.3rem; text-align:center; }
+            .sage-band { grid-template-columns:1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
     <a href="#" class="nav-logo">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132">
-            <line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-            <line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-            <line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-            <line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-            <line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-            <line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-            <path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132" style="image-rendering:auto">
+            <line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+            <line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+            <line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+            <line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+            <line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+            <line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+            <path d="M40 44 L80 44 L40 88 L80 88" stroke="#FF6B35" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span class="nav-text">ZENKAI</span>
     </a>
     <ul class="nav-links" id="nl">
         <li><a href="#products">Products</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#download" class="nav-cta">Get Zenkai</a></li>
+        <li><a href="encyclopedia.html">Encyclopedia</a></li>
+        <li><a href="proof.html">Proof of Work</a></li>
+        <div class="nav-sep"></div>
+        <li><a href="#download" class="nav-dl">↓ Download</a></li>
     </ul>
     <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
     <canvas id="hc"></canvas>
     <div class="hero-inner">
-        <img src="assets/zenkai-mark-transparent-512.png" alt="Zenkai" class="hero-mark">
+        <div class="hero-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132" style="image-rendering:auto">
+                <line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+                <line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+                <line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+                <line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+                <line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+                <line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+                <path d="M38 44 L82 44 L38 88 L82 88" stroke="#FF6B35" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
         <h1 class="hero-title">ZENKAI</h1>
         <p class="hero-sub">C O R P O R A T I O N</p>
-        <p class="hero-desc">
-            Don't just run AI. <strong>Train it.</strong> Build your own game-beating
-            agents — on your hardware, no cloud, no code.
-        </p>
+        <p class="hero-desc">Don't just run AI. <strong>Train it.</strong> Build game-beating agents on your hardware. No cloud, no code, no subscriptions.</p>
         <p class="hero-motto">Every Setback, Stronger</p>
-        <div class="hero-buttons">
-            <a href="#download" class="btn-w">Download Now</a>
-            <a href="#products" class="btn-g">See What's Inside</a>
+        <div class="hero-btns">
+            <a href="#download" class="btn-primary">↓ Download Free</a>
+            <a href="#products" class="btn-ghost">See What's Inside</a>
         </div>
     </div>
     <div class="hero-scroll">
@@ -749,318 +344,363 @@
 
 <div class="divider"></div>
 
-<!-- PROBLEM -->
-<section id="problem">
-    <div class="rv">
-        <p class="problem-text">
-            Every AI platform assumes you're a developer with a GPU cluster
-            and a cloud budget. <em>We assume none of that.</em>
-        </p>
-        <p class="problem-body">
-            Zenkai is a desktop app that lets anyone train AI agents on classic games
-            — all running on your own hardware. No Python required.
-            No cloud bills. No API keys.
-        </p>
-        <div class="pillars">
-            <div class="pill"><span class="pill-i">&#x1f5a5;</span><span class="pill-t">Your Hardware</span></div>
-            <div class="pill"><span class="pill-i">&#x1f512;</span><span class="pill-t">Your Data</span></div>
-            <div class="pill"><span class="pill-i">&#x1f9e0;</span><span class="pill-t">Your AI</span></div>
-            <div class="pill"><span class="pill-i">&#x1f4b0;</span><span class="pill-t">Zero Cloud Fees</span></div>
-        </div>
-    </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- PRODUCTS -->
-<section id="products">
+<section id="products" class="section">
     <div class="prod-head rv">
         <p class="sec-label">Products</p>
-        <h2 class="sec-title">What We're Building</h2>
-        <p class="sec-desc" style="margin: 0 auto;">One ecosystem. Your hardware. Zero cloud dependency.</p>
+        <h2 class="sec-title">One Ecosystem</h2>
+        <p class="sec-desc">Train. Fight. Create. Learn. Everything runs on your hardware. Nothing phones home.</p>
     </div>
 
-    <div class="prod-grid rv">
-        <div class="prod">
+    <div class="tier-1 rv">
+        <div class="prod-card c-dojo">
             <div class="prod-top">
-                <img src="assets/zenkai-dojo-mark.png" alt="Dojo" class="prod-mark">
-                <span class="prod-badge">Beta</span>
+                <div class="prod-icon">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="0" width="4" height="4" fill="#22C55E"/>
+                        <rect x="7" y="4" width="2" height="1" fill="#22C55E"/>
+                        <rect x="5" y="5" width="6" height="5" fill="#22C55E"/>
+                        <rect x="2" y="5" width="3" height="2" fill="#22C55E"/>
+                        <rect x="11" y="5" width="3" height="2" fill="#22C55E"/>
+                        <rect x="5" y="10" width="2" height="4" fill="#22C55E"/>
+                        <rect x="9" y="10" width="2" height="4" fill="#22C55E"/>
+                        <rect x="6" y="1" width="1" height="1" fill="#050507"/>
+                        <rect x="9" y="1" width="1" height="1" fill="#050507"/>
+                        <rect x="7" y="2" width="2" height="1" fill="#145e2e"/>
+                    </svg>
+                </div>
+                <span class="badge badge-live">Beta</span>
             </div>
-            <h3 class="prod-name">Zenkai Dojo</h3>
-            <p class="prod-sub">Game AI Training</p>
-            <p class="prod-desc">
-                Train AI agents on classic games. No code required —
-                just click train and watch it learn.
-            </p>
+            <div class="prod-name">Dojo</div>
+            <div class="prod-tagline">Game AI Training</div>
+            <p class="prod-desc">Train AI agents on classic games. Your hardware, your Spark, your rules. Pick a game, set a goal, hit start — and watch it learn from scratch.</p>
+            <div class="prod-tags">
+                <span class="prod-tag">Atari</span>
+                <span class="prod-tag">DOOM</span>
+                <span class="prod-tag">Screen Capture</span>
+                <span class="prod-tag">Spark Chains</span>
+            </div>
         </div>
 
-        <div class="prod">
+        <div class="prod-card c-vex">
             <div class="prod-top">
-                <img src="assets/zenkai-nexus-mark.png" alt="Nexus" class="prod-mark">
-                <span class="prod-badge">Coming</span>
+                <div class="prod-icon">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1"  y="1"  width="2" height="2" fill="#F43F5E"/>
+                        <rect x="3"  y="3"  width="2" height="2" fill="#F43F5E"/>
+                        <rect x="5"  y="5"  width="2" height="2" fill="#F43F5E"/>
+                        <rect x="9"  y="9"  width="2" height="2" fill="#F43F5E"/>
+                        <rect x="11" y="11" width="2" height="2" fill="#F43F5E"/>
+                        <rect x="13" y="13" width="2" height="2" fill="#7a1828"/>
+                        <rect x="13" y="1"  width="2" height="2" fill="#F43F5E"/>
+                        <rect x="11" y="3"  width="2" height="2" fill="#F43F5E"/>
+                        <rect x="9"  y="5"  width="2" height="2" fill="#F43F5E"/>
+                        <rect x="5"  y="9"  width="2" height="2" fill="#F43F5E"/>
+                        <rect x="3"  y="11" width="2" height="2" fill="#F43F5E"/>
+                        <rect x="1"  y="13" width="2" height="2" fill="#7a1828"/>
+                        <rect x="6" y="7" width="4" height="2" fill="#ff8a9e"/>
+                    </svg>
+                </div>
+                <span class="badge badge-live">Beta</span>
             </div>
-            <h3 class="prod-name">Zenkai Nexus</h3>
-            <p class="prod-sub">Community</p>
-            <p class="prod-desc">
-                Share agents. Compete on leaderboards.
-                The community teaches itself.
-            </p>
+            <div class="prod-name">Vex</div>
+            <div class="prod-tagline">AI Combat · Self-Play PPO</div>
+            <p class="prod-desc">Your trained Spark fights other Sparks. Vex has its own PPO engine and self-play curriculum — train inside Vex, compete in the arena.</p>
+            <div class="prod-tags">
+                <span class="prod-tag">Self-Play</span>
+                <span class="prod-tag">PPO Engine</span>
+                <span class="prod-tag">Flux Creatures</span>
+                <span class="prod-tag">Ranked</span>
+            </div>
         </div>
     </div>
 
-    <div class="more-row rv">
-        <p>More products in development.</p>
+    <div class="tier-2 rv">
+        <div class="sage-band">
+            <div class="sage-left">
+                <div class="sage-icon">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="6" width="2" height="1" fill="#06B6D4"/>
+                        <rect x="4" y="5" width="2" height="1" fill="#06B6D4"/>
+                        <rect x="6" y="4" width="4" height="1" fill="#06B6D4"/>
+                        <rect x="10" y="5" width="2" height="1" fill="#06B6D4"/>
+                        <rect x="12" y="6" width="2" height="1" fill="#06B6D4"/>
+                        <rect x="2" y="9" width="2" height="1" fill="#06B6D4"/>
+                        <rect x="4" y="10" width="2" height="1" fill="#06B6D4"/>
+                        <rect x="6" y="11" width="4" height="1" fill="#06B6D4"/>
+                        <rect x="10" y="10" width="2" height="1" fill="#06B6D4"/>
+                        <rect x="12" y="9" width="2" height="1" fill="#06B6D4"/>
+                        <rect x="6" y="6" width="4" height="4" fill="#06B6D4"/>
+                        <rect x="7" y="7" width="2" height="2" fill="#050507"/>
+                        <rect x="0" y="7" width="2" height="2" fill="#06B6D4" opacity="0.4"/>
+                        <rect x="14" y="7" width="2" height="2" fill="#06B6D4" opacity="0.4"/>
+                        <rect x="7" y="0" width="2" height="4" fill="#06B6D4" opacity="0.3"/>
+                        <rect x="7" y="12" width="2" height="4" fill="#06B6D4" opacity="0.3"/>
+                    </svg>
+                </div>
+                <div class="sage-text">
+                    <div class="sage-eyebrow">The Intelligence Layer</div>
+                    <div class="sage-name">Sage</div>
+                    <div class="sage-tagline">AI Coaching · PatchTST + SmolLM2</div>
+                    <p class="sage-desc">Not a feature you open — the system everything runs on. Sage watches every training run, reads every reward curve, and tells you exactly what to do next. Gets smarter as the community grows.</p>
+                </div>
+            </div>
+            <div class="sage-right">
+                <div class="sage-stat">
+                    <div class="sage-stat-label">Pairs</div>
+                    <div class="sage-stat-value">1,024</div>
+                </div>
+                <div class="sage-stat">
+                    <div class="sage-stat-label">Model</div>
+                    <div class="sage-stat-value">135M</div>
+                </div>
+                <div class="sage-stat">
+                    <div class="sage-stat-label">Loss</div>
+                    <div class="sage-stat-value" style="font-size:0.82rem;">3.25→2.72</div>
+                </div>
+                <div class="sage-stat">
+                    <div class="sage-stat-label">Target</div>
+                    <div class="sage-stat-value">5,000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tier-3 rv">
+        <div class="prod-card c-lux">
+            <div class="prod-top">
+                <div class="prod-icon">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="7" y="0" width="2" height="2" fill="#F59E0B"/>
+                        <rect x="6" y="2" width="4" height="2" fill="#F59E0B"/>
+                        <rect x="7" y="4" width="2" height="5" fill="#F59E0B"/>
+                        <rect x="6" y="9" width="4" height="2" fill="#d4860a"/>
+                        <rect x="7" y="11" width="2" height="2" fill="#d4860a"/>
+                        <rect x="6" y="13" width="4" height="1" fill="#a86608"/>
+                        <rect x="7" y="14" width="2" height="2" fill="#a86608"/>
+                        <rect x="1" y="3" width="2" height="2" fill="#F59E0B" opacity="0.5"/>
+                        <rect x="12" y="5" width="2" height="2" fill="#F59E0B" opacity="0.5"/>
+                        <rect x="3" y="8" width="2" height="2" fill="#F59E0B" opacity="0.4"/>
+                        <rect x="11" y="1" width="2" height="2" fill="#F59E0B" opacity="0.3"/>
+                    </svg>
+                </div>
+                <span class="badge badge-dim">Beta</span>
+            </div>
+            <div class="prod-name">Lux</div>
+            <div class="prod-tagline">Pixel Art Generator</div>
+            <p class="prod-desc">Local SD 1.5 + custom LoRA. Generate pixel art cosmetics. Own what you make. 0% commission with Season Pass.</p>
+        </div>
+
+        <div class="prod-card c-nexus">
+            <div class="prod-top">
+                <div class="prod-icon">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="7" y="7" width="2" height="2" fill="#8B5CF6"/>
+                        <rect x="7" y="1" width="2" height="4" fill="#8B5CF6" opacity="0.6"/>
+                        <rect x="7" y="11" width="2" height="4" fill="#8B5CF6" opacity="0.6"/>
+                        <rect x="1" y="7" width="4" height="2" fill="#8B5CF6" opacity="0.6"/>
+                        <rect x="11" y="7" width="4" height="2" fill="#8B5CF6" opacity="0.6"/>
+                        <rect x="6" y="0" width="4" height="2" fill="#8B5CF6"/>
+                        <rect x="6" y="14" width="4" height="2" fill="#8B5CF6"/>
+                        <rect x="0" y="6" width="2" height="4" fill="#8B5CF6"/>
+                        <rect x="14" y="6" width="2" height="4" fill="#8B5CF6"/>
+                        <rect x="2" y="2" width="2" height="2" fill="#8B5CF6" opacity="0.4"/>
+                        <rect x="12" y="2" width="2" height="2" fill="#8B5CF6" opacity="0.4"/>
+                        <rect x="2" y="12" width="2" height="2" fill="#8B5CF6" opacity="0.4"/>
+                        <rect x="12" y="12" width="2" height="2" fill="#8B5CF6" opacity="0.4"/>
+                    </svg>
+                </div>
+                <span class="badge badge-dim">Beta</span>
+            </div>
+            <div class="prod-name">Nexus</div>
+            <div class="prod-tagline">Community Platform</div>
+            <p class="prod-desc">The community Discord can't build. Ranks, marketplace, Sage coaching, clips. $9.95/month.</p>
+        </div>
+
+        <div class="prod-card c-arc">
+            <div class="prod-top">
+                <div class="prod-icon">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="5" width="12" height="9" fill="#06B6D4" opacity="0.15"/>
+                        <rect x="2" y="5" width="12" height="1" fill="#06B6D4"/>
+                        <rect x="2" y="13" width="12" height="1" fill="#06B6D4"/>
+                        <rect x="2" y="5" width="1" height="9" fill="#06B6D4"/>
+                        <rect x="13" y="5" width="1" height="9" fill="#06B6D4"/>
+                        <rect x="1" y="3" width="14" height="3" fill="#06B6D4"/>
+                        <rect x="2" y="2" width="12" height="1" fill="#06B6D4" opacity="0.6"/>
+                        <rect x="7" y="4" width="2" height="2" fill="#050507"/>
+                        <rect x="7" y="8" width="2" height="2" fill="#06B6D4"/>
+                        <rect x="6" y="9" width="4" height="1" fill="#06B6D4" opacity="0.5"/>
+                        <rect x="7" y="7" width="2" height="1" fill="#06B6D4" opacity="0.5"/>
+                        <rect x="7" y="11" width="2" height="1" fill="#06B6D4" opacity="0.5"/>
+                    </svg>
+                </div>
+                <span class="badge badge-dim">Beta</span>
+            </div>
+            <div class="prod-name">Spark Archive</div>
+            <div class="prod-tagline">Your AI Library</div>
+            <p class="prod-desc">Every Spark you've trained. Every run, every config. Chain them together. Share them. They're yours.</p>
+        </div>
     </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ABOUT -->
-<section id="about">
+<section id="about" class="section">
     <div class="rv">
-        <h2 class="about-title">Built by Gamers.<br>For Gamers.</h2>
-        <p class="about-p">
-            We didn't build Zenkai because someone told us to. We built it because
-            we spent 12 years competing in online strategy games and we wanted a tool
-            that lets anyone train AI on the games they love.
-        </p>
-        <p class="about-p">
-            Zenkai Corporation is bootstrapped from Struer, Denmark. No VC funding. No
-            investors to please. Just a small team obsessed with making AI tools that
-            regular people can actually use.
-        </p>
+        <p class="sec-label" style="text-align:center;">About</p>
+        <p class="about-lead">Built in Struer, Denmark.<br><em>Small city. Serious work.</em></p>
+        <p class="about-body">Zenkai is bootstrapped. No VC. No investors. A small team that spent 12 years in competitive online games and decided to build the AI training tool they always wanted. Everything on the Proof of Work page is real — real numbers, real runs, real data you can download and verify.</p>
+        <div class="about-grid">
+            <div class="about-block">
+                <div class="about-block-lbl">Competitive Gaming</div>
+                <div class="about-num">12<span>yr</span></div>
+                <p>OGame. Strategy. The training mindset didn't start with AI — it started here.</p>
+            </div>
+            <div class="about-block">
+                <div class="about-block-lbl">Location</div>
+                <div class="about-num" style="font-size:1.3rem; line-height:1.2;">Struer<span>,</span><br>Denmark 🇩🇰</div>
+                <p>CVR 46261690 · Registered February 2026. Real company. Real registration.</p>
+            </div>
+            <div class="about-block">
+                <div class="about-block-lbl">Philosophy</div>
+                <div class="about-num" style="font-size:1rem; line-height:1.4;">Every<br>Setback<span>,</span><br>Stronger</div>
+                <p>We build in public. We show the receipts. We don't hide what doesn't work yet.</p>
+            </div>
+        </div>
     </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- DOWNLOAD -->
-<section id="download">
-    <div class="dl-box rv">
-        <img src="assets/zenkai-mark-transparent-512.png" alt="Zenkai" class="dl-mark">
-        <h2 class="dl-title">Download Zenkai</h2>
-        <p class="dl-desc">
-            Free. No account required. Your hardware, your AI.
-        </p>
-
-        <p class="dl-mobile" id="dl-mobile">
-            Zenkai is a desktop app. Download it on your<br>
-            Windows, macOS, or Linux computer.
-        </p>
-
-        <a id="dl-main" href="#download" class="dl-primary">
-            <svg id="dl-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"></svg>
-            <span id="dl-text">Download</span>
-        </a>
-
-        <div class="dl-all" id="dl-all">
-            <a href="https://api.zenkaicorp.com/downloads/Zenkai_0.2.0-beta.1_x64-setup.exe" class="dl-platform" data-os="windows">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 3.449L9.75 2.1v9.45H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.45L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
-                Windows (.exe) ~107 MB
-            </a>
-            <a href="https://api.zenkaicorp.com/downloads/Zenkai_0.2.0-beta.1_x64.dmg" class="dl-platform" data-os="macos">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                macOS (.dmg) — coming soon
-            </a>
-            <a href="https://api.zenkaicorp.com/downloads/Zenkai_0.2.0-beta.1_amd64.AppImage" class="dl-platform" data-os="linux">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.368 1.884 1.43.868.07 1.799-.358 2.395-1.382.095-.152.191-.343.223-.58.138-.344.17-.692.148-1.048.076-.31.156-.572.237-.866.164-.764.126-1.544-.175-2.07-.042-.074-.088-.138-.164-.18a.826.826 0 00-.235-.095c-.12-.37-.286-.686-.478-.978-.167-.32-.313-.681-.43-.873-.104-.194-.24-.374-.39-.541 1.017-.209 1.577-1.256 1.577-2.672-.001-2.755-3.772-4.958-3.891-8.418C19.093 2.833 16.211.003 12.504 0z"/></svg>
-                Linux (.AppImage) — coming soon
-            </a>
+<div id="download">
+    <div class="dl-inner rv">
+        <div class="dl-left">
+            <p class="sec-label">Download</p>
+            <h2 class="dl-title">Free.<br>Just an email.<br>Your machine.</h2>
+            <p class="dl-desc">Zenkai runs entirely on your hardware. Train AI agents, generate pixel art, fight in Vex — all offline, all yours. We ask for an email to send you your beta key. That's it.</p>
+            <p class="dl-note">
+                By downloading you agree to our <a href="terms.html">Terms of Service</a> and <a href="disclaimer.html">Beta Disclaimer</a>.<br>
+                Zenkai captures your screen and controls input during training sessions.
+            </p>
+            <p class="dl-meta">v0.2.0-beta.1 · Windows x64</p>
         </div>
 
-        <p class="dl-version">v0.2.0-beta.1</p>
+        <div class="dl-right">
+            <a href="https://api.zenkaicorp.com/downloads/Zenkai_0.2.0-beta.1_x64-setup.exe" class="dl-main">
+                <div class="dl-main-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 3.449L9.75 2.1v9.45H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.45L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                </div>
+                <div class="dl-main-text">
+                    <div class="dl-main-label">Download for</div>
+                    <div class="dl-main-title">Windows · 107 MB</div>
+                </div>
+            </a>
 
-        <p style="font-size:0.8rem;color:#888;max-width:480px;margin:1rem auto 0;">
-            By downloading, you agree to our
-            <a href="terms.html" style="color:#22C55E">Terms of Service</a> and
-            <a href="disclaimer.html" style="color:#22C55E">Beta Disclaimer</a>.
-            Zenkai captures your screen and controls input during training.
-        </p>
+            <div class="dl-alts">
+                <a href="#" class="dl-alt">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    <span>macOS — soon</span>
+                </a>
+                <a href="#" class="dl-alt">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.368 1.884 1.43.868.07 1.799-.358 2.395-1.382.095-.152.191-.343.223-.58.138-.344.17-.692.148-1.048.076-.31.156-.572.237-.866.164-.764.126-1.544-.175-2.07-.042-.074-.088-.138-.164-.18a.826.826 0 00-.235-.095c-.12-.37-.286-.686-.478-.978-.167-.32-.313-.681-.43-.873-.104-.194-.24-.374-.39-.541 1.017-.209 1.577-1.256 1.577-2.672-.001-2.755-3.772-4.958-3.891-8.418C19.093 2.833 16.211.003 12.504 0z"/></svg>
+                    <span>Linux — soon</span>
+                </a>
+            </div>
 
-        <button class="dl-hashes-toggle" id="dl-hashes-toggle">Verify your download</button>
-        <div class="dl-hashes-content" id="dl-hashes-content">
-            <p class="dl-hash-row"><strong>Windows (.exe)</strong><br>SHA256: 82435357e234b809e228b87c2c3d09260fb49e941b7da40008ec8133fe109b46</p>
-            <p class="dl-hash-row"><strong>macOS (.dmg)</strong><br>SHA256: <em>available after first release</em></p>
-            <p class="dl-hash-row"><strong>Linux (.AppImage)</strong><br>SHA256: <em>available after first release</em></p>
+            <div class="dl-version-row">
+                <span class="dl-version">v0.2.0-beta.1</span>
+                <button class="dl-verify" id="dl-verify">Verify checksum</button>
+            </div>
+            <div class="dl-hashes" id="dl-hashes">
+                <p><strong>Windows (.exe)</strong><br>SHA256: 82435357e234b809e228b87c2c3d09260fb49e941b7da40008ec8133fe109b46</p>
+                <p><strong>macOS / Linux</strong><br>Available after first release</p>
+            </div>
         </div>
     </div>
-</section>
+</div>
 
-<!-- FOOTER -->
 <footer>
     <div class="foot-grid">
         <div>
             <div class="foot-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132">
-                    <line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-                    <line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-                    <line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-                    <line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-                    <line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-                    <line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-                    <path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132" style="image-rendering:auto">
+                    <line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+                    <line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+                    <line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+                    <line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+                    <line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+                    <line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+                    <path d="M40 44 L80 44 L40 88 L80 88" stroke="#FF6B35" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span>ZENKAI</span>
             </div>
             <p class="foot-tag">Train AI. Share Strategies. No Cloud Required.</p>
-            <p class="foot-loc">Struer, Denmark &#x1f1e9;&#x1f1f0;</p>
+            <p class="foot-loc">Struer, Denmark 🇩🇰 · CVR 46261690</p>
+        </div>
+        <div class="foot-col">
+            <h4>Explore</h4>
+            <a href="encyclopedia.html">Encyclopedia</a>
+            <a href="proof.html">Proof of Work</a>
+            <a href="#download">Download</a>
         </div>
         <div class="foot-col">
             <h4>Community</h4>
-            <a href="https://discord.gg/YHUKqegZ2Y" target="_blank">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                Discord
-            </a>
-            <a href="https://github.com/zenkaicorp" target="_blank">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                GitHub
-            </a>
-        </div>
-        <div class="foot-col">
-            <h4>Contact</h4>
-            <a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a>
+            <a href="https://discord.gg/YHUKqegZ2Y" target="_blank">Discord</a>
+            <a href="https://github.com/zenkaicorp" target="_blank">GitHub</a>
         </div>
         <div class="foot-col">
             <h4>Legal</h4>
-            <a href="privacy.html">Privacy</a>
-            <a href="terms.html">Terms</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="privacy.html">Privacy Policy</a>
             <a href="disclaimer.html">Disclaimer</a>
-            <span style="font-size:0.75rem;color:#555;margin-top:0.5rem;display:block">CVR 46261690</span>
         </div>
     </div>
     <div class="foot-bottom">
-        <p>&copy; 2026 Zenkai Corporation &middot; CVR 46261690</p>
-        <p>Built in Struer, Denmark &#x1f1e9;&#x1f1f0;</p>
+        <p>© 2026 Zenkai Corporation · CVR 46261690</p>
+        <p>Built in Struer, Denmark 🇩🇰</p>
     </div>
 </footer>
 
 <script>
-// Mobile menu
-document.getElementById('ham').addEventListener('click', () => {
-    document.getElementById('nl').classList.toggle('open');
-});
-document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () => document.getElementById('nl').classList.remove('open'));
-});
+document.getElementById('ham').addEventListener('click', () => document.getElementById('nl').classList.toggle('open'));
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('nl').classList.remove('open')));
 
-// Scroll reveal
 const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-        e.preventDefault();
-        const t = document.querySelector(a.getAttribute('href'));
-        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+document.getElementById('dl-verify').addEventListener('click', function() {
+    const h = document.getElementById('dl-hashes');
+    const open = h.style.display === 'block';
+    h.style.display = open ? 'none' : 'block';
+    this.textContent = open ? 'Verify checksum' : 'Hide checksums';
 });
 
-// Subtle particle field
 const cv = document.getElementById('hc');
 const cx = cv.getContext('2d');
 let pts = [];
-
 function resize() {
-    cv.width = window.innerWidth;
-    cv.height = window.innerHeight;
-    pts = [];
-    const n = Math.min(45, Math.floor(window.innerWidth / 25));
-    for (let i = 0; i < n; i++) {
-        pts.push({
-            x: Math.random() * cv.width,
-            y: Math.random() * cv.height,
-            vx: (Math.random() - 0.5) * 0.15,
-            vy: (Math.random() - 0.5) * 0.15,
-            r: Math.random() * 1 + 0.3,
-            a: Math.random() * 0.25 + 0.05
-        });
-    }
+    cv.width = window.innerWidth; cv.height = window.innerHeight; pts = [];
+    const n = Math.min(40, Math.floor(window.innerWidth / 28));
+    for (let i = 0; i < n; i++) pts.push({ x: Math.random()*cv.width, y: Math.random()*cv.height, vx:(Math.random()-.5)*.14, vy:(Math.random()-.5)*.14, r:Math.random()*1+.3, a:Math.random()*.2+.05 });
 }
-
 function draw() {
-    cx.clearRect(0, 0, cv.width, cv.height);
-    pts.forEach((p, i) => {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0) p.x = cv.width;
-        if (p.x > cv.width) p.x = 0;
-        if (p.y < 0) p.y = cv.height;
-        if (p.y > cv.height) p.y = 0;
-
-        cx.beginPath();
-        cx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        cx.fillStyle = `rgba(255, 255, 255, ${p.a})`;
-        cx.fill();
-
-        for (let j = i + 1; j < pts.length; j++) {
-            const dx = pts[j].x - p.x, dy = pts[j].y - p.y;
-            const d = Math.sqrt(dx * dx + dy * dy);
-            if (d < 100) {
-                cx.beginPath();
-                cx.moveTo(p.x, p.y);
-                cx.lineTo(pts[j].x, pts[j].y);
-                cx.strokeStyle = `rgba(255, 255, 255, ${0.03 * (1 - d / 100)})`;
-                cx.lineWidth = 0.5;
-                cx.stroke();
-            }
+    cx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach((p,i) => {
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0) p.x=cv.width; if(p.x>cv.width) p.x=0;
+        if(p.y<0) p.y=cv.height; if(p.y>cv.height) p.y=0;
+        cx.beginPath(); cx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        cx.fillStyle=`rgba(255,255,255,${p.a})`; cx.fill();
+        for(let j=i+1;j<pts.length;j++){
+            const dx=pts[j].x-p.x, dy=pts[j].y-p.y, d=Math.sqrt(dx*dx+dy*dy);
+            if(d<90){ cx.beginPath(); cx.moveTo(p.x,p.y); cx.lineTo(pts[j].x,pts[j].y); cx.strokeStyle=`rgba(255,255,255,${.025*(1-d/90)})`; cx.lineWidth=.5; cx.stroke(); }
         }
     });
     requestAnimationFrame(draw);
 }
-
-window.addEventListener('resize', resize);
-resize();
-draw();
-
-// OS detection for download button
-(function() {
-    var ua = navigator.userAgent.toLowerCase();
-    var plat = (navigator.platform || '').toLowerCase();
-    var main = document.getElementById('dl-main');
-    var text = document.getElementById('dl-text');
-    var icon = document.getElementById('dl-icon');
-    var mobile = document.getElementById('dl-mobile');
-
-    var isWin = ua.includes('win') && !ua.includes('phone');
-    var isMac = ua.includes('mac') && !('ontouchend' in document);
-    var isLinux = ua.includes('linux') && !ua.includes('android');
-    var isMobile = /android|iphone|ipad|ipod|mobile/i.test(ua) || ('ontouchend' in document && !isMac);
-
-    if (isMobile) {
-        main.style.display = 'none';
-        mobile.style.display = 'block';
-    } else if (isWin) {
-        main.href = 'https://api.zenkaicorp.com/downloads/Zenkai_0.2.0-beta.1_x64-setup.exe';
-        text.textContent = 'Download for Windows';
-        icon.innerHTML = '<path d="M0 3.449L9.75 2.1v9.45H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.45L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>';
-    } else if (isMac) {
-        main.href = 'https://api.zenkaicorp.com/downloads/Zenkai_0.2.0-beta.1_x64.dmg';
-        text.textContent = 'Download for macOS';
-        icon.innerHTML = '<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>';
-    } else if (isLinux) {
-        main.href = 'https://api.zenkaicorp.com/downloads/Zenkai_0.2.0-beta.1_amd64.AppImage';
-        text.textContent = 'Download for Linux';
-        icon.innerHTML = '<path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.368 1.884 1.43.868.07 1.799-.358 2.395-1.382.095-.152.191-.343.223-.58.138-.344.17-.692.148-1.048.076-.31.156-.572.237-.866.164-.764.126-1.544-.175-2.07-.042-.074-.088-.138-.164-.18a.826.826 0 00-.235-.095c-.12-.37-.286-.686-.478-.978-.167-.32-.313-.681-.43-.873-.104-.194-.24-.374-.39-.541 1.017-.209 1.577-1.256 1.577-2.672-.001-2.755-3.772-4.958-3.891-8.418C19.093 2.833 16.211.003 12.504 0z"/>';
-    } else {
-        // Unknown OS — hide primary, show all platforms
-        main.style.display = 'none';
-    }
-})();
-
-// Hash toggle (collapsed by default)
-document.getElementById('dl-hashes-toggle').addEventListener('click', function() {
-    var content = document.getElementById('dl-hashes-content');
-    if (content.style.display === 'block') {
-        content.style.display = 'none';
-        this.textContent = 'Verify your download';
-    } else {
-        content.style.display = 'block';
-        this.textContent = 'Hide checksums';
-    }
-});
+window.addEventListener('resize', resize); resize(); draw();
 </script>
-
 </body>
 </html>

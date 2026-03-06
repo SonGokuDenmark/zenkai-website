@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proof of Work — Zenkai Corporation</title>
+    <meta name="description" content="Real numbers. Real screenshots. Real training data. Every claim has the receipt attached.">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="assets/favicon-128.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/favicon-256.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #050507; --bg2: #0a0a0e; --card: #0e0e13; --card-up: #131318;
+            --bd: #1a1a22; --bd2: #2a2a35; --t1: #e8e8ec; --t2: #8a8a98; --t3: #55555f;
+            --white: #ffffff; --mono: 'JetBrains Mono', monospace; --sans: 'Outfit', system-ui, sans-serif;
+            --brand: #FF6B35; --dojo: #22C55E; --spark: #06B6D4; --vex: #F43F5E; --nexus: #8B5CF6;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--t1); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 2px; }
+
+        /* NAV */
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: rgba(5,5,7,0.85); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(26,26,34,0.5); }
+        .nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+        .nav-logo svg { width: 24px; height: 26px; }
+        .nav-text { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.14em; color: var(--white); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { font-family: var(--mono); font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; color: var(--t3); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--t1); }
+        .nav-cta { padding: 0.4rem 1rem !important; background: var(--white) !important; color: var(--bg) !important; border-radius: 4px; font-weight: 600 !important; }
+        .ham { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 4px; }
+        .ham span { display: block; width: 18px; height: 1.5px; background: var(--t3); }
+
+        /* FOOTER */
+        footer { border-top: 1px solid var(--bd); padding: 2rem; max-width: 1080px; margin: 0 auto; }
+        .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+        .foot-logo { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .foot-logo svg { width: 20px; height: 22px; }
+        .foot-logo span { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--white); }
+        .foot-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--t3); margin-bottom: 0.4rem; }
+        .foot-loc { font-family: var(--mono); font-size: 0.68rem; color: var(--t3); }
+        .foot-col h4 { font-family: var(--mono); font-size: 0.68rem; font-weight: 600; color: var(--t1); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.7rem; }
+        .foot-col a { display: block; font-family: var(--mono); font-size: 0.72rem; color: var(--t3); text-decoration: none; margin-bottom: 0.4rem; transition: color 0.2s; }
+        .foot-col a:hover { color: var(--white); }
+        .foot-bottom { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--bd); display: flex; justify-content: space-between; align-items: center; }
+        .foot-bottom p { font-family: var(--mono); font-size: 0.6rem; color: var(--t3); }
+
+        /* PAGE */
+        .pow-page { padding: 7rem 2rem 4rem; max-width: 960px; margin: 0 auto; }
+        .pow-back { display: inline-block; font-family: var(--mono); font-size: 0.72rem; color: var(--t3); text-decoration: none; margin-bottom: 2.5rem; transition: color 0.2s; }
+        .pow-back:hover { color: var(--white); }
+
+        /* HEADER */
+        .pow-header { margin-bottom: 1rem; }
+        .pow-header h1 { font-family: var(--mono); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--white); margin-bottom: 0.6rem; }
+        .pow-header p { font-size: 1rem; color: var(--t2); max-width: 640px; line-height: 1.8; }
+
+        /* PRINCIPLE BOX */
+        .pow-principle { background: var(--card); border: 1px solid var(--bd); border-radius: 8px; padding: 1.3rem 1.6rem; margin: 1.5rem 0 3.5rem; }
+        .pow-principle p { font-family: var(--mono); font-size: 0.82rem; color: var(--t2); line-height: 1.8; margin: 0; }
+        .pow-principle strong { color: var(--white); }
+
+        /* SECTION */
+        .pow-section { margin-bottom: 5rem; }
+        .pow-section-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--bd); }
+        .pow-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .pow-section-header h2 { font-family: var(--mono); font-size: 0.85rem; font-weight: 600; color: var(--white); letter-spacing: 0.06em; text-transform: uppercase; }
+        .pow-section > p { font-size: 0.92rem; color: var(--t2); line-height: 1.85; margin-bottom: 1rem; max-width: 720px; }
+        .pow-section > p strong { color: var(--t1); }
+
+        /* STAT GRID */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; }
+        .stat-card { background: var(--card); border: 1px solid var(--bd); border-radius: 8px; padding: 1rem 1.2rem; }
+        .stat-label { font-family: var(--mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t3); margin-bottom: 0.4rem; }
+        .stat-value { font-family: var(--mono); font-size: 1.5rem; font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 0.3rem; }
+        .stat-sub { font-size: 0.75rem; color: var(--t3); }
+
+        /* EVIDENCE BLOCK */
+        .evidence { background: var(--card); border: 1px solid var(--bd); border-radius: 10px; overflow: hidden; margin-bottom: 1.2rem; }
+        .evidence-header { padding: 1rem 1.4rem; border-bottom: 1px solid var(--bd); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .evidence-title { flex: 1; }
+        .evidence-run-id { font-family: var(--mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t3); margin-bottom: 0.2rem; }
+        .evidence-title h3 { font-size: 0.95rem; font-weight: 600; color: var(--white); }
+        .evidence-downloads { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .dl-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.8rem; border-radius: 5px; font-family: var(--mono); font-size: 0.65rem; font-weight: 600; text-decoration: none; transition: background 0.2s, border-color 0.2s; white-space: nowrap; }
+        .dl-btn-data { background: rgba(6,182,212,0.08); border: 1px solid rgba(6,182,212,0.25); color: var(--spark); }
+        .dl-btn-data:hover { background: rgba(6,182,212,0.18); border-color: rgba(6,182,212,0.45); }
+        .dl-btn-meta { background: rgba(255,255,255,0.04); border: 1px solid var(--bd2); color: var(--t3); }
+        .dl-btn-meta:hover { color: var(--t1); border-color: var(--t3); }
+
+        .evidence-media { position: relative; }
+        .evidence-img { width: 100%; display: block; }
+        .evidence-placeholder { aspect-ratio: 16/9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; background: var(--bg2); padding: 2rem; text-align: center; }
+        .evidence-placeholder .ph-icon { font-family: var(--mono); font-size: 2rem; color: var(--bd2); }
+        .evidence-placeholder .ph-label { font-family: var(--mono); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t3); }
+        .evidence-placeholder .ph-desc { font-size: 0.8rem; color: var(--t3); line-height: 1.6; max-width: 320px; }
+
+        .evidence-caption { padding: 0.9rem 1.4rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .evidence-caption p { font-size: 0.82rem; color: var(--t2); line-height: 1.6; margin: 0; flex: 1; }
+        .evidence-date { font-family: var(--mono); font-size: 0.6rem; color: var(--t3); white-space: nowrap; padding-top: 0.15rem; }
+
+        .pending { display: inline-flex; align-items: center; gap: 0.3rem; font-family: var(--mono); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 3px; background: rgba(255,107,53,0.08); color: var(--brand); border: 1px solid rgba(255,107,53,0.2); margin-left: 0.5rem; vertical-align: middle; }
+
+        /* TIMELINE */
+        .timeline { position: relative; padding-left: 1.5rem; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0.4rem; bottom: 0; width: 1px; background: var(--bd); }
+        .timeline-item { position: relative; margin-bottom: 2rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -1.5rem; top: 0.45rem; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); transform: translateX(-3px); }
+        .timeline-date { font-family: var(--mono); font-size: 0.62rem; color: var(--t3); letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+        .timeline-item h3 { font-size: 0.92rem; font-weight: 600; color: var(--white); margin-bottom: 0.3rem; }
+        .timeline-item p { font-size: 0.83rem; color: var(--t2); line-height: 1.7; margin: 0; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .ham { display: flex; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: rgba(5,5,7,0.97); backdrop-filter: blur(20px); padding: 1rem 2rem; border-bottom: 1px solid var(--bd); gap: 0.8rem; }
+            .foot-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .foot-bottom { flex-direction: column; gap: 0.3rem; text-align: center; }
+            .pow-page { padding: 5rem 1.5rem 3rem; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .evidence-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html" class="nav-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132"><line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="nav-text">ZENKAI</span>
+    </a>
+    <ul class="nav-links" id="nl">
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="encyclopedia.html">Encyclopedia</a></li>
+        <li><a href="proof.html">Proof of Work</a></li>
+        <li><a href="index.html#download" class="nav-cta">Get Zenkai</a></li>
+    </ul>
+    <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="pow-page">
+    <a href="index.html" class="pow-back">&larr; Back to Home</a>
+
+    <div class="pow-header">
+        <h1>Proof of Work</h1>
+        <p>Every claim on this page has the data attached. Screenshot, training run, exact JSONL. Download it. Check it. Reproduce it if you want.</p>
+    </div>
+
+    <div class="pow-principle">
+        <p><strong>The rule:</strong> a screenshot only goes on this page when the data that produced it is in the folder beside it. No screenshot without the receipt. If you see it here, you can verify it. If you find something wrong — <a href="mailto:contact@zenkaicorp.com" style="color: var(--t1);">tell us</a>. The data gets better when people look at it.</p>
+    </div>
+
+    <div class="pow-section">
+        <div class="pow-section-header">
+            <div class="pow-dot" style="background: var(--spark);"></div>
+            <h2>Sage — Training Data</h2>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-label">Validated Pairs</div>
+                <div class="stat-value" style="color: var(--spark);" id="stat-pairs">1,024</div>
+                <div class="stat-sub">After validation pass</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Model Parameters</div>
+                <div class="stat-value" id="stat-params">135M</div>
+                <div class="stat-sub">SmolLM2 fine-tune</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Training Loss</div>
+                <div class="stat-value" style="color: var(--dojo);" id="stat-loss">3.25→2.72</div>
+                <div class="stat-sub" id="stat-loss-sub">S36 fine-tune run</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Batches Generated</div>
+                <div class="stat-value" id="stat-batches">25</div>
+                <div class="stat-sub">Across all game domains</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Errors Removed</div>
+                <div class="stat-value" style="color: var(--vex);" id="stat-errors">9</div>
+                <div class="stat-sub">Found in validation pass</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Target Threshold</div>
+                <div class="stat-value" id="stat-target">5,000</div>
+                <div class="stat-sub">Pairs for coherent reasoning</div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                <span style="font-family:var(--mono); font-size:0.62rem; color:var(--t3); letter-spacing:0.06em; text-transform:uppercase;">Progress to coherent reasoning</span>
+                <span style="font-family:var(--mono); font-size:0.62rem; color:var(--t3);" id="stat-progress-label">1,024 / 5,000</span>
+            </div>
+            <div style="background:var(--bd); border-radius:4px; height:6px; overflow:hidden;">
+                <div id="stat-progress-bar" style="height:100%; background:var(--spark); border-radius:4px; transition:width 0.8s ease; width:20.48%;"></div>
+            </div>
+        </div>
+
+        <div class="evidence">
+            <div class="evidence-header">
+                <div class="evidence-title">
+                    <div class="evidence-run-id">Run · sage-s36-finetune</div>
+                    <h3>S36 Fine-tune — Loss Curve <span class="pending">Screenshot incoming</span></h3>
+                </div>
+                <div class="evidence-downloads">
+                    <a href="assets/proof/sage-s36-finetune/training_pairs.jsonl" download class="dl-btn dl-btn-data">↓ training_pairs.jsonl</a>
+                    <a href="assets/proof/sage-s36-finetune/meta.json" download class="dl-btn dl-btn-meta">↓ meta.json</a>
+                </div>
+            </div>
+            <div class="evidence-media">
+                <div class="evidence-placeholder">
+                    <div class="ph-icon">▤</div>
+                    <div class="ph-label">Loss curve</div>
+                    <div class="ph-desc">Training loss 3.25 → 2.72 across the S36 fine-tune run. Screenshot captured when the run completes.</div>
+                </div>
+            </div>
+            <div class="evidence-caption">
+                <p>SmolLM2-135M fine-tuned on 1,024 validated Zenkai coaching pairs. Loss 3.25 → 2.72. Expected for this data volume — the training_pairs.jsonl beside this is the exact dataset used.</p>
+                <span class="evidence-date">February 2026</span>
+            </div>
+        </div>
+
+        <div class="evidence">
+            <div class="evidence-header">
+                <div class="evidence-title">
+                    <div class="evidence-run-id">Run · sage-validation-pass</div>
+                    <h3>Validation Pass — 9 Errors Found and Removed <span class="pending">Screenshot incoming</span></h3>
+                </div>
+                <div class="evidence-downloads">
+                    <a href="assets/proof/sage-validation-pass/before_validation.jsonl" download class="dl-btn dl-btn-data">↓ before_validation.jsonl</a>
+                    <a href="assets/proof/sage-validation-pass/after_validation.jsonl" download class="dl-btn dl-btn-data">↓ after_validation.jsonl</a>
+                    <a href="assets/proof/sage-validation-pass/meta.json" download class="dl-btn dl-btn-meta">↓ meta.json</a>
+                </div>
+            </div>
+            <div class="evidence-media">
+                <div class="evidence-placeholder">
+                    <div class="ph-icon">▤</div>
+                    <div class="ph-label">Validation output</div>
+                    <div class="ph-desc">Python validation script output — RED files identified, errors listed, clean count confirmed.</div>
+                </div>
+            </div>
+            <div class="evidence-caption">
+                <p>Validation pass run against ground-truth Zenkai documentation. Nine critical errors removed: wrong composition architecture, Pong listed as a Dojo adapter, Lux misdescribed, fabricated agent benchmarks. Both the before and after JSONL are downloadable — see exactly what changed.</p>
+                <span class="evidence-date">February 2026</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="pow-section">
+        <div class="pow-section-header">
+            <div class="pow-dot" style="background: var(--dojo);"></div>
+            <h2>Dojo — Pac-Man Training Run</h2>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-label">Episode 10 avg</div>
+                <div class="stat-value" style="color: var(--t3);">~356</div>
+                <div class="stat-sub">Random play baseline</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Episode 300 avg</div>
+                <div class="stat-value" style="color: var(--brand);">650+</div>
+                <div class="stat-sub">Strategy emerging</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Peak score</div>
+                <div class="stat-value" style="color: var(--dojo);">~1,950</div>
+                <div class="stat-sub">Breakthrough session</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Algorithm</div>
+                <div class="stat-value">DQN</div>
+                <div class="stat-sub">PyTorch + Gymnasium</div>
+            </div>
+        </div>
+
+        <div class="evidence">
+            <div class="evidence-header">
+                <div class="evidence-title">
+                    <div class="evidence-run-id">Run · pacman-dqn-ep300</div>
+                    <h3>Score Curve — Episode 10 to 300 <span class="pending">Screenshot incoming</span></h3>
+                </div>
+                <div class="evidence-downloads">
+                    <a href="assets/proof/pacman-dqn-ep300/training_log.jsonl" download class="dl-btn dl-btn-data">↓ training_log.jsonl</a>
+                    <a href="assets/proof/pacman-dqn-ep300/meta.json" download class="dl-btn dl-btn-meta">↓ meta.json</a>
+                </div>
+            </div>
+            <div class="evidence-media">
+                <div class="evidence-placeholder">
+                    <div class="ph-icon">▤</div>
+                    <div class="ph-label">Score curve</div>
+                    <div class="ph-desc">Episode reward climbing from 356 avg at ep.10 to 650+ avg at ep.300.</div>
+                </div>
+            </div>
+            <div class="evidence-caption">
+                <p>DQN Spark trained from scratch on Pac-Man via Gymnasium ALE. The training_log.jsonl contains every episode's reward, loss, epsilon, and step count from start to episode 300.</p>
+                <span class="evidence-date">February 2026</span>
+            </div>
+        </div>
+
+        <div class="evidence">
+            <div class="evidence-header">
+                <div class="evidence-title">
+                    <div class="evidence-run-id">Run · pacman-dqn-breakthrough</div>
+                    <h3>Breakthrough Session — ~1,950 Points <span class="pending">Screenshot incoming</span></h3>
+                </div>
+                <div class="evidence-downloads">
+                    <a href="assets/proof/pacman-dqn-breakthrough/training_log.jsonl" download class="dl-btn dl-btn-data">↓ training_log.jsonl</a>
+                    <a href="assets/proof/pacman-dqn-breakthrough/meta.json" download class="dl-btn dl-btn-meta">↓ meta.json</a>
+                </div>
+            </div>
+            <div class="evidence-media">
+                <div class="evidence-placeholder">
+                    <div class="ph-icon">▤</div>
+                    <div class="ph-label">Breakthrough session</div>
+                    <div class="ph-desc">The episode where the Spark first crossed 1,500 — ghost avoidance patterns and pellet prioritization it was never explicitly taught.</div>
+                </div>
+            </div>
+            <div class="evidence-caption">
+                <p>Peak performance recorded during a later training session. The Spark had internalized ghost avoidance and pellet routing without these behaviors being directly specified — emergent strategy from reward signal alone.</p>
+                <span class="evidence-date">February 2026</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="pow-section">
+        <div class="pow-section-header">
+            <div class="pow-dot" style="background: var(--brand);"></div>
+            <h2>The Facility — March 5, 2026</h2>
+        </div>
+
+        <p>The Zenkai HQ facility world went from spec to running in one day. Six steps. One engineer. One evening. Every screenshot below is from that same day.</p>
+
+        <div class="evidence">
+            <div class="evidence-header">
+                <div class="evidence-title">
+                    <div class="evidence-run-id">Build · facility-step2 · March 5, 2026</div>
+                    <h3>Atrium — First Render</h3>
+                </div>
+                <div class="evidence-downloads">
+                    <a href="assets/proof/facility-day-one/meta.json" download class="dl-btn dl-btn-meta">↓ meta.json</a>
+                </div>
+            </div>
+            <div class="evidence-media">
+                <div class="evidence-placeholder">
+                    <div class="ph-icon">▤</div>
+                    <div class="ph-label">Step 2 screenshot</div>
+                    <div class="ph-desc">Atrium floor, Z hexagon, 6-color ring, all 6 wing entrances. First real render.</div>
+                </div>
+            </div>
+            <div class="evidence-caption">
+                <p>Phaser 3 canvas replacing the Canvas 2D placeholder. Z hexagon in orange at center, wire channels running to all six wing entrances in their correct brand colors. Sidebar and footer still working alongside it.</p>
+                <span class="evidence-date">March 5, 2026</span>
+            </div>
+        </div>
+
+        <div class="evidence">
+            <div class="evidence-header">
+                <div class="evidence-title">
+                    <div class="evidence-run-id">Build · facility-step4 · March 5, 2026</div>
+                    <h3>Operative + Cinderpup on the Z</h3>
+                </div>
+                <div class="evidence-downloads">
+                    <a href="assets/proof/facility-day-one/meta.json" download class="dl-btn dl-btn-meta">↓ meta.json</a>
+                </div>
+            </div>
+            <div class="evidence-media">
+                <div class="evidence-placeholder">
+                    <div class="ph-icon">▤</div>
+                    <div class="ph-label">Step 4 screenshot</div>
+                    <div class="ph-desc">Player character + Cinderpup standing on the Z. Real sprites. Same evening.</div>
+                </div>
+            </div>
+            <div class="evidence-caption">
+                <p>Real Cinderpup sprites loaded from the existing flux-sprites registry. Buddy trailing the player with lerp. Sprites mirroring on direction change. Depth layering correct — buddy behind player.</p>
+                <span class="evidence-date">March 5, 2026</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="pow-section">
+        <div class="pow-section-header">
+            <div class="pow-dot" style="background: var(--vex);"></div>
+            <h2>Screen Capture — Aim Lab</h2>
+        </div>
+
+        <p>Universal screen capture RL proven live on a commercial Steam game. No game SDK. No API. No special access. Pixels in, actions out.</p>
+
+        <div class="evidence">
+            <div class="evidence-header">
+                <div class="evidence-title">
+                    <div class="evidence-run-id">Run · screencap-aimlab-s33</div>
+                    <h3>Aim Lab — BetterCam + OpenCV Pipeline <span class="pending">Screenshot incoming</span></h3>
+                </div>
+                <div class="evidence-downloads">
+                    <a href="assets/proof/screencap-aimlab-s33/training_log.jsonl" download class="dl-btn dl-btn-data">↓ training_log.jsonl</a>
+                    <a href="assets/proof/screencap-aimlab-s33/meta.json" download class="dl-btn dl-btn-meta">↓ meta.json</a>
+                </div>
+            </div>
+            <div class="evidence-media">
+                <div class="evidence-placeholder">
+                    <div class="ph-icon">▤</div>
+                    <div class="ph-label">Live training session</div>
+                    <div class="ph-desc">BetterCam capture feed + OpenCV HSV target detection overlay. The agent's view of Aim Lab.</div>
+                </div>
+            </div>
+            <div class="evidence-caption">
+                <p>BetterCam for screen capture, OpenCV HSV masking for red target detection, pydirectinput for mouse injection. The same pipeline that works on Aim Lab works on any game with visible targets. Training log captures reward signal, hit detection, and episode boundaries.</p>
+                <span class="evidence-date">February 2026</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="pow-section">
+        <div class="pow-section-header">
+            <div class="pow-dot" style="background: var(--t3);"></div>
+            <h2>Build Timeline</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">January 2026</div>
+                <h3>Origin — AlphaTrader backtest script</h3>
+                <p>LSTM temporal encoding, HMM regime detection, PPO agents, 47-indicator library. +$2,100 PnL backtested across crypto pairs. The approach works. Zenkai didn't exist yet.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Early February 2026</div>
+                <h3>First user login to Zenkai Hub</h3>
+                <p>The platform had a name and a running server. First account created. First login confirmed.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">February 2026</div>
+                <h3>CVR registered — Zenkai Corporation</h3>
+                <p>CVR: 46261690. Struer, Denmark. Real company, real registration.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">February 2026</div>
+                <h3>Pac-Man breakthrough — ~1,950 points</h3>
+                <p>DQN Spark from scratch. Episode 10: ~356 avg. Episode 300: 650+ avg. Breakthrough: ~1,950. Ghost avoidance and pellet routing — never explicitly taught.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">February 2026</div>
+                <h3>Screen capture proven on Aim Lab</h3>
+                <p>Universal screen capture working on a commercial Steam game. BetterCam + OpenCV + pydirectinput. No game SDK needed.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">February 2026</div>
+                <h3>Sage S36 — 1,024 validated pairs, loss 3.25→2.72</h3>
+                <p>135M parameter SmolLM2 fine-tuned on Zenkai coaching data. 9 errors found and removed in validation pass.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">March 5, 2026</div>
+                <h3>Zenkai HQ — built in one day</h3>
+                <p>Phaser 3 atrium, operative + Cinderpup, click-to-walk, camera follow, wire channel particles, lightning spawn on first login. Six steps. One evening. Phase 1 complete.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="foot-grid">
+        <div>
+            <div class="foot-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132"><line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/><line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>ZENKAI</span>
+            </div>
+            <p class="foot-tag">Train AI. Share Strategies. No Cloud Required.</p>
+            <p class="foot-loc">Struer, Denmark 🇩🇰 &middot; CVR 46261690</p>
+        </div>
+        <div class="foot-col"><h4>Community</h4><a href="https://discord.gg/YHUKqegZ2Y" target="_blank">Discord</a><a href="https://github.com/zenkaicorp" target="_blank">GitHub</a></div>
+        <div class="foot-col"><h4>Legal</h4><a href="terms.html">Terms of Service</a><a href="privacy.html">Privacy Policy</a><a href="disclaimer.html">Disclaimer</a></div>
+        <div class="foot-col"><h4>Contact</h4><a href="mailto:contact@zenkaicorp.com">contact@zenkaicorp.com</a></div>
+    </div>
+    <div class="foot-bottom">
+        <p>&copy; 2026 Zenkai Corporation &middot; CVR 46261690</p>
+        <p>Built in Struer, Denmark 🇩🇰</p>
+    </div>
+</footer>
+<script>
+    document.getElementById('ham').addEventListener('click',()=>{
+        document.getElementById('nl').classList.toggle('open');
+    });
+    fetch('assets/proof/sage_stats.json?v=' + Date.now())
+        .then(r => r.json())
+        .then(s => {
+            const fmt = n => n.toLocaleString('en');
+            document.getElementById('stat-pairs').textContent    = fmt(s.validated_pairs);
+            document.getElementById('stat-params').textContent   = s.model_parameters;
+            document.getElementById('stat-loss').textContent     = s.loss_start + '→' + s.loss_end;
+            document.getElementById('stat-loss-sub').textContent = s.run_id + ' fine-tune run';
+            document.getElementById('stat-batches').textContent  = s.batches_generated;
+            document.getElementById('stat-errors').textContent   = s.errors_removed;
+            document.getElementById('stat-target').textContent   = fmt(s.target_threshold);
+            const pct = Math.min((s.validated_pairs / s.target_threshold) * 100, 100).toFixed(2);
+            document.getElementById('stat-progress-bar').style.width = pct + '%';
+            document.getElementById('stat-progress-label').textContent = fmt(s.validated_pairs) + ' / ' + fmt(s.target_threshold);
+        })
+        .catch(() => {});
+</script>
+</body>
+</html>

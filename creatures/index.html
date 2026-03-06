@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Zenkai — Flux Collection</title>
+    <meta name="description" content="AI Battle Creatures — Zenkai Corporation">
+    <meta name="theme-color" content="#050507">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #050507;
+            --bg2: #0a0a0e;
+            --card: #0e0e13;
+            --card-up: #161620;
+            --bd: #1a1a22;
+            --bd2: #2a2a35;
+            --t1: #e8e8ec;
+            --t2: #8a8a98;
+            --t3: #55555f;
+            --white: #ffffff;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Outfit', system-ui, sans-serif;
+            --surge: #3B82F6;
+            --blaze: #F97316;
+            --glitch: #A855F7;
+            --tide: #06B6D4;
+            --frost: #38BDF8;
+            --bloom: #22C55E;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--t1);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            touch-action: none;
+        }
+
+        /* --- GRID VIEW --- */
+        #grid-view {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        #grid-view.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .grid-header {
+            padding: 3rem 1.5rem 1rem;
+            text-align: center;
+        }
+
+        .grid-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .grid-logo svg { width: 20px; height: 22px; }
+
+        .grid-logo span {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            color: var(--t3);
+        }
+
+        .grid-title {
+            font-family: var(--mono);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        .grid-sub {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--t3);
+            letter-spacing: 0.15em;
+        }
+
+        .grid-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 1rem 2rem;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+        }
+
+        .creature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .creature-card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .creature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .creature-card[data-type="surge"]::before { background: var(--surge); }
+        .creature-card[data-type="blaze"]::before { background: var(--blaze); }
+        .creature-card[data-type="glitch"]::before { background: var(--glitch); }
+        .creature-card[data-type="tide"]::before { background: var(--tide); }
+        .creature-card[data-type="frost"]::before { background: var(--frost); }
+        .creature-card[data-type="bloom"]::before { background: var(--bloom); }
+
+        .creature-card:active {
+            transform: scale(0.96);
+            background: var(--card-up);
+        }
+
+        .card-preview {
+            width: 100%;
+            aspect-ratio: 1;
+            background: radial-gradient(circle at 50% 60%, rgba(255,255,255,0.03), transparent);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-preview canvas {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 8px;
+        }
+
+        .card-name {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.15rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-type {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.15rem 0.45rem;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .card-type[data-type="surge"] { color: var(--surge); }
+        .card-type[data-type="blaze"] { color: var(--blaze); }
+        .card-type[data-type="glitch"] { color: var(--glitch); }
+        .card-type[data-type="tide"] { color: var(--tide); }
+        .card-type[data-type="frost"] { color: var(--frost); }
+        .card-type[data-type="bloom"] { color: var(--bloom); }
+
+        .card-body {
+            font-family: var(--mono);
+            font-size: 0.55rem;
+            color: var(--t3);
+        }
+
+        /* --- 3D VIEWER --- */
+        #viewer {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        #viewer.hidden {
+            opacity: 0;
+            transform: scale(1.05);
+            pointer-events: none;
+        }
+
+        .viewer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.2rem;
+            background: rgba(5, 5, 7, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--bd);
+            z-index: 10;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--t2);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem;
+        }
+
+        .back-btn:active { color: var(--white); }
+
+        .back-btn svg {
+            width: 16px; height: 16px;
+            stroke: currentColor; fill: none; stroke-width: 2;
+        }
+
+        .viewer-name {
+            font-family: var(--mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .viewer-type {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        #canvas-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #canvas-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            z-index: 5;
+            transition: opacity 0.4s;
+        }
+
+        .loading-overlay.done { opacity: 0; pointer-events: none; }
+
+        .loader {
+            width: 32px; height: 32px;
+            border: 2px solid var(--bd);
+            border-top-color: var(--t2);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loader-text {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--t3);
+            margin-top: 0.8rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .hint {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            color: var(--t3);
+            letter-spacing: 0.1em;
+            transition: opacity 1s;
+            pointer-events: none;
+        }
+
+        .hint.fade { opacity: 0; }
+
+        .nav-dots {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.8rem;
+            justify-content: center;
+            background: rgba(5, 5, 7, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--bd);
+        }
+
+        .nav-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--bd2);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+        }
+
+        .nav-dot.active {
+            transform: scale(1.4);
+        }
+
+        @media (min-width: 500px) {
+            .creature-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- GRID VIEW -->
+<div id="grid-view">
+    <div class="grid-header">
+        <div class="grid-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132">
+                <line x1="108.5" y1="38" x2="108.5" y2="94" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                <line x1="108.5" y1="94" x2="60" y2="122" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                <line x1="60" y1="122" x2="11.5" y2="94" stroke="#A855F7" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                <line x1="11.5" y1="94" x2="11.5" y2="38" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                <line x1="11.5" y1="38" x2="60" y2="10" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                <line x1="60" y1="10" x2="108.5" y2="38" stroke="#EC4899" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                <path d="M44.3 52 L75.7 52 L44.3 80 L75.7 80" stroke="#FF6B35" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>ZENKAI</span>
+        </div>
+        <h1 class="grid-title">Flux Collection</h1>
+        <p class="grid-sub">6 CREATURES &middot; TAP TO VIEW</p>
+    </div>
+
+    <div class="grid-scroll">
+        <div class="creature-grid" id="creature-grid"></div>
+    </div>
+</div>
+
+<!-- 3D VIEWER -->
+<div id="viewer" class="hidden">
+    <div class="viewer-header">
+        <button class="back-btn" id="back-btn">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+        </button>
+        <span class="viewer-name" id="viewer-name">Voltwolf</span>
+        <span class="viewer-type" id="viewer-type">Surge</span>
+    </div>
+
+    <div id="canvas-container">
+        <div class="loading-overlay" id="loading">
+            <div class="loader"></div>
+            <span class="loader-text">Loading model...</span>
+        </div>
+        <div class="hint" id="hint">DRAG TO ROTATE &middot; PINCH TO ZOOM</div>
+    </div>
+
+    <div class="nav-dots" id="nav-dots"></div>
+</div>
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+    }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const CREATURES = [
+    { id: 'voltwolf',  name: 'Voltwolf',  type: 'Surge',  body: 'Quadruped',  color: '#3B82F6', file: 'voltwolf.glb' },
+    { id: 'cinderpup', name: 'Cinderpup', type: 'Blaze',  body: 'Quadruped',  color: '#F97316', file: 'cinderpup.glb' },
+    { id: 'pixelbit',  name: 'Pixelbit',  type: 'Glitch', body: 'Amorphous',  color: '#A855F7', file: 'pixelbit.glb' },
+    { id: 'ripplefin', name: 'Ripplefin', type: 'Tide',   body: 'Serpentine', color: '#06B6D4', file: 'ripplefin.glb' },
+    { id: 'glacius',   name: 'Glacius',   type: 'Frost',  body: 'Bipedal',    color: '#38BDF8', file: 'glacius.glb' },
+    { id: 'sporecap',  name: 'Sporecap',  type: 'Bloom',  body: 'Amorphous',  color: '#22C55E', file: 'sporecap.glb' },
+];
+
+const MODEL_PATH = './models/';
+const loader = new GLTFLoader();
+const modelCache = {};
+
+// --- GRID ---
+const grid = document.getElementById('creature-grid');
+const gridView = document.getElementById('grid-view');
+const viewerEl = document.getElementById('viewer');
+
+CREATURES.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'creature-card';
+    card.dataset.type = c.type.toLowerCase();
+    card.innerHTML = `
+        <div class="card-preview" id="preview-${c.id}"></div>
+        <div class="card-name">${c.name}</div>
+        <div class="card-meta">
+            <span class="card-type" data-type="${c.type.toLowerCase()}">${c.type}</span>
+            <span class="card-body">${c.body}</span>
+        </div>
+    `;
+    card.addEventListener('click', () => openViewer(i));
+    grid.appendChild(card);
+
+    // Render tiny spinning preview
+    setTimeout(() => renderCardPreview(c, document.getElementById(`preview-${c.id}`)), i * 200);
+});
+
+function renderCardPreview(creature, container) {
+    const w = container.clientWidth || 150;
+    const h = container.clientHeight || 150;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const dir = new THREE.DirectionalLight(0xffffff, 1.2);
+    dir.position.set(2, 3, 2);
+    scene.add(dir);
+    const rim = new THREE.DirectionalLight(new THREE.Color(creature.color), 0.4);
+    rim.position.set(-2, 1, -2);
+    scene.add(rim);
+
+    loader.load(MODEL_PATH + creature.file, (gltf) => {
+        const model = gltf.scene;
+        scene.add(model);
+
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        model.position.sub(center);
+        camera.position.set(0, maxDim * 0.3, maxDim * 2.2);
+        camera.lookAt(0, 0, 0);
+
+        modelCache[creature.id] = gltf;
+
+        let angle = Math.random() * Math.PI * 2;
+        function spin() {
+            angle += 0.008;
+            model.rotation.y = angle;
+            renderer.render(scene, camera);
+            requestAnimationFrame(spin);
+        }
+        spin();
+    });
+}
+
+// --- VIEWER ---
+let currentScene, currentCamera, currentRenderer, currentControls, currentModel;
+let currentIndex = 0;
+
+const canvasContainer = document.getElementById('canvas-container');
+const loadingEl = document.getElementById('loading');
+const hintEl = document.getElementById('hint');
+const viewerName = document.getElementById('viewer-name');
+const viewerType = document.getElementById('viewer-type');
+const navDots = document.getElementById('nav-dots');
+
+CREATURES.forEach((c, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot';
+    dot.addEventListener('click', () => loadCreature(i));
+    navDots.appendChild(dot);
+});
+
+function openViewer(index) {
+    gridView.classList.add('hidden');
+    viewerEl.classList.remove('hidden');
+    initViewer();
+    loadCreature(index);
+    setTimeout(() => hintEl.classList.add('fade'), 3000);
+}
+
+function closeViewer() {
+    viewerEl.classList.add('hidden');
+    gridView.classList.remove('hidden');
+    hintEl.classList.remove('fade');
+}
+
+document.getElementById('back-btn').addEventListener('click', closeViewer);
+
+function initViewer() {
+    if (currentRenderer) return;
+
+    currentScene = new THREE.Scene();
+    currentScene.background = new THREE.Color('#08080e');
+
+    currentCamera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+
+    currentRenderer = new THREE.WebGLRenderer({ antialias: true });
+    currentRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    currentRenderer.outputColorSpace = THREE.SRGBColorSpace;
+    currentRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+    currentRenderer.toneMappingExposure = 1.1;
+    canvasContainer.appendChild(currentRenderer.domElement);
+
+    currentScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+    const key = new THREE.DirectionalLight(0xffffff, 1.4);
+    key.position.set(3, 4, 3);
+    currentScene.add(key);
+
+    const fill = new THREE.DirectionalLight(0xffffff, 0.3);
+    fill.position.set(-3, 2, -1);
+    currentScene.add(fill);
+
+    const rim = new THREE.DirectionalLight(0x8888ff, 0.5);
+    rim.position.set(0, 2, -4);
+    currentScene.add(rim);
+
+    // Subtle ground
+    const ground = new THREE.Mesh(
+        new THREE.CircleGeometry(3, 32),
+        new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.02 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.01;
+    currentScene.add(ground);
+
+    currentControls = new OrbitControls(currentCamera, currentRenderer.domElement);
+    currentControls.enableDamping = true;
+    currentControls.dampingFactor = 0.08;
+    currentControls.enablePan = false;
+    currentControls.minDistance = 0.5;
+    currentControls.maxDistance = 12;
+    currentControls.maxPolarAngle = Math.PI * 0.85;
+    currentControls.autoRotate = true;
+    currentControls.autoRotateSpeed = 1.5;
+
+    currentControls.addEventListener('start', () => {
+        currentControls.autoRotate = false;
+        hintEl.classList.add('fade');
+    });
+
+    resize();
+    window.addEventListener('resize', resize);
+    animate();
+}
+
+function resize() {
+    if (!currentRenderer) return;
+    const w = canvasContainer.clientWidth;
+    const h = canvasContainer.clientHeight;
+    currentCamera.aspect = w / h;
+    currentCamera.updateProjectionMatrix();
+    currentRenderer.setSize(w, h);
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    // Idle bob + breathe (skip Y rotation — autoRotate handles it)
+    if (currentModel) {
+        const t = performance.now() / 1000;
+        currentModel.position.y = (currentModel.userData.baseY ?? 0) + Math.sin(t * Math.PI) * 0.05;
+        const s = 1.0 + Math.sin(t * 0.67 * Math.PI) * 0.02;
+        currentModel.scale.set(s, s, s);
+    }
+    if (currentControls) currentControls.update();
+    if (currentRenderer) currentRenderer.render(currentScene, currentCamera);
+}
+
+function loadCreature(index) {
+    const c = CREATURES[index];
+    currentIndex = index;
+
+    viewerName.textContent = c.name;
+    viewerType.textContent = c.type;
+    viewerType.style.color = c.color;
+
+    navDots.querySelectorAll('.nav-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+        dot.style.background = i === index ? c.color : '';
+    });
+
+    loadingEl.classList.remove('done');
+
+    if (currentModel) {
+        currentScene.remove(currentModel);
+        currentModel = null;
+    }
+
+    currentControls.autoRotate = true;
+
+    const onLoaded = (gltf) => {
+        currentModel = gltf.scene.clone();
+        currentScene.add(currentModel);
+
+        const box = new THREE.Box3().setFromObject(currentModel);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+
+        currentModel.position.sub(center);
+        const bottomY = box.min.y - center.y;
+        currentModel.position.y -= bottomY;
+        currentModel.userData.baseY = currentModel.position.y;
+
+        currentCamera.position.set(0, maxDim * 0.5, maxDim * 2);
+        currentControls.target.set(0, maxDim * 0.35, 0);
+        currentControls.update();
+
+        loadingEl.classList.add('done');
+    };
+
+    if (modelCache[c.id]) {
+        onLoaded(modelCache[c.id]);
+    } else {
+        loader.load(MODEL_PATH + c.file, (gltf) => {
+            modelCache[c.id] = gltf;
+            onLoaded(gltf);
+        });
+    }
+}
+
+// Swipe between creatures
+let touchStartX = 0;
+canvasContainer.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+canvasContainer.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 80) {
+        if (dx < 0 && currentIndex < CREATURES.length - 1) loadCreature(currentIndex + 1);
+        if (dx > 0 && currentIndex > 0) loadCreature(currentIndex - 1);
+    }
+});
+</script>
+</body>
+</html>
